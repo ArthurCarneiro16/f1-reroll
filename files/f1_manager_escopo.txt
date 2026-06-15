@@ -1,0 +1,222 @@
+═══════════════════════════════════════════════════════════════════════
+F1 MANAGER — DOCUMENTO DE ESCOPO DO PROJETO
+═══════════════════════════════════════════════════════════════════════
+Faculdade · Projeto Semestral
+Disciplinas: Python · HTML · CSS · Rust · UX/UI
+───────────────────────────────────────────────────────────────────────
+
+VISÃO GERAL
+───────────────────────────────────────────────────────────────────────
+F1 Manager é um jogo de gerenciamento de Fórmula 1 inspirado no 7a0.
+O jogador assume o papel de Team Principal e monta sua equipe sorteando
+4 itens: Piloto 1, Piloto 2, Chassi e Motor — cada um com raridade
+definida por atributos reais. Após montar a equipe, simula uma temporada
+completa de 21 GPs e recebe os resultados corrida por corrida, além do
+campeonato final de pilotos e construtores.
+
+O diferencial central é a base histórica: pilotos de 1994 a 2025 com
+atributos individualmente calibrados, permitindo combinações fictícias
+como Senna num Red Bull de 2023 ou Schumacher com motor Mercedes atual.
+
+
+MECÂNICA DE ROLAGEM
+───────────────────────────────────────────────────────────────────────
+1. Clica em "Rolar tudo" → os 4 slots são sorteados simultaneamente
+2. O jogador escolhe UM item para travar (travar é permanente)
+3. Os outros 3 rolam automaticamente
+4. Repete até travar os 4 e a equipe estar completa
+5. Clica em "Simular temporada"
+
+Sistema de raridade (gacha):
+  LENDÁRIO  → score 95+  · 5% de chance de aparecer
+  RARO      → score 85–94 · 15% de chance
+  INCOMUM   → score 72–84 · 30% de chance
+  COMUM     → score <72   · 50% de chance
+
+Sortear Senna + RB19 + Honda RBPTH002 é matematicamente raro,
+exigindo múltiplas rolagens — criando tensão e rejogabilidade.
+
+
+LÓGICA DE SIMULAÇÃO
+───────────────────────────────────────────────────────────────────────
+Cada corrida calcula individualmente o score dos dois pilotos:
+
+  score_piloto = corrida + bonus_chuva
+  bonus_chuva  = (atrib_chuva - 75) × 0.18   [só se chover no GP]
+  score_carro  = chassi × 0.55 + motor × 0.45
+  score_final  = score_piloto × 0.40 + score_carro × 0.60 + variância
+
+A variância é ±12 por corrida, criando surpresas realistas.
+
+Chuva: cada circuito tem probabilidade própria (Bélgica 45%, Abu Dhabi 0%).
+Quando chove, pilotos com alto atributo de chuva ganham bônus significativo.
+
+Pressão: nas últimas 5 corridas da temporada, o atributo pressão entra:
+  bonus_pressao = (pressao - 80) × 0.12
+
+DNF: chance inversamente proporcional à durabilidade do motor:
+  chance_dnf = (1 - durabilidade / 100) × 0.22
+  Honda RBPTH002 (durabi 95) → ~1% por corrida
+  Honda RA615H   (durabi 52) → ~10% por corrida
+
+Posição na corrida: o score final é comparado contra 18 adversários
+gerados com variância própria. Posição = quantos têm score maior + 1.
+O piloto com maior score da equipe sempre termina à frente do colega.
+
+Sistema de pontos oficial F1:
+  P1=25, P2=18, P3=15, P4=12, P5=10, P6=8, P7=6, P8=4, P9=2, P10=1
+
+
+ESTRUTURA TÉCNICA (como distribuir pelas disciplinas)
+───────────────────────────────────────────────────────────────────────
+Python (backend / API)
+  → Motor de simulação de corrida e temporada
+  → API REST com FastAPI ou Flask
+  → Endpoints: /rolar, /travar, /simular, /resultado
+  → Banco de dados SQLite com pilotos, chassi, motores e partidas salvas
+
+HTML + CSS (frontend)
+  → Interface de roleta com animação dos slots
+  → Tela de campanha corrida por corrida
+  → Card final com campeonato de pilotos e construtores
+  → Design inspirado nos painéis reais da F1 (dark mode, tipografia técnica)
+
+Rust (componente de alta performance)
+  → Reescrever o motor de simulação em Rust
+  → Compilar para WebAssembly (WASM) e rodar direto no browser
+  → Justificativa acadêmica: simulações com muitas variáveis aleatórias
+    se beneficiam da velocidade de Rust. É um diferencial técnico forte
+    para apresentação de banca.
+
+UX/UI
+  → Protótipo no Figma antes de codar
+  → Fluxo completo: onboarding → roleta → preview da equipe →
+    estratégia → simulação → resultado
+  → Design System próprio com tokens de cor, tipografia e componentes
+  → Testes de usabilidade com pelo menos 5 usuários
+
+
+O QUE JÁ ESTÁ IMPLEMENTADO (protótipo)
+───────────────────────────────────────────────────────────────────────
+✅ Roleta com raridade ponderada (gacha system)
+✅ Mecânica de travar um → rolar os outros automaticamente
+✅ 70+ pilotos de 1994–2025 com atributos individuais calibrados
+✅ 26 chassi históricos de todas as eras
+✅ 21 motores históricos de todas as eras
+✅ 21 GPs com traçados SVG e probabilidade de chuva por circuito
+✅ Simulação corrida por corrida com delay visual
+✅ Piloto com maior score sempre termina à frente do colega
+✅ Bônus de chuva por piloto
+✅ Bônus de pressão nas últimas 5 corridas
+✅ DNF probabilístico por durabilidade do motor
+✅ Eventos narrativos por corrida (undercut, safety car, falha mecânica)
+✅ Campeonato de pilotos com os 20 primeiros classificados
+✅ Top 3 construtores com barras de pontuação
+✅ Badges de raridade por item (LENDÁRIO / RARO / INCOMUM / COMUM)
+✅ Card final com resultado, stats e barras de desempenho
+
+
+MELHORIAS PARA AGORA (próximas iterações)
+───────────────────────────────────────────────────────────────────────
+1. Eventos por circuito
+   Cada pista deve influenciar o resultado de formas específicas:
+   - Mônaco: bônus para pilotos técnicos (alto atrib. quali), penalidade
+     para carros de baixa estabilidade
+   - Monza: bônus de motor potente, downforce alta é penalidade
+   - Spa: chuva mais impactante, bônus dobrado para atrib. chuva
+   - Interlagos: chuva frequente + pressão (corrida histórica)
+
+2. Arte dos pilotos no card final
+   Cada piloto com foto real recortada em PNG + capacete em SVG fiel.
+   Pode ser feito um por vez. Os mais populares primeiro:
+   Senna, Schumacher, Hamilton, Verstappen, Alonso.
+
+3. Card compartilhável
+   Gerar uma imagem PNG do resultado final que o jogador possa salvar
+   e compartilhar — estilo o card do 7a0. Usar html2canvas ou similar.
+
+4. Seed visível e replicável
+   O jogador pode compartilhar o seed com um amigo e ambos jogarão
+   exatamente a mesma temporada com os mesmos resultados.
+
+5. Modo "jogo a jogo"
+   Antes de cada corrida, o jogador toma uma decisão estratégica:
+   - Escolher composto de pneu (macio/médio/duro)
+   - Definir número de pit stops
+   - Escolher agressividade do setup (+ velocidade, - durabilidade)
+   A decisão certa para aquele circuito dá bônus de até +8 no score.
+
+6. Sons
+   - Efeito de roleta ao sortear
+   - Som de largada (5 luzes apagando)
+   - Som de vitória ao ganhar corrida
+
+
+MELHORIAS PARA O FUTURO (pós-entrega)
+───────────────────────────────────────────────────────────────────────
+1. Sistema de R&D entre corridas
+   Entre cada GP, o jogador aloca pontos de desenvolvimento em áreas:
+   - Motor: +potência ou +durabilidade
+   - Chassi: +downforce ou +estabilidade
+   - Pit stop: reduz tempo de parada
+   O carro melhora progressivamente ao longo da temporada.
+
+2. Evolução do carro ao longo da temporada
+   Alguns chassis históricos melhoraram muito ao longo do ano
+   (ex: McLaren 2024 começou fraco e terminou dominante).
+   Adicionar um atributo "evolução" que aumenta o score do carro
+   nas últimas corridas.
+
+3. Pilotos históricos pré-1994
+   - Alain Prost (1985–1993)
+   - Nigel Mansell (1986–1994)
+   - Nelson Piquet (1981–1991)
+   - Niki Lauda (1975–1984)
+   - James Hunt (1976)
+   - Jackie Stewart (1969–1973)
+   Com sistema de eras compatível (atributos sem bônus de DRS/híbrido).
+
+4. Colisão entre companheiros de equipe
+   Pequena probabilidade de incidente entre os dois pilotos da equipe,
+   resultando em DNF duplo ou penalidade. Mais dramático e realista.
+
+5. Modo multiplayer
+   Dois jogadores montam equipes e disputam a mesma temporada.
+   O campeonato de construtores é a batalha entre eles.
+
+6. Integração com API real da F1
+   Usar a OpenF1 API (gratuita) para buscar dados reais de corridas
+   recentes e criar temporadas baseadas em dados históricos verdadeiros.
+
+
+TECNOLOGIAS RECOMENDADAS
+───────────────────────────────────────────────────────────────────────
+Backend:    Python 3.11+ com FastAPI
+Frontend:   HTML5 + CSS3 (sem framework, para demonstrar domínio)
+            Ou React se o grupo tiver familiaridade
+Simulação:  Rust 1.75+ compilado para WASM via wasm-pack
+Banco:      SQLite (desenvolvimento) / PostgreSQL (produção)
+Design:     Figma para protótipo, depois implementar em CSS puro
+API externa: OpenF1 (openf1.org) — gratuita, dados reais desde 2023
+Imagens:    F1.com media / Getty Images licenciadas pela faculdade
+
+
+CRONOGRAMA SUGERIDO (1 semestre ~18 semanas)
+───────────────────────────────────────────────────────────────────────
+Semanas 1–3:   Protótipo Figma completo com todos os fluxos
+Semanas 4–6:   Backend Python: banco de dados + endpoints da API
+Semanas 7–9:   Frontend HTML/CSS: roleta, campanha, card final
+Semanas 10–12: Motor Rust compilado para WASM, integrado ao frontend
+Semanas 13–15: Integração frontend ↔ backend, testes e correções
+Semanas 16–17: Polish: sons, animações, card compartilhável
+Semana 18:     Apresentação final para a banca
+
+
+DIFERENCIAIS PARA A BANCA
+───────────────────────────────────────────────────────────────────────
+→ Rust compilado para WASM rodando no browser — poucos alunos chegam nisso
+→ Sistema gacha com raridade real (modelo usado em jogos mobile de sucesso)
+→ Base histórica de dados própria com 70+ pilotos calibrados manualmente
+→ Homenagem ao Senna com status 99 em todos os atributos
+→ Simulação contra grid com adversários de todas as eras misturadas
+

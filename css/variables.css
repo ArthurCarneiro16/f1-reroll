@@ -1,0 +1,43 @@
+:root {
+  /* Cores */
+  --red:      #E24B4A;
+  --red-dark: #A32D2D;
+  --red-glow: rgba(226, 75, 74, 0.15);
+
+  /* Backgrounds */
+  --bg-app:  #0f0f13;
+  --bg-card: #1a1a20;
+  --bg-hover: #22222a;
+
+  /* Bordas */
+  --border: rgba(255, 255, 255, 0.08);
+
+  /* Texto */
+  --text-primary:   #f0f0f0;
+  --text-secondary: #888899;
+  --text-muted:     #55556a;
+
+  /* Raridade */
+  --legendary-bg:   #3b1f7a;
+  --legendary-text: #c4b5fd;
+  --rare-bg:        #1e3a6e;
+  --rare-text:      #93c5fd;
+  --uncommon-bg:    #14462e;
+  --uncommon-text:  #6ee7b7;
+  --common-bg:      #2a2a35;
+  --common-text:    #9ca3af;
+
+  /* Resultados */
+  --win:    #1D9E75;
+  --loss:   #E24B4A;
+  --ok:     #BA7517;
+  --gold:   #FFD700;
+  --silver: #C0C0C0;
+  --bronze: #CD7F32;
+
+  /* Outros */
+  --font:      'Inter', 'Segoe UI', system-ui, sans-serif;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+}

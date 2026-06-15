@@ -1,0 +1,184 @@
+═══════════════════════════════════════════════════════════════════════
+F1 MANAGER — TABELA DE ATRIBUTOS COMPLETA
+═══════════════════════════════════════════════════════════════════════
+
+Atributos dos pilotos:
+  corrida  → velocidade e ritmo base em corrida
+  quali    → velocidade em volta única (classificação)
+  pneus    → capacidade de gerenciar degradação
+  chuva    → performance em pista molhada (bônus situacional)
+  pressão  → performance nas corridas decisivas (últimas 5)
+
+Raridade na roleta:
+  LENDÁRIO  (roxo)   → score 95+  · 5% de chance
+  RARO      (azul)   → score 85–94 · 15% de chance
+  INCOMUM   (verde)  → score 72–84 · 30% de chance
+  COMUM     (cinza)  → score <72   · 50% de chance
+
+───────────────────────────────────────────────────────────────────────
+PILOTOS — LENDA ESPECIAL
+───────────────────────────────────────────────────────────────────────
+
+Piloto              Nac  Ano   Score  Corrida  Quali  Pneus  Chuva  Pressão
+──────────────────────────────────────────────────────────────────────────
+Ayrton Senna        🇧🇷  1993    99      99      99     99     99      99
+
+───────────────────────────────────────────────────────────────────────
+PILOTOS — ERA V10 (1995–2005)
+───────────────────────────────────────────────────────────────────────
+
+Piloto              Nac  Ano   Score  Corrida  Quali  Pneus  Chuva  Pressão
+──────────────────────────────────────────────────────────────────────────
+Michael Schumacher  🇩🇪  2004    98      98      93     96     88      98
+Mika Häkkinen       🇫🇮  1998    92      92      93     86     85      88
+Juan P. Montoya     🇨🇴  2003    88      88      87     76     82      78
+Kimi Räikkönen      🇫🇮  2005    88      88      88     84     86      84
+Damon Hill          🇬🇧  1996    87      87      85     83     80      84
+Rubens Barrichello  🇧🇷  2004    86      86      83     85     80      72
+Jacques Villeneuve  🇨🇦  1997    86      86      86     80     78      82
+Fernando Alonso     🇪🇸  2005    86      86      86     82     80      82
+David Coulthard     🇬🇧  2001    84      84      85     80     82      76
+Ralf Schumacher     🇩🇪  2003    82      82      80     78     74      72
+H-H Frentzen        🇩🇪  1999    82      82      80     78     76      72
+Eddie Irvine        🇬🇧  1999    80      80      78     78     72      70
+Jarno Trulli        🇮🇹  2004    78      78      82     72     70      65
+Mark Webber         🇦🇺  2005    78      78      76     74     74      68
+Jenson Button       🇬🇧  2004    74      74      76     76     78      66
+
+───────────────────────────────────────────────────────────────────────
+PILOTOS — ERA V8 (2006–2013)
+───────────────────────────────────────────────────────────────────────
+
+Piloto              Nac  Ano   Score  Corrida  Quali  Pneus  Chuva  Pressão
+──────────────────────────────────────────────────────────────────────────
+Fernando Alonso     🇪🇸  2012    94      94      90     92     89      96
+Lewis Hamilton      🇬🇧  2012    94      94      93     88     92      94
+Sebastian Vettel    🇩🇪  2013    93      93      91     88     80      91
+Kimi Räikkönen      🇫🇮  2007    90      90      87     90     84      82
+Jenson Button       🇬🇧  2009    86      86      82     88     88      82
+Mark Webber         🇦🇺  2010    85      85      86     80     80      74
+Robert Kubica       🇵🇱  2010    84      84      84     80     78      76
+Felipe Massa        🇧🇷  2008    83      83      84     82     76      74
+Nico Rosberg        🇩🇪  2012    82      82      86     78     74      72
+Michael Schumacher  🇩🇪  2012    82      82      80     78     74      74
+Nico Hülkenberg     🇩🇪  2012    78      78      82     74     70      66
+Sergio Pérez        🇲🇽  2012    78      78      74     86     76      68
+Valtteri Bottas     🇫🇮  2013    76      76      80     74     68      58
+Romain Grosjean     🇫🇷  2013    74      74      76     64     68      60
+Pastor Maldonado    🇻🇪  2012    66      66      72     56     60      52
+Vitaly Petrov       🇷🇺  2010    62      62      64     62     60      54
+
+───────────────────────────────────────────────────────────────────────
+PILOTOS — ERA V6 HÍBRIDO (2014–2021)
+───────────────────────────────────────────────────────────────────────
+
+Piloto              Nac  Ano   Score  Corrida  Quali  Pneus  Chuva  Pressão
+──────────────────────────────────────────────────────────────────────────
+Lewis Hamilton      🇬🇧  2020    96      96      95     90     93      96
+Max Verstappen      🇳🇱  2021    94      94      92     88     84      93
+Fernando Alonso     🇪🇸  2014    92      92      86     91     88      95
+Sebastian Vettel    🇩🇪  2017    91      91      88     86     78      86
+Nico Rosberg        🇩🇪  2016    88      88      90     84     78      82
+Daniel Ricciardo    🇦🇺  2016    87      87      88     82     84      80
+Charles Leclerc     🇲🇨  2019    87      87      93     78     80      82
+Max Verstappen      🇳🇱  2016    84      84      82     78     82      80
+Kimi Räikkönen      🇫🇮  2018    84      84      82     88     80      74
+Valtteri Bottas     🇫🇮  2019    84      84      86     80     72      62
+Sergio Pérez        🇲🇽  2020    84      84      78     88     80      72
+Carlos Sainz        🇪🇸  2021    84      84      83     90     82      82
+Lando Norris        🇬🇧  2021    83      83      88     82     80      76
+George Russell      🇬🇧  2021    81      81      86     80     78      76
+Pierre Gasly        🇫🇷  2020    78      78      80     74     72      70
+Esteban Ocon        🇫🇷  2021    76      76      77     74     72      68
+Kevin Magnussen     🇩🇰  2018    76      76      74     72     70      68
+Daniil Kvyat        🇷🇺  2019    74      74      74     70     68      62
+Lance Stroll        🇨🇦  2020    66      66      64     70     78      52
+Romain Grosjean     🇫🇷  2019    74      74      76     64     68      60
+Mick Schumacher     🇩🇪  2022    68      68      68     70     66      60
+Antonio Giovinazzi  🇮🇹  2021    68      68      70     68     64      58
+Robert Kubica       🇵🇱  2019    58      58      60     64     62      55
+Nicholas Latifi     🇨🇦  2021    56      56      58     62     60      50
+
+───────────────────────────────────────────────────────────────────────
+PILOTOS — ERA NOVO REGULAMENTO (2022–2025)
+───────────────────────────────────────────────────────────────────────
+
+Piloto              Nac  Ano   Score  Corrida  Quali  Pneus  Chuva  Pressão
+──────────────────────────────────────────────────────────────────────────
+Max Verstappen      🇳🇱  2023    97      97      95     91     86      97
+Lewis Hamilton      🇬🇧  2024    93      93      92     89     92      94
+Fernando Alonso     🇪🇸  2023    88      88      83     89     87      93
+Charles Leclerc     🇲🇨  2024    87      87      93     78     80      82
+Lando Norris        🇬🇧  2024    87      87      89     84     82      82
+Carlos Sainz        🇪🇸  2024    85      85      84     91     83      84
+George Russell      🇬🇧  2024    82      82      86     81     79      78
+Oscar Piastri       🇦🇺  2024    82      82      83     80     76      76
+Sergio Pérez        🇲🇽  2022    84      84      78     86     78      72
+Yuki Tsunoda        🇯🇵  2024    74      74      76     68     70      66
+Pierre Gasly        🇫🇷  2023    76      76      78     72     70      68
+Nico Hülkenberg     🇩🇪  2024    65      65      68     69     64      60
+Lance Stroll        🇨🇦  2024    66      66      64     70     78      52
+Valtteri Bottas     🇫🇮  2022    63      63      66     70     68      56
+Logan Sargeant      🇺🇸  2023    54      54      56     60     58      48
+
+═══════════════════════════════════════════════════════════════════════
+CHASSI — por equipe, melhor de cada era
+═══════════════════════════════════════════════════════════════════════
+
+Chassi                Era        Equipe              Downforce  Estab.  Score
+──────────────────────────────────────────────────────────────────────────────
+Red Bull RB19         2022–2025  Red Bull · 2023         98       97      98
+Mercedes F1 W11       V6         Mercedes · 2020         96       95      96
+Ferrari F2004         V10        Ferrari · 2004           94       92      95
+Red Bull RB9          V8         Red Bull · 2013         94       92      95
+Red Bull RB16B        V6         Red Bull · 2021         93       90      93
+McLaren MCL38         2022–2025  McLaren · 2024          91       90      91
+Mercedes W16          2022–2025  Mercedes · 2025         90       93      91
+Williams FW18         V10        Williams · 1996         90       88      89
+Ferrari F150°         V8         Ferrari · 2011          90       86      89
+Ferrari F1-75         2022–2025  Ferrari · 2022          92       80      88
+McLaren MP4/20        V10        McLaren · 2005          88       86      87
+Ferrari SF70H         V6         Ferrari · 2017          88       84      87
+Brawn BGP 001         V8         Brawn GP · 2009         86       88      87
+Racing Point RP20     V6         Racing Point · 2020     84       86      83
+McLaren MCL35M        V6         McLaren · 2021          82       85      82
+Renault R25           V8         Renault · 2005          82       84      82
+McLaren MP4-26        V8         McLaren · 2011          84       82      82
+Aston Martin AMR23    2022–2025  Aston · 2023            82       80      80
+Renault R.S.20        V6         Renault · 2020          78       80      77
+Williams FW46         2022–2025  Williams · 2024         76       78      75
+Jordan 198            V10        Jordan · 1998           74       76      73
+Haas VF-18            V6         Haas · 2018             74       72      72
+Alpine A522           2022–2025  Alpine · 2022           72       74      71
+Williams FW43B        V6         Williams · 2021         68       70      66
+Haas VF-25            2022–2025  Haas · 2025             56       58      52
+Minardi M02           V10        Minardi · 2000          44       50      42
+
+═══════════════════════════════════════════════════════════════════════
+MOTORES — melhor por fornecedor por era
+═══════════════════════════════════════════════════════════════════════
+
+Motor                  Era        Fornecedor              Potência  Durabi.  Score
+─────────────────────────────────────────────────────────────────────────────────
+Honda RBPTH002         2022–2025  Red Bull Powertrains       97       95       97
+Mercedes M12E Perf.    V6         Mercedes · 2020            96       94       96
+Mercedes M16           2022–2025  Mercedes · 2025            95       94       95
+Ferrari Tipo 049       V10        Ferrari · 2004             96       84       93
+Mercedes FO110H        V10        Mercedes/McLaren · 2005    94       88       92
+Honda RA621H           V6         Honda/Red Bull · 2021      94       90       93
+Mercedes FO108X        V8         Mercedes · 2012            93       90       92
+Renault RS5            V10        Renault · 2005             93       86       91
+Renault RS27           V8         Renault · 2013             92       88       91
+Ferrari 066/12         2022–2025  Ferrari · 2025             91       88       90
+Ferrari 056            V8         Ferrari · 2012             91       86       89
+Ferrari 065/6          V6         Ferrari · 2021             89       85       87
+BMW P84                V10        BMW/Williams · 2004        97       72       88
+BMW P86                V8         BMW · 2008                 93       74       86
+Honda RA000E           V10        Honda/BAR · 2004           88       78       84
+Renault E-tech 20      V6         Renault · 2020             82       80       80
+Ford Cosworth CR3      V10        Ford/Jaguar · 2003         82       80       80
+Honda RA808E           V8         Honda · 2008               84       78       81
+Renault E-tech RE25    2022–2025  Alpine/Renault · 2025      78       74       75
+Cosworth CA2010        V8         Cosworth · 2010            76       82       77
+Honda RA615H           V6         Honda/McLaren · 2015       62       52       55
+

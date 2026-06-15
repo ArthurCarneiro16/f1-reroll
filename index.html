@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>F1 Manager</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-logo">
+      <div class="header-stripe"></div>
+      <h1 class="header-title">F1 MANAGER</h1>
+      <p class="header-sub">1994–2025 · role · trave · simule</p>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="page">
+
+    <!-- HINT (instrução para o jogador) -->
+    <p class="phase-hint" id="phase-hint">Clique em "Rolar tudo" para começar</p>
+
+    <!-- GRID DE SLOTS (4 cards) -->
+    <div class="slots-grid">
+
+      <!-- Piloto 1 -->
+      <div class="slot-card" id="card-p1">
+        <span class="slot-label">Piloto 1</span>
+        <span class="slot-icon">🧑‍✈️</span>
+        <p class="slot-name" id="p1-nome">—</p>
+        <p class="slot-sub" id="p1-sub">role para sortear</p>
+        <p class="slot-stars" id="p1-stars"></p>
+        <div class="slot-attrs" id="p1-attrs"></div>
+        <button class="lock-btn" id="lock-p1">travar</button>
+      </div>
+
+      <!-- Piloto 2 -->
+      <div class="slot-card" id="card-p2">
+        <span class="slot-label">Piloto 2</span>
+        <span class="slot-icon">🧑‍✈️</span>
+        <p class="slot-name" id="p2-nome">—</p>
+        <p class="slot-sub" id="p2-sub">role para sortear</p>
+        <p class="slot-stars" id="p2-stars"></p>
+        <div class="slot-attrs" id="p2-attrs"></div>
+        <button class="lock-btn" id="lock-p2">travar</button>
+      </div>
+
+      <!-- Chassi -->
+      <div class="slot-card" id="card-chassi">
+        <span class="slot-label">Chassi</span>
+        <span class="slot-icon">🏎️</span>
+        <p class="slot-name" id="chassi-nome">—</p>
+        <p class="slot-sub" id="chassi-sub">role para sortear</p>
+        <p class="slot-stars" id="chassi-stars"></p>
+        <div class="slot-attrs" id="chassi-attrs"></div>
+        <button class="lock-btn" id="lock-chassi">travar</button>
+      </div>
+
+      <!-- Motor -->
+      <div class="slot-card" id="card-motor">
+        <span class="slot-label">Motor</span>
+        <span class="slot-icon">⚙️</span>
+        <p class="slot-name" id="motor-nome">—</p>
+        <p class="slot-sub" id="motor-sub">role para sortear</p>
+        <p class="slot-stars" id="motor-stars"></p>
+        <div class="slot-attrs" id="motor-attrs"></div>
+        <button class="lock-btn" id="lock-motor">travar</button>
+      </div>
+
+    </div>
+    <!-- fim slots-grid -->
+
+    <!-- BOTÕES DE AÇÃO -->
+    <div class="action-row">
+      <button class="btn btn-primary" id="btn-rolar">🎲 Rolar tudo</button>
+      <button class="btn btn-secondary" id="btn-simular" disabled>▶ Simular</button>
+    </div>
+
+    <!-- CAMPANHA (oculta até simular) -->
+    <div class="campanha" id="campanha">
+      <div class="campanha-header">
+        <p class="campanha-meta">a temporada · <span id="seed-txt"></span></p>
+        <h2 class="campanha-title">a campanha</h2>
+      </div>
+      <div id="corridas-list"></div>
+
+      <!-- CARD FINAL (oculto até terminar) -->
+      <div class="card-final" id="card-final">
+
+        <div class="final-hero">
+          <p class="final-label">resultado da temporada</p>
+          <h2 class="final-titulo" id="final-titulo"></h2>
+          <p class="final-desc" id="final-desc"></p>
+          <div class="final-stats" id="final-stats"></div>
+          <div class="final-bars" id="final-bars"></div>
+        </div>
+
+        <div class="final-grid">
+          <p class="section-title">🏁 Campeonato de pilotos</p>
+          <div id="grid-list"></div>
+        </div>
+
+        <div class="final-construtores">
+          <p class="section-title">🏗️ Top 3 construtores</p>
+          <div id="const-list"></div>
+        </div>
+
+      </div>
+      <!-- fim card-final -->
+
+    </div>
+    <!-- fim campanha -->
+
+    <!-- BOTÃO NOVA TEMPORADA -->
+    <div class="btn-nova" id="btn-nova">
+      <button class="btn btn-primary" onclick="resetar()">↺ Nova temporada</button>
+    </div>
+
+  </main>
+
+  <!-- SCRIPTS (sempre no final do body) -->
+  <script src="js/data.js"></script>
+  <script src="js/roleta.js"></script>
+  <script src="js/simulacao.js"></script>
+
+</body>
+
+</body>
+</html>

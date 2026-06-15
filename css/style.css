@@ -1,0 +1,585 @@
+/* ══════════════════════════════
+   HEADER
+══════════════════════════════ */
+.header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.header-stripe {
+  width: 36px;
+  height: 3px;
+  background: var(--red);
+  border-radius: 2px;
+  margin-bottom: 6px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--text-primary);
+}
+
+.header-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin-top: 3px;
+}
+
+/* ══════════════════════════════
+   PÁGINA
+══════════════════════════════ */
+.page {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 1.25rem 4rem;
+}
+
+/* ══════════════════════════════
+   PHASE HINT
+══════════════════════════════ */
+.phase-hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+  min-height: 18px;
+  margin-bottom: 1rem;
+}
+
+/* ══════════════════════════════
+   SLOTS GRID
+══════════════════════════════ */
+.slots-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.slot-card {
+  background: var(--bg-card);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+  transition: border-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+}
+
+.slot-card.active-choice {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px var(--red-glow);
+}
+
+.slot-card.locked {
+  border-color: var(--red);
+}
+
+.slot-card.spinning {
+  opacity: 0.6;
+}
+
+.slot-label {
+  display: block;
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+
+.slot-icon {
+  font-size: 26px;
+  display: block;
+  margin-bottom: 6px;
+  min-height: 32px;
+}
+
+.slot-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  min-height: 20px;
+  line-height: 1.3;
+}
+
+.slot-sub {
+  font-size: 11px;
+  color: var(--text-secondary);
+  min-height: 16px;
+  margin-top: 2px;
+}
+
+.slot-stars {
+  color: var(--red);
+  font-size: 11px;
+  margin-top: 4px;
+  min-height: 14px;
+}
+
+.slot-attrs {
+  margin-top: 8px;
+}
+
+/* ── Barrinhas de atributo dentro do card ── */
+.attr-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.attr-lbl {
+  width: 56px;
+  flex-shrink: 0;
+  text-align: left;
+}
+
+.attr-track {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.attr-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--red);
+}
+
+.attr-num {
+  width: 22px;
+  text-align: right;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ── Badge de raridade ── */
+.rarity-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.rarity-legendary { background: var(--legendary-bg); color: var(--legendary-text); }
+.rarity-rare      { background: var(--rare-bg);      color: var(--rare-text); }
+.rarity-uncommon  { background: var(--uncommon-bg);  color: var(--uncommon-text); }
+.rarity-common    { background: var(--common-bg);    color: var(--common-text); }
+
+/* ── Botão travar ── */
+.lock-btn {
+  display: none;
+  margin-top: 10px;
+  width: 100%;
+  padding: 5px 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--red);
+  background: var(--red);
+  color: #fff;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.lock-btn.locked-state {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border);
+  cursor: default;
+}
+
+/* ══════════════════════════════
+   BOTÕES DE AÇÃO
+══════════════════════════════ */
+.action-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--red);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--red-dark);
+}
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--bg-hover);
+}
+
+/* ══════════════════════════════
+   CAMPANHA
+══════════════════════════════ */
+.campanha {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: none;
+  margin-top: 1.5rem;
+}
+
+.campanha.show {
+  display: block;
+}
+
+.campanha-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.campanha-meta {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.campanha-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 3px;
+}
+
+/* ── Linha de cada corrida ── */
+.corrida-row {
+  border-bottom: 1px solid var(--border);
+  padding: 0.7rem 1.25rem;
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+
+.corrida-row.visible {
+  opacity: 1;
+}
+
+.corrida-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.corrida-track {
+  width: 44px;
+  height: 30px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.corrida-track svg {
+  width: 44px;
+  height: 30px;
+}
+
+.corrida-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.corrida-nome-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.corrida-flag { font-size: 13px; }
+
+.corrida-nome {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.corrida-pilotos {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 3px;
+}
+
+.corrida-evento {
+  font-size: 11px;
+  color: var(--ok);
+  margin-top: 2px;
+  font-style: italic;
+}
+
+.corrida-resultado {
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 80px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.r-win  { color: var(--win); }
+.r-loss { color: var(--loss); }
+.r-ok   { color: var(--ok); }
+
+/* ══════════════════════════════
+   CARD FINAL
+══════════════════════════════ */
+.card-final {
+  background: #0d0d10;
+  display: none;
+}
+
+.card-final.show {
+  display: block;
+}
+
+.final-hero {
+  padding: 1.5rem 1.25rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.final-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.final-titulo {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.final-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.final-stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.stat-val {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--red);
+  line-height: 1;
+}
+
+.stat-lbl {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 3px;
+}
+
+.final-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.perf-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.perf-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.perf-track {
+  flex: 1;
+  height: 5px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.perf-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--red);
+  width: 0;
+  transition: width 0.9s ease;
+}
+
+.perf-val {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  width: 28px;
+  text-align: right;
+}
+
+/* ── Grid pilotos ── */
+.final-grid {
+  padding: 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.grid-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.grid-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+}
+
+.grid-row.nossa-equipe {
+  background: rgba(255,215,0,0.05);
+  border: 1px solid rgba(255,215,0,0.18);
+}
+
+.grid-row.pos-1 { background: rgba(255,215,0,0.06); }
+.grid-row.pos-2 { background: rgba(192,192,192,0.04); }
+.grid-row.pos-3 { background: rgba(205,127,50,0.04); }
+
+.grid-pos {
+  font-size: 12px;
+  font-weight: 700;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.grid-row.pos-1 .grid-pos { color: var(--gold); }
+.grid-row.pos-2 .grid-pos { color: var(--silver); }
+.grid-row.pos-3 .grid-pos { color: var(--bronze); }
+
+.grid-nac { font-size: 12px; flex-shrink: 0; }
+
+.grid-nome {
+  font-size: 12px;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.grid-row.nossa-equipe .grid-nome {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.grid-pts {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 44px;
+  text-align: right;
+}
+
+.grid-row.nossa-equipe .grid-pts { color: var(--gold); }
+
+.grid-tag {
+  font-size: 9px;
+  background: rgba(255,215,0,0.15);
+  color: var(--gold);
+  border-radius: 3px;
+  padding: 1px 5px;
+  margin-left: 4px;
+  font-weight: 700;
+}
+
+/* ── Construtores ── */
+.final-construtores {
+  padding: 1.25rem;
+}
+
+.const-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.const-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+.const-medal { font-size: 20px; width: 26px; text-align: center; flex-shrink: 0; }
+.const-info { flex: 1; }
+.const-nome { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.const-pilotos { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.const-pts { font-size: 16px; font-weight: 700; color: var(--red); flex-shrink: 0; }
+
+/* ══════════════════════════════
+   SECTION TITLE
+══════════════════════════════ */
+.section-title {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 1rem;
+}
+
+/* ══════════════════════════════
+   BOTÃO NOVA TEMPORADA
+══════════════════════════════ */
+.btn-nova {
+  display: none;
+  margin-top: 1.25rem;
+}
+
+.btn-nova.show {
+  display: flex;
+}
