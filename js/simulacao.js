@@ -219,13 +219,20 @@ function simularTemporada() {
 function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equipes, nomeP1, nomeP2, gridAdversarios) {
   document.getElementById('card-final').classList.add('show')
 
-  let titulo, desc
-  if (vitorias >= 14)                    { titulo = 'Campeão mundial 🏆'; desc = `Temporada histórica. ${vitorias} vitórias e ${pontos} pts.` }
-  else if (vitorias >= 8)                { titulo = 'Campeão mundial 🏆'; desc = `${vitorias} vitórias e ${pontos} pts — título conquistado!` }
-  else if (vitorias >= 4 && podeio >= 9) { titulo = 'Vice-campeão 🥈';    desc = `${vitorias} vitórias e ${podeio} pódios. Brigou até o fim.` }
-  else if (podeio >= 5)                  { titulo = 'Top 3 🥉';           desc = `${podeio} pódios mas sem consistência para o título.` }
-  else if (pontos >= 80)                 { titulo = 'Meio do grid';       desc = `${pontos} pts no total. Pontuou mas sem brilho.` }
-  else                                   { titulo = 'Fundo do grid';      desc = `Combinação desequilibrada. Difícil pontuar com regularidade.` }
+  // posição real no campeonato de pilotos
+const gridOrdenadoTemp = Object.entries(campPilotos)
+  .sort((a, b) => b[1] - a[1])
+const posP1 = gridOrdenadoTemp.findIndex(([nome]) => nome === nomeP1) + 1
+const posP2 = gridOrdenadoTemp.findIndex(([nome]) => nome === nomeP2) + 1
+const melhorPos = Math.min(posP1, posP2)
+
+let titulo, desc
+if (melhorPos === 1)      { titulo = 'Campeão mundial 🏆'; desc = `${gridOrdenadoTemp[0][0]} dominou a temporada com ${pontos} pts e ${vitorias} vitórias.` }
+else if (melhorPos === 2) { titulo = 'Vice-campeão 🥈';    desc = `${vitorias} vitórias e ${podeio} pódios. Ficou a um passo do título.` }
+else if (melhorPos === 3) { titulo = 'Pódio no campeonato 🥉'; desc = `${vitorias} vitórias e ${podeio} pódios. Temporada sólida.` }
+else if (melhorPos <= 6)  { titulo = `${melhorPos}º lugar no campeonato`; desc = `${pontos} pts no total. Competitivo mas sem brilho suficiente.` }
+else if (melhorPos <= 10) { titulo = `${melhorPos}º lugar no campeonato`; desc = `Meio do grid. Pontuou em algumas corridas mas ficou longe da briga.` }
+else                      { titulo = `${melhorPos}º lugar no campeonato`; desc = `Temporada difícil. Combinação desequilibrada para brigar na frente.` }                                  { titulo = 'Fundo do grid';      desc = `Combinação desequilibrada. Difícil pontuar com regularidade.` }
 
   document.getElementById('final-titulo').textContent = titulo
   document.getElementById('final-desc').textContent   = desc
