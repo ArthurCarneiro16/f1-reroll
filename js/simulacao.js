@@ -3,7 +3,6 @@
 // Motor de corrida e campeonato
 // ═══════════════════════════════════════
 
-// ── CALCULA SCORE DE UM PILOTO NA CORRIDA ──
 function scoreIndividual(piloto, chassi, motor, chuvaProbabilidade, isDecisiva) {
   const choveu = Math.random() < chuvaProbabilidade
   const bonusChuva = choveu ? (piloto.chuva - 75) * 0.18 : 0
@@ -15,13 +14,11 @@ function scoreIndividual(piloto, chassi, motor, chuvaProbabilidade, isDecisiva) 
   return { score: scoreFinal, choveu }
 }
 
-// ── CONVERTE SCORE EM POSIÇÃO ─────────────
 function scoreParaPosicao(meuScore, scoresAdversarios) {
   const posicao = scoresAdversarios.filter(s => s > meuScore).length + 1
   return Math.max(1, Math.min(20, posicao))
 }
 
-// ── SIMULA UMA CORRIDA ────────────────────
 function simularCorrida(corrida, indice, totalCorridas, gridAdversarios) {
   const isDecisiva = indice >= totalCorridas - 5
 
@@ -56,10 +53,8 @@ function simularCorrida(corrida, indice, totalCorridas, gridAdversarios) {
   return { corrida, pFrente, pAtras, posFrente, posAtras, win, dnf, choveu: resultA.choveu, evento }
 }
 
-// ── RENDERIZA UMA LINHA DE CORRIDA ────────
 function renderCorrida(resultado, indice) {
   const { corrida, pFrente, pAtras, posFrente, posAtras, win, dnf, choveu, evento } = resultado
-
   const row = document.createElement('div')
   row.className = 'corrida-row'
 
@@ -96,7 +91,6 @@ function renderCorrida(resultado, indice) {
   return row
 }
 
-// ── SIMULA A TEMPORADA INTEIRA ────────────
 function simularTemporada() {
   if (!chosen.p1 || !chosen.p2 || !chosen.chassi || !chosen.motor) return
 
@@ -118,6 +112,7 @@ function simularTemporada() {
     !(p.nome === chosen.p2.nome && p.ano === chosen.p2.ano)
   )
 
+  // pega só a melhor versão de cada piloto
   const porNome = {}
   pilotosDisponiveis.forEach(p => {
     if (!porNome[p.nome] || p.score > porNome[p.nome].score) {
@@ -126,16 +121,35 @@ function simularTemporada() {
   })
   const semDuplicatas = Object.values(porNome)
 
+  // sorteia 18 adversários
   const gridAdversarios = [...semDuplicatas]
     .sort(() => Math.random() - 0.5)
     .slice(0, 18)
 
-  // ── PILOTOS DE CADA EQUIPE ADVERSÁRIA (fixos para a temporada) ──
-  const pilotosAlpha = [gridAdversarios[0], gridAdversarios[1]]
-  const pilotosOmega = [gridAdversarios[6], gridAdversarios[7]]
-  const pilotosApex  = [gridAdversarios[12], gridAdversarios[13]]
+  // ── 9 EQUIPES ADVERSÁRIAS DE 2 PILOTOS CADA ──
+  const nomeEquipes = [
+    'Scuderia Alpha', 'Team Omega', 'Apex Racing',
+    'Veloce F1',      'Storm GP',   'Circuit Works',
+    'Delta Racing',   'Nova Team',  'Frontier F1'
+  ]
 
-  // ── ACUMULADORES ──
+  const equipes = {}
+  nomeEquipes.forEach((nome, i) => {
+    const p1 = gridAdversarios[i * 2]
+    const p2 = gridAdversarios[i * 2 + 1]
+    equipes[nome] = {
+      pilotos: [p1, p2],
+      pts: 0
+    }
+  })
+
+  // adiciona nossa equipe
+  equipes['Nossa Equipe'] = {
+    pilotos: [chosen.p1, chosen.p2],
+    pts: 0
+  }
+
+  // ── ACUMULADORES DE PILOTOS ──
   const campPilotos = {}
   gridAdversarios.forEach(p => {
     campPilotos[p.nome + ` '${p.ano}`] = 0
@@ -143,15 +157,9 @@ function simularTemporada() {
   campPilotos[nomeP1] = 0
   campPilotos[nomeP2] = 0
 
-  const construtores = {
-    'Nossa Equipe':   { pilotos: [nomeP1, nomeP2], pts: 0 },
-    'Scuderia Alpha': { pilotos: [pilotosAlpha[0]?.nome, pilotosAlpha[1]?.nome], pts: 0 },
-    'Team Omega':     { pilotos: [pilotosOmega[0]?.nome, pilotosOmega[1]?.nome], pts: 0 },
-    'Apex Racing':    { pilotos: [pilotosApex[0]?.nome,  pilotosApex[1]?.nome],  pts: 0 },
-  }
-
   let vitorias = 0, podeio = 0, abandonos = 0, pontos = 0
 
+  // ── SIMULA AS 21 CORRIDAS ──
   const resultados = corridas.map((c, i) => simularCorrida(c, i, corridas.length, gridAdversarios))
   const lista = document.getElementById('corridas-list')
 
@@ -167,29 +175,17 @@ function simularTemporada() {
 
     campPilotos[nomeFrente] = (campPilotos[nomeFrente] || 0) + ptsFrente
     campPilotos[nomeAtras]  = (campPilotos[nomeAtras]  || 0) + ptsAtras
-    construtores['Nossa Equipe'].pts += ptsFrente + ptsAtras
 
     // pontos dos adversários — simula corrida por corrida
-  const advNaCorrida = [...gridAdversarios]
-   .map(a => ({ ...a, scoreCorr: a.score + (Math.random() * 20 - 10) }))
-   .sort((a, b) => b.scoreCorr - a.scoreCorr)
+    const advNaCorrida = [...gridAdversarios]
+      .map(a => ({ ...a, scoreCorr: a.score + (Math.random() * 20 - 10) }))
+      .sort((a, b) => b.scoreCorr - a.scoreCorr)
 
-  advNaCorrida.forEach((a, idx) => {
-   const pts = PTS[idx] || 0
-   const nomeAdv = a.nome + ` '${a.ano}`
-
-    // acumula no campeonato de pilotos
-   campPilotos[nomeAdv] = (campPilotos[nomeAdv] || 0) + pts
-
-   // construtor soma os pontos dos seus 2 pilotos
-   const isAlpha = pilotosAlpha.some(p => p?.nome === a.nome && p?.ano === a.ano)
-   const isOmega = pilotosOmega.some(p => p?.nome === a.nome && p?.ano === a.ano)
-    const isApex  = pilotosApex.some(p  => p?.nome === a.nome && p?.ano === a.ano)
-
-    if (isAlpha)      construtores['Scuderia Alpha'].pts += pts
-   else if (isOmega) construtores['Team Omega'].pts += pts
-   else if (isApex)  construtores['Apex Racing'].pts += pts
-  })
+    advNaCorrida.forEach((a, idx) => {
+      const pts = PTS[idx] || 0
+      const nomeAdv = a.nome + ` '${a.ano}`
+      campPilotos[nomeAdv] = (campPilotos[nomeAdv] || 0) + pts
+    })
 
     if (r.win)                      vitorias++
     if (r.posFrente <= 3 && !r.dnf) podeio++
@@ -197,17 +193,30 @@ function simularTemporada() {
     pontos += ptsFrente + ptsAtras
   })
 
+  // ── CALCULA PONTOS DOS CONSTRUTORES PELA SOMA DOS PILOTOS ──
+  Object.entries(equipes).forEach(([nomeEq, eq]) => {
+    if (nomeEq === 'Nossa Equipe') {
+      eq.pts = (campPilotos[nomeP1] || 0) + (campPilotos[nomeP2] || 0)
+    } else {
+      eq.pilotos.forEach(p => {
+        if (p) {
+          const chave = p.nome + ` '${p.ano}`
+          eq.pts += campPilotos[chave] || 0
+        }
+      })
+    }
+  })
+
   const delay = resultados.length * 260 + 500
   setTimeout(() => mostrarCardFinal(
     vitorias, podeio, abandonos, pontos,
-    campPilotos, construtores,
+    campPilotos, equipes,
     nomeP1, nomeP2,
     gridAdversarios
   ), delay)
 }
 
-// ── MONTA O CARD FINAL ────────────────────
-function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, construtores, nomeP1, nomeP2, gridAdversarios) {
+function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equipes, nomeP1, nomeP2, gridAdversarios) {
   document.getElementById('card-final').classList.add('show')
 
   let titulo, desc
@@ -266,7 +275,7 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, cons
     })
   }, 100)
 
-  // campeonato de pilotos
+  // ── CAMPEONATO DE PILOTOS — TOP 20 ──
   const gridOrdenado = Object.entries(campPilotos)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 20)
@@ -296,27 +305,33 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, cons
     `
   }).join('')
 
-  // top 3 construtores
-  const constOrdenados = Object.entries(construtores)
+  // ── TOP 3 CONSTRUTORES ──
+  const constOrdenados = Object.entries(equipes)
     .sort((a, b) => b[1].pts - a[1].pts)
     .slice(0, 3)
 
   const medals = ['🥇', '🥈', '🥉']
 
-  document.getElementById('const-list').innerHTML = constOrdenados.map(([nome, info], i) => `
-    <div class="const-row">
-      <span class="const-medal">${medals[i]}</span>
-      <div class="const-info">
-        <div class="const-nome">${nome}</div>
-        <div class="const-pilotos">${info.pilotos.join(' · ')}</div>
+  document.getElementById('const-list').innerHTML = constOrdenados.map(([nome, info], i) => {
+    const nomes = info.pilotos
+      .filter(Boolean)
+      .map(p => p.nome)
+      .join(' · ')
+
+    return `
+      <div class="const-row">
+        <span class="const-medal">${medals[i]}</span>
+        <div class="const-info">
+          <div class="const-nome">${nome}</div>
+          <div class="const-pilotos">${nomes}</div>
+        </div>
+        <span class="const-pts">${info.pts} pts</span>
       </div>
-      <span class="const-pts">${info.pts} pts</span>
-    </div>
-  `).join('')
+    `
+  }).join('')
 
   document.getElementById('btn-nova').classList.add('show')
   document.getElementById('btn-rolar').disabled = false
 }
 
-// ── CONECTA O BOTÃO SIMULAR ───────────────
 document.getElementById('btn-simular').addEventListener('click', simularTemporada)
