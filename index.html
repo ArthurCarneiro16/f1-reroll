@@ -77,11 +77,30 @@
     </div>
     <!-- fim slots-grid -->
 
-    <!-- BOTÕES DE AÇÃO -->
-    <div class="action-row">
-      <button class="btn btn-primary" id="btn-rolar">🎲 Rolar tudo</button>
-      <button class="btn btn-secondary" id="btn-simular" disabled>▶ Simular</button>
-    </div>
+<!-- BOOST -->
+<div class="boost-row">
+  <button class="btn-boost" id="btn-boost" onclick="toggleBoost()">
+    ⚡ Ativar Boost de Raridade
+  </button>
+  <span class="boost-hint" id="boost-hint">aumenta chance de itens raros por 1 rolagem</span>
+</div>
+
+    <!-- NOME DA EQUIPE -->
+<div class="nome-equipe-row">
+  <input 
+    type="text" 
+    id="input-nome-equipe" 
+    class="input-nome-equipe" 
+    placeholder="Nome da sua equipe (opcional)"
+    maxlength="30"
+  >
+</div>
+
+<!-- BOTÕES DE AÇÃO -->
+<div class="action-row">
+  <button class="btn btn-primary" id="btn-rolar">🎲 Rolar tudo</button>
+  <button class="btn btn-secondary" id="btn-simular" disabled>▶ Simular</button>
+</div>
 
     <!-- CAMPANHA (oculta até simular) -->
     <div class="campanha" id="campanha">

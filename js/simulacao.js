@@ -94,6 +94,10 @@ function renderCorrida(resultado, indice) {
 function simularTemporada() {
   if (!chosen.p1 || !chosen.p2 || !chosen.chassi || !chosen.motor) return
 
+  // pega nome da equipe — usa o que o jogador digitou ou "Nossa Equipe"
+  const inputNome = document.getElementById('input-nome-equipe')
+  const nomeNossaEquipe = inputNome?.value.trim() || 'Nossa Equipe'
+
   document.getElementById('btn-simular').disabled = true
   document.getElementById('btn-rolar').disabled = true
   document.getElementById('seed-txt').textContent =
@@ -112,7 +116,6 @@ function simularTemporada() {
     !(p.nome === chosen.p2.nome && p.ano === chosen.p2.ano)
   )
 
-  // pega só a melhor versão de cada piloto
   const porNome = {}
   pilotosDisponiveis.forEach(p => {
     if (!porNome[p.nome] || p.score > porNome[p.nome].score) {
@@ -121,32 +124,30 @@ function simularTemporada() {
   })
   const semDuplicatas = Object.values(porNome)
 
-  // sorteia 18 adversários
   const gridAdversarios = [...semDuplicatas]
     .sort(() => Math.random() - 0.5)
     .slice(0, 18)
 
   // ── 9 EQUIPES ADVERSÁRIAS DE 2 PILOTOS CADA ──
-  const nomeEquipes = [
-    'Scuderia Alpha', 'Team Omega', 'Apex Racing',
-    'Veloce F1',      'Storm GP',   'Circuit Works',
-    'Delta Racing',   'Nova Team',  'Frontier F1'
+  const nomesEquipes = [
+    'Scuderia Alpha', 'Team Omega',   'Apex Racing',
+    'Veloce F1',      'Storm GP',     'Circuit Works',
+    'Delta Racing',   'Nova Team',    'Frontier F1'
   ]
 
   const equipes = {}
-  nomeEquipes.forEach((nome, i) => {
-    const p1 = gridAdversarios[i * 2]
-    const p2 = gridAdversarios[i * 2 + 1]
+  nomesEquipes.forEach((nome, i) => {
     equipes[nome] = {
-      pilotos: [p1, p2],
+      pilotos: [gridAdversarios[i * 2], gridAdversarios[i * 2 + 1]],
       pts: 0
     }
   })
 
-  // adiciona nossa equipe
-  equipes['Nossa Equipe'] = {
+  // nossa equipe com nome personalizado
+  equipes[nomeNossaEquipe] = {
     pilotos: [chosen.p1, chosen.p2],
-    pts: 0
+    pts: 0,
+    nossa: true
   }
 
   // ── ACUMULADORES DE PILOTOS ──
@@ -193,16 +194,13 @@ function simularTemporada() {
     pontos += ptsFrente + ptsAtras
   })
 
-  // ── CALCULA PONTOS DOS CONSTRUTORES PELA SOMA DOS PILOTOS ──
+  // ── CALCULA PONTOS DOS CONSTRUTORES PELA SOMA DOS 2 PILOTOS ──
   Object.entries(equipes).forEach(([nomeEq, eq]) => {
-    if (nomeEq === 'Nossa Equipe') {
+    if (eq.nossa) {
       eq.pts = (campPilotos[nomeP1] || 0) + (campPilotos[nomeP2] || 0)
     } else {
       eq.pilotos.forEach(p => {
-        if (p) {
-          const chave = p.nome + ` '${p.ano}`
-          eq.pts += campPilotos[chave] || 0
-        }
+        if (p) eq.pts += campPilotos[p.nome + ` '${p.ano}`] || 0
       })
     }
   })
@@ -212,27 +210,30 @@ function simularTemporada() {
     vitorias, podeio, abandonos, pontos,
     campPilotos, equipes,
     nomeP1, nomeP2,
+    nomeNossaEquipe,
     gridAdversarios
   ), delay)
 }
 
-function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equipes, nomeP1, nomeP2, gridAdversarios) {
+function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equipes, nomeP1, nomeP2, nomeNossaEquipe, gridAdversarios) {
   document.getElementById('card-final').classList.add('show')
 
   // posição real no campeonato de pilotos
-const gridOrdenadoTemp = Object.entries(campPilotos)
-  .sort((a, b) => b[1] - a[1])
-const posP1 = gridOrdenadoTemp.findIndex(([nome]) => nome === nomeP1) + 1
-const posP2 = gridOrdenadoTemp.findIndex(([nome]) => nome === nomeP2) + 1
-const melhorPos = Math.min(posP1, posP2)
+  const gridOrdenadoTemp = Object.entries(campPilotos)
+    .sort((a, b) => b[1] - a[1])
 
-let titulo, desc
-if (melhorPos === 1)      { titulo = 'Campeão mundial 🏆'; desc = `${gridOrdenadoTemp[0][0]} dominou a temporada com ${pontos} pts e ${vitorias} vitórias.` }
-else if (melhorPos === 2) { titulo = 'Vice-campeão 🥈';    desc = `${vitorias} vitórias e ${podeio} pódios. Ficou a um passo do título.` }
-else if (melhorPos === 3) { titulo = 'Pódio no campeonato 🥉'; desc = `${vitorias} vitórias e ${podeio} pódios. Temporada sólida.` }
-else if (melhorPos <= 6)  { titulo = `${melhorPos}º lugar no campeonato`; desc = `${pontos} pts no total. Competitivo mas sem brilho suficiente.` }
-else if (melhorPos <= 10) { titulo = `${melhorPos}º lugar no campeonato`; desc = `Meio do grid. Pontuou em algumas corridas mas ficou longe da briga.` }
-else                      { titulo = `${melhorPos}º lugar no campeonato`; desc = `Temporada difícil. Combinação desequilibrada para brigar na frente.` }                                  { titulo = 'Fundo do grid';      desc = `Combinação desequilibrada. Difícil pontuar com regularidade.` }
+  const posP1 = gridOrdenadoTemp.findIndex(([nome]) => nome === nomeP1) + 1
+  const posP2 = gridOrdenadoTemp.findIndex(([nome]) => nome === nomeP2) + 1
+  const melhorPos = Math.min(posP1, posP2)
+  const melhorPiloto = posP1 <= posP2 ? nomeP1 : nomeP2
+
+  let titulo, desc
+  if (melhorPos === 1)      { titulo = 'Campeão mundial 🏆';       desc = `${melhorPiloto} dominou a temporada com ${pontos} pts e ${vitorias} vitórias.` }
+  else if (melhorPos === 2) { titulo = 'Vice-campeão 🥈';           desc = `${vitorias} vitórias e ${podeio} pódios. Ficou a um passo do título.` }
+  else if (melhorPos === 3) { titulo = 'Pódio no campeonato 🥉';   desc = `${vitorias} vitórias e ${podeio} pódios. Temporada sólida.` }
+  else if (melhorPos <= 6)  { titulo = `${melhorPos}º no campeonato`; desc = `${pontos} pts no total. Competitivo mas sem brilho suficiente.` }
+  else if (melhorPos <= 10) { titulo = `${melhorPos}º no campeonato`; desc = `Meio do grid. Pontuou em algumas corridas mas ficou longe da briga.` }
+  else                      { titulo = `${melhorPos}º no campeonato`; desc = `Temporada difícil. Combinação desequilibrada para brigar na frente.` }
 
   document.getElementById('final-titulo').textContent = titulo
   document.getElementById('final-desc').textContent   = desc
@@ -305,7 +306,7 @@ else                      { titulo = `${melhorPos}º lugar no campeonato`; desc 
         <span class="grid-nac">${nac}</span>
         <span class="grid-nome">
           ${nome}
-          ${isNosso ? '<span class="grid-tag">NOSSA EQUIPE</span>' : ''}
+          ${isNosso ? `<span class="grid-tag">${nomeNossaEquipe.toUpperCase()}</span>` : ''}
         </span>
         <span class="grid-pts">${pts} pts</span>
       </div>
@@ -325,8 +326,10 @@ else                      { titulo = `${melhorPos}º lugar no campeonato`; desc 
       .map(p => p.nome)
       .join(' · ')
 
+    const isNossa = info.nossa === true
+
     return `
-      <div class="const-row">
+      <div class="const-row ${isNossa ? 'nossa-equipe' : ''}">
         <span class="const-medal">${medals[i]}</span>
         <div class="const-info">
           <div class="const-nome">${nome}</div>

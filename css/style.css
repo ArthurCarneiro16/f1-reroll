@@ -583,3 +583,70 @@
 .btn-nova.show {
   display: flex;
 }
+
+/* ══════════════════════════════
+   INPUT NOME DA EQUIPE
+══════════════════════════════ */
+.nome-equipe-row {
+  margin-bottom: .75rem;
+}
+
+.input-nome-equipe {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-nome-equipe:focus {
+  border-color: var(--red);
+}
+
+.input-nome-equipe::placeholder {
+  color: var(--text-muted);
+}
+/* ══════════════════════════════
+   BOOST
+══════════════════════════════ */
+.boost-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: .75rem;
+}
+
+.btn-boost {
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-boost:hover {
+  border-color: #FBBF24;
+  color: #FBBF24;
+}
+
+.btn-boost.ativo {
+  background: #FBBF24;
+  border-color: #FBBF24;
+  color: #000;
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+}
+
+.boost-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+}
