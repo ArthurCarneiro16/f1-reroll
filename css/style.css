@@ -650,3 +650,9 @@
   font-size: 11px;
   color: var(--text-muted);
 }
+.btn-boost.usado {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: var(--border);
+  color: var(--text-muted);
+}

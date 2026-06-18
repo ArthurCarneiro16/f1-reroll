@@ -8,9 +8,8 @@ const chosen = { p1: null, p2: null, chassi: null, motor: null }
 const locked  = { p1: false, p2: false, chassi: false, motor: false }
 let phase = 'idle'
 let spinningCount = 0
-
-// estado do boost
 let boostAtivo = false
+let boostUsado = false  // impede reuso até resetar
 
 // ── FUNÇÕES AUXILIARES ───────────────────
 
@@ -32,13 +31,11 @@ function rand(arr) {
 function weightedRand(arr) {
   const weights = arr.map(item => {
     if (boostAtivo) {
-      // com boost: lendário e raro têm muito mais chance
       if (item.score >= 95) return 30
       if (item.score >= 85) return 50
       if (item.score >= 72) return 15
       return 5
     } else {
-      // sem boost: pesos normais
       if (item.score >= 95) return 5
       if (item.score >= 85) return 15
       if (item.score >= 72) return 30
@@ -53,25 +50,7 @@ function weightedRand(arr) {
   }
   return arr[arr.length - 1]
 }
-function toggleBoost() {
-  boostAtivo = !boostAtivo
-  const btn = document.getElementById('btn-boost')
-  const hint = document.getElementById('boost-hint')
 
-  if (boostAtivo) {
-    btn.classList.add('ativo')
-    btn.textContent = '⚡ Boost Ativado!'
-    hint.textContent = 'próxima rolagem garante itens raros ou lendários'
-    hint.style.color = '#FBBF24'
-  } else {
-    btn.classList.remove('ativo')
-    btn.textContent = '⚡ Ativar Boost de Raridade'
-    hint.textContent = 'aumenta chance de itens raros por 1 rolagem'
-    hint.style.color = ''
-  }
-}
-
-// filtra o excluído antes de sortear — garante que nunca repete
 function randExcluding(arr, exclude) {
   const disponiveis = exclude
     ? arr.filter(p => !(p.nome === exclude.nome && p.ano === exclude.ano))
@@ -84,6 +63,48 @@ function getRarity(score) {
   if (score >= 85) return { label: 'RARO',     cls: 'rarity-rare' }
   if (score >= 72) return { label: 'INCOMUM',  cls: 'rarity-uncommon' }
   return                  { label: 'COMUM',    cls: 'rarity-common' }
+}
+
+function toggleBoost() {
+  // não pode usar se já foi usado nessa rodada de montagem
+  if (boostUsado) return
+
+  boostAtivo = !boostAtivo
+  const btn  = document.getElementById('btn-boost')
+  const hint = document.getElementById('boost-hint')
+
+  if (boostAtivo) {
+    btn.classList.add('ativo')
+    btn.textContent = '⚡ Boost Ativado!'
+    hint.textContent = 'próxima rolagem garante itens raros ou lendários'
+    hint.style.color = '#FBBF24'
+  } else {
+    btn.classList.remove('ativo')
+    btn.textContent = '⚡ Ativar Boost'
+    hint.textContent = 'aumenta chance de itens raros por 1 rolagem'
+    hint.style.color = ''
+  }
+}
+
+function consumirBoost() {
+  // chamado ao iniciar rolagem — usa o boost e bloqueia até resetar
+  if (boostAtivo) {
+    boostUsado = true
+    boostAtivo = false  // desativa APÓS sortear os itens finais
+    const btn  = document.getElementById('btn-boost')
+    const hint = document.getElementById('boost-hint')
+    if (btn)  { btn.classList.remove('ativo'); btn.classList.add('usado'); btn.textContent = '⚡ Boost Usado' }
+    if (hint) { hint.textContent = 'boost disponível na próxima equipe'; hint.style.color = '' }
+  }
+}
+
+function resetarBoost() {
+  boostAtivo = false
+  boostUsado = false
+  const btn  = document.getElementById('btn-boost')
+  const hint = document.getElementById('boost-hint')
+  if (btn)  { btn.classList.remove('ativo', 'usado'); btn.textContent = '⚡ Ativar Boost' }
+  if (hint) { hint.textContent = 'aumenta chance de itens raros por 1 rolagem'; hint.style.color = '' }
 }
 
 // ── ATUALIZA VISUAL DO CARD ──────────────
@@ -199,13 +220,22 @@ function rolarLivres(onDone) {
 
   spinningCount = livres.length
 
+  // sorteia os itens finais ANTES de desativar o boost
+  // assim o boost influencia o sorteio dessa rodada
+  const finais = {}
   livres.forEach(key => {
     const pool = poolOf(key)
-    const finalItem = key === 'p2'
+    finais[key] = key === 'p2'
       ? randExcluding(pool, chosen.p1)
       : weightedRand(pool)
+  })
 
-    spinCard(key, finalItem, () => {
+  // desativa boost após sortear — não afeta rolagens futuras
+  consumirBoost()
+
+  // anima os cards com os itens já sorteados
+  livres.forEach(key => {
+    spinCard(key, finais[key], () => {
       spinningCount--
       if (spinningCount === 0 && onDone) onDone()
     })
@@ -225,18 +255,7 @@ function iniciarRolagem() {
   const keys = ['p1', 'p2', 'chassi', 'motor']
   keys.forEach(k => locked[k] = false)
   updateCardStates()
-
   setHint('Sorteando...')
-
-  // desativa boost após usar
-if (boostAtivo) {
-  boostAtivo = false
-  const btn = document.getElementById('btn-boost')
-  btn.classList.remove('ativo')
-  btn.textContent = '⚡ Ativar Boost de Raridade'
-  document.getElementById('boost-hint').textContent = 'aumenta chance de itens raros por 1 rolagem'
-  document.getElementById('boost-hint').style.color = ''
-}
 
   rolarLivres(() => {
     phase = 'choosing'
@@ -308,6 +327,7 @@ function resetar() {
 
   phase = 'idle'
   spinningCount = 0
+  resetarBoost()
 
   document.getElementById('campanha').classList.remove('show')
   document.getElementById('btn-nova').classList.remove('show')
@@ -315,7 +335,6 @@ function resetar() {
   document.getElementById('btn-simular').disabled = true
   document.getElementById('btn-rolar').disabled = false
 
-  // limpa o input do nome da equipe
   const inputNome = document.getElementById('input-nome-equipe')
   if (inputNome) inputNome.value = ''
 
