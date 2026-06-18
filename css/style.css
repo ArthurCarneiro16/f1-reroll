@@ -656,3 +656,31 @@
   border-color: var(--border);
   color: var(--text-muted);
 }
+/* ══════════════════════════════
+   REROLAR
+══════════════════════════════ */
+.rerolar-row {
+  display: none;
+  margin-bottom: .75rem;
+}
+
+.rerolar-row.show {
+  display: flex;
+}
+
+.btn-rerolar {
+  width: 100%;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.btn-rerolar:hover {
+  border-color: var(--red);
+  color: var(--red);
+}

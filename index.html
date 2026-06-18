@@ -10,9 +10,6 @@
 </head>
 <body>
 
-  <body>
-
-  <!-- HEADER -->
   <header class="header">
     <div class="header-logo">
       <div class="header-stripe"></div>
@@ -21,16 +18,12 @@
     </div>
   </header>
 
-  <!-- CONTEÚDO PRINCIPAL -->
   <main class="page">
 
-    <!-- HINT (instrução para o jogador) -->
     <p class="phase-hint" id="phase-hint">Clique em "Rolar tudo" para começar</p>
 
-    <!-- GRID DE SLOTS (4 cards) -->
     <div class="slots-grid">
 
-      <!-- Piloto 1 -->
       <div class="slot-card" id="card-p1">
         <span class="slot-label">Piloto 1</span>
         <span class="slot-icon">🧑‍✈️</span>
@@ -41,7 +34,6 @@
         <button class="lock-btn" id="lock-p1">travar</button>
       </div>
 
-      <!-- Piloto 2 -->
       <div class="slot-card" id="card-p2">
         <span class="slot-label">Piloto 2</span>
         <span class="slot-icon">🧑‍✈️</span>
@@ -52,7 +44,6 @@
         <button class="lock-btn" id="lock-p2">travar</button>
       </div>
 
-      <!-- Chassi -->
       <div class="slot-card" id="card-chassi">
         <span class="slot-label">Chassi</span>
         <span class="slot-icon">🏎️</span>
@@ -63,7 +54,6 @@
         <button class="lock-btn" id="lock-chassi">travar</button>
       </div>
 
-      <!-- Motor -->
       <div class="slot-card" id="card-motor">
         <span class="slot-label">Motor</span>
         <span class="slot-icon">⚙️</span>
@@ -75,34 +65,32 @@
       </div>
 
     </div>
-    <!-- fim slots-grid -->
+    <div class="boost-row">
+      <button class="btn-boost" id="btn-boost" onclick="toggleBoost()">
+        ⚡ Ativar Boost de Raridade
+      </button>
+      <span class="boost-hint" id="boost-hint">aumenta chance de itens raros por 1 rolagem</span>
+    </div>
 
-<!-- BOOST -->
-<div class="boost-row">
-  <button class="btn-boost" id="btn-boost" onclick="toggleBoost()">
-    ⚡ Ativar Boost de Raridade
-  </button>
-  <span class="boost-hint" id="boost-hint">aumenta chance de itens raros por 1 rolagem</span>
-</div>
+    <div class="nome-equipe-row">
+      <input 
+        type="text" 
+        id="input-nome-equipe" 
+        class="input-nome-equipe" 
+        placeholder="Nome da sua equipe (opcional)"
+        maxlength="30"
+      >
+    </div>
 
-    <!-- NOME DA EQUIPE -->
-<div class="nome-equipe-row">
-  <input 
-    type="text" 
-    id="input-nome-equipe" 
-    class="input-nome-equipe" 
-    placeholder="Nome da sua equipe (opcional)"
-    maxlength="30"
-  >
-</div>
+    <div class="action-row">
+      <button class="btn btn-primary" id="btn-rolar">🎲 Rolar tudo</button>
+      <button class="btn btn-secondary" id="btn-simular" disabled>▶ Simular</button>
+    </div>
 
-<!-- BOTÕES DE AÇÃO -->
-<div class="action-row">
-  <button class="btn btn-primary" id="btn-rolar">🎲 Rolar tudo</button>
-  <button class="btn btn-secondary" id="btn-simular" disabled>▶ Simular</button>
-</div>
+    <div class="rerolar-row" id="rerolar-row">
+      <button class="btn-rerolar" onclick="resetar()">↺ Montar nova equipe</button>
+    </div>
 
-    <!-- CAMPANHA (oculta até simular) -->
     <div class="campanha" id="campanha">
       <div class="campanha-header">
         <p class="campanha-meta">a temporada · <span id="seed-txt"></span></p>
@@ -110,7 +98,6 @@
       </div>
       <div id="corridas-list"></div>
 
-      <!-- CARD FINAL (oculto até terminar) -->
       <div class="card-final" id="card-final">
 
         <div class="final-hero">
@@ -132,24 +119,16 @@
         </div>
 
       </div>
-      <!-- fim card-final -->
-
-    </div>
-    <!-- fim campanha -->
-
-    <!-- BOTÃO NOVA TEMPORADA -->
+      </div>
     <div class="btn-nova" id="btn-nova">
       <button class="btn btn-primary" onclick="resetar()">↺ Nova temporada</button>
     </div>
 
   </main>
 
-  <!-- SCRIPTS (sempre no final do body) -->
   <script src="js/data.js"></script>
   <script src="js/roleta.js"></script>
   <script src="js/simulacao.js"></script>
-
-</body>
 
 </body>
 </html>

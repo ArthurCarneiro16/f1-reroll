@@ -230,7 +230,7 @@ function rolarLivres(onDone) {
       : weightedRand(pool)
   })
 
-  // desativa boost após sortear — não afeta rolagens futuras
+  // desativa boost após sortear — não afeta rolagens futures
   consumirBoost()
 
   // anima os cards com os itens já sorteados
@@ -250,6 +250,7 @@ function iniciarRolagem() {
   document.getElementById('btn-simular').disabled = true
   document.getElementById('campanha').classList.remove('show')
   document.getElementById('btn-nova').classList.remove('show')
+  document.getElementById('rerolar-row').classList.remove('show') // ← adicionado aqui
 
   phase = 'idle'
   const keys = ['p1', 'p2', 'chassi', 'motor']
@@ -296,9 +297,10 @@ function travar(key) {
 function terminar() {
   phase = 'done'
   updateCardStates()
-  setHint('Equipe montada! Clique em Simular.')
+  setHint('Equipe montada! Simule ou monte uma nova.')
   document.getElementById('btn-rolar').disabled = false
   document.getElementById('btn-simular').disabled = false
+  document.getElementById('rerolar-row').classList.add('show')
 }
 
 // ── RESET COMPLETO ───────────────────────
@@ -334,6 +336,7 @@ function resetar() {
   document.getElementById('card-final').classList.remove('show')
   document.getElementById('btn-simular').disabled = true
   document.getElementById('btn-rolar').disabled = false
+  document.getElementById('rerolar-row').classList.remove('show') // ← também garantido no resetar()
 
   const inputNome = document.getElementById('input-nome-equipe')
   if (inputNome) inputNome.value = ''
