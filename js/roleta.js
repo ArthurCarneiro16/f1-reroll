@@ -9,7 +9,7 @@ const locked  = { p1: false, p2: false, chassi: false, motor: false }
 let phase = 'idle'
 let spinningCount = 0
 let boostAtivo = false
-let boostUsado = false  // impede reuso até resetar
+let boostUsado = false
 
 // ── FUNÇÕES AUXILIARES ───────────────────
 
@@ -66,16 +66,13 @@ function getRarity(score) {
 }
 
 function toggleBoost() {
-  // não pode usar se já foi usado nessa rodada de montagem
   if (boostUsado) return
-
   boostAtivo = !boostAtivo
   const btn  = document.getElementById('btn-boost')
   const hint = document.getElementById('boost-hint')
-
   if (boostAtivo) {
     btn.classList.add('ativo')
-    btn.textContent = '⚡ Boost Ativated!'
+    btn.textContent = '⚡ Boost Ativado!'
     hint.textContent = 'próxima rolagem garante itens raros ou lendários'
     hint.style.color = '#FBBF24'
   } else {
@@ -87,15 +84,23 @@ function toggleBoost() {
 }
 
 function consumirBoost() {
-  // chamado ao iniciar rolagem — usa o boost e bloqueia até resetar
   if (boostAtivo) {
     boostUsado = true
-    boostAtivo = false  // desativa APÓS sortear os itens finais
+    boostAtivo = false
     const btn  = document.getElementById('btn-boost')
     const hint = document.getElementById('boost-hint')
     if (btn)  { btn.classList.remove('ativo'); btn.classList.add('usado'); btn.textContent = '⚡ Boost Usado' }
     if (hint) { hint.textContent = 'boost disponível na próxima equipe'; hint.style.color = '' }
   }
+}
+
+function resetarBoost() {
+  boostAtivo = false
+  boostUsado = false
+  const btn  = document.getElementById('btn-boost')
+  const hint = document.getElementById('boost-hint')
+  if (btn)  { btn.classList.remove('ativo', 'usado'); btn.textContent = '⚡ Ativar Boost' }
+  if (hint) { hint.textContent = 'aumenta chance de itens raros por 1 rolagem'; hint.style.color = '' }
 }
 
 // ── ATUALIZA VISUAL DO CARD ──────────────
@@ -163,7 +168,6 @@ function spinCard(key, finalItem, onDone) {
   const interval = setInterval(() => {
     ticks++
     document.getElementById(key + '-nome').textContent = rand(pool).nome
-
     if (ticks >= maxTicks) {
       clearInterval(interval)
       chosen[key] = finalItem
@@ -177,15 +181,12 @@ function spinCard(key, finalItem, onDone) {
 // ── ATUALIZA VISUAL DOS CARDS ────────────
 function updateCardStates() {
   const keys = ['p1', 'p2', 'chassi', 'motor']
-
   keys.forEach(key => {
     const card = document.getElementById('card-' + key)
     const btn  = document.getElementById('lock-' + key)
-
     card.classList.remove('active-choice', 'locked', 'spinning')
     btn.style.display = 'none'
     btn.classList.remove('locked-state')
-
     if (locked[key]) {
       card.classList.add('locked')
       btn.style.display = 'block'
@@ -211,8 +212,6 @@ function rolarLivres(onDone) {
 
   spinningCount = livres.length
 
-  // sorteia os itens finais ANTES de desativar o boost
-  // assim o boost influences o sorteio dessa rodada
   const finais = {}
   livres.forEach(key => {
     const pool = poolOf(key)
@@ -221,10 +220,8 @@ function rolarLivres(onDone) {
       : weightedRand(pool)
   })
 
-  // desativa boost após sortear — não afeta rolagens futures
   consumirBoost()
 
-  // anima os cards com os itens já sorteados
   livres.forEach(key => {
     spinCard(key, finais[key], () => {
       spinningCount--
@@ -241,7 +238,7 @@ function iniciarRolagem() {
   document.getElementById('btn-simular').disabled = true
   document.getElementById('campanha').classList.remove('show')
   document.getElementById('btn-nova').classList.remove('show')
-  document.getElementById('rerolar-row').classList.remove('show') // ← adicionado aqui
+  document.getElementById('rerolar-row').classList.remove('show')
 
   phase = 'idle'
   const keys = ['p1', 'p2', 'chassi', 'motor']
@@ -325,51 +322,47 @@ function resetar() {
   document.getElementById('campanha').classList.remove('show')
   document.getElementById('btn-nova').classList.remove('show')
   document.getElementById('card-final').classList.remove('show')
+  document.getElementById('rerolar-row').classList.remove('show')
   document.getElementById('btn-simular').disabled = true
   document.getElementById('btn-rolar').disabled = false
-  document.getElementById('rerolar-row').classList.remove('show') // ← também garantido no resetar()
 
   const inputNome = document.getElementById('input-nome-equipe')
   if (inputNome) inputNome.value = ''
 
   setHint('Clique em "Rolar tudo" para começar')
-}
 
-function resetarBoost() {
-  boostAtivo = false
-  boostUsado = false
-  const btn  = document.getElementById('btn-boost')
-  const hint = document.getElementById('boost-hint')
-  if (btn)  { btn.classList.remove('ativo', 'usado'); btn.textContent = '⚡ Ativar Boost' }
-  if (hint) { hint.textContent = 'aumenta chance de itens raros por 1 rolagem'; hint.style.color = '' }
-}
-
-// ── NAVEGAÇÃO ENTRE TELAS ────────────────
-function irParaTela(nomeTela) {
-  document.querySelectorAll('.tela').forEach(t => t.classList.remove('active'))
-  document.getElementById('tela-' + nomeTela).classList.add('active')
-
-  document.querySelectorAll('.progresso-step').forEach(s => s.classList.remove('ativo'))
-  document.getElementById('step-' + nomeTela).classList.add('ativo')
-
-  // rola o documento e o elemento para o topo
-  window.scrollTo(0, 0)
-  document.documentElement.scrollTop = 0
-  document.body.scrollTop = 0
-
-  // garante que a tela ativa também começa do topo
-  const tela = document.getElementById('tela-' + nomeTela)
-  if (tela) tela.scrollTop = 0
+  // SEMPRE volta para a tela de equipe e corrige a bolinha de progresso
+  irParaTela('equipe')
 }
 
 function voltarParaEquipe() {
-  irParaTela('equipe')
   resetar()
 }
 
 // ── ATUALIZA O HINT ──────────────────────
 function setHint(texto) {
   document.getElementById('phase-hint').textContent = texto
+}
+
+// ── NAVEGAÇÃO ENTRE TELAS ────────────────
+function irParaTela(nomeTela) {
+  // remove .active de TODAS as telas, sem exceção
+  document.querySelectorAll('.tela').forEach(t => {
+    t.classList.remove('active')
+  })
+
+  // adiciona .active SÓ na tela escolhida
+  const telaAlvo = document.getElementById('tela-' + nomeTela)
+  if (telaAlvo) telaAlvo.classList.add('active')
+
+  // atualiza a bolinha de progresso
+  document.querySelectorAll('.progresso-step').forEach(s => {
+    s.classList.remove('ativo')
+  })
+  const stepAlvo = document.getElementById('step-' + nomeTela)
+  if (stepAlvo) stepAlvo.classList.add('ativo')
+
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 // ── CONECTA OS BOTÕES ────────────────────

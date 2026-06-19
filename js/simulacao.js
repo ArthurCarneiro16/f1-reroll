@@ -87,21 +87,22 @@ function renderCorrida(resultado, indice) {
     </div>
   `
 
-  setTimeout(() => row.classList.add('visible'), indice * 260)
+  setTimeout(() => {
+    row.classList.add('visible')
+    row.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, indice * 260)
+
   return row
 }
 
 function simularTemporada() {
   if (!chosen.p1 || !chosen.p2 || !chosen.chassi || !chosen.motor) return
 
-  // Item 2 adicionado aqui
   irParaTela('temporada')
 
-  // pega nome da equipe — usa o que o jogador digitou ou "Nossa Equipe"
   const inputNome = document.getElementById('input-nome-equipe')
   const nomeNossaEquipe = inputNome?.value.trim() || 'Nossa Equipe'
 
-  // Item 1 adicionado aqui
   document.getElementById('btn-simular').disabled = true
   document.getElementById('btn-rolar').disabled = true
   
@@ -115,7 +116,6 @@ function simularTemporada() {
   const nomeP1 = chosen.p1.nome + ` '${chosen.p1.ano}`
   const nomeP2 = chosen.p2.nome + ` '${chosen.p2.ano}`
 
-  // ── MONTA GRID SEM DUPLICATAS ──
   const pilotosDisponiveis = pilotos.filter(p =>
     !(p.nome === chosen.p1.nome && p.ano === chosen.p1.ano) &&
     !(p.nome === chosen.p2.nome && p.ano === chosen.p2.ano)
@@ -133,7 +133,6 @@ function simularTemporada() {
     .sort(() => Math.random() - 0.5)
     .slice(0, 18)
 
-  // ── 9 EQUIPES ADVERSÁRIAS DE 2 PILOTOS CADA ──
   const nomesEquipes = [
     'Scuderia Alpha', 'Team Omega',   'Apex Racing',
     'Veloce F1',      'Storm GP',     'Circuit Works',
@@ -148,14 +147,12 @@ function simularTemporada() {
     }
   })
 
-  // nossa equipe com nome personalizado
   equipes[nomeNossaEquipe] = {
     pilotos: [chosen.p1, chosen.p2],
     pts: 0,
     nossa: true
   }
 
-  // ── ACUMULADORES DE PILOTOS ──
   const campPilotos = {}
   gridAdversarios.forEach(p => {
     campPilotos[p.nome + ` '${p.ano}`] = 0
@@ -165,14 +162,12 @@ function simularTemporada() {
 
   let vitorias = 0, podeio = 0, abandonos = 0, pontos = 0
 
-  // ── SIMULA AS 21 CORRIDAS ──
   const resultados = corridas.map((c, i) => simularCorrida(c, i, corridas.length, gridAdversarios))
   const lista = document.getElementById('corridas-list')
 
   resultados.forEach((r, i) => {
     lista.appendChild(renderCorrida(r, i))
 
-    // pontos dos nossos pilotos
     const ptsFrente = !r.dnf ? (PTS[r.posFrente - 1] || 0) : 0
     const ptsAtras  = !r.dnf ? (PTS[r.posAtras  - 1] || 0) : 0
 
@@ -182,7 +177,6 @@ function simularTemporada() {
     campPilotos[nomeFrente] = (campPilotos[nomeFrente] || 0) + ptsFrente
     campPilotos[nomeAtras]  = (campPilotos[nomeAtras]  || 0) + ptsAtras
 
-    // pontos dos adversários — simula corrida por corrida
     const advNaCorrida = [...gridAdversarios]
       .map(a => ({ ...a, scoreCorr: a.score + (Math.random() * 20 - 10) }))
       .sort((a, b) => b.scoreCorr - a.scoreCorr)
@@ -199,7 +193,6 @@ function simularTemporada() {
     pontos += ptsFrente + ptsAtras
   })
 
-  // ── CALCULA PONTOS DOS CONSTRUTORES PELA SOMA DOS 2 PILOTOS ──
   Object.entries(equipes).forEach(([nomeEq, eq]) => {
     if (eq.nossa) {
       eq.pts = (campPilotos[nomeP1] || 0) + (campPilotos[nomeP2] || 0)
@@ -220,14 +213,11 @@ function simularTemporada() {
   ), delay)
 }
 
-// Item 3 modificado diretamente na assinatura da função original
 function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equipes, nomeP1, nomeP2, nomeNossaEquipe, gridAdversarios) {
-  // Item 4 adicionado aqui
   irParaTela('resultado')
 
   document.getElementById('card-final').classList.add('show')
 
-  // posição real no campeonato de pilotos
   const gridOrdenadoTemp = Object.entries(campPilotos)
     .sort((a, b) => b[1] - a[1])
 
@@ -292,7 +282,6 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
     })
   }, 100)
 
-  // ── CAMPEONATO DE PILOTOS — TOP 20 ──
   const gridOrdenado = Object.entries(campPilotos)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 20)
@@ -322,7 +311,6 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
     `
   }).join('')
 
-  // ── TOP 3 CONSTRUTORES ──
   const constOrdenados = Object.entries(equipes)
     .sort((a, b) => b[1].pts - a[1].pts)
     .slice(0, 3)
