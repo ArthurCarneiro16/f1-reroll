@@ -684,3 +684,286 @@
   border-color: var(--red);
   color: var(--red);
 }
+
+/* ══════════════════════════════
+   RESPONSIVO — MOBILE
+══════════════════════════════ */
+@media (max-width: 480px) {
+
+  .header {
+    padding: 1rem 1.25rem;
+  }
+
+  .page {
+    padding: 0 0.75rem 3rem;
+  }
+
+  /* Alterado para 2 colunas compactas conforme a imagem */
+  .slots-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .slot-card {
+    padding: 0.875rem;
+  }
+
+  .header-title {
+    font-size: 18px;
+  }
+
+  /* botões de ação empilhados */
+  .action-row {
+    flex-direction: column;
+  }
+
+  .boost-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  /* corridas com menos espaçamento */
+  .corrida-top {
+    gap: 6px;
+  }
+
+  .corrida-track {
+    width: 36px;
+    height: 26px;
+  }
+
+  .corrida-track svg {
+    width: 36px;
+    height: 26px;
+  }
+
+  .corrida-resultado {
+    min-width: 60px;
+    font-size: 12px;
+  }
+
+  /* card final mais compacto */
+  .final-titulo {
+    font-size: 18px;
+  }
+
+  .final-stats {
+    gap: 1rem;
+  }
+
+  .stat-item .stat-val {
+    font-size: 18px;
+  }
+
+  /* grid de pilotos com texto menor */
+  .grid-nome {
+    font-size: 11px;
+  }
+
+  .grid-pts {
+    font-size: 11px;
+    min-width: 36px;
+  }
+
+  .grid-tag {
+    display: block;
+    margin-left: 0;
+    margin-top: 2px;
+    width: fit-content;
+  }
+}
+/* ══════════════════════════════
+   SISTEMA DE ABAS / TELAS
+══════════════════════════════ */
+.tela {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.tela.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* indicador de progresso no topo */
+.progresso-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.progresso-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.progresso-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.3s;
+}
+
+.progresso-step.ativo .progresso-dot {
+  background: var(--red);
+}
+
+.progresso-step.ativo {
+  color: var(--text-primary);
+}
+
+.progresso-line {
+  width: 24px;
+  height: 1px;
+  background: var(--border);
+}
+/* ══════════════════════════════
+   COMPACTAÇÃO DA TELA DE EQUIPE
+══════════════════════════════ */
+.tela-equipe {
+  display: flex;
+  flex-direction: column;
+}
+
+.tela-equipe .phase-hint {
+  margin-bottom: .5rem;
+  font-size: 11px;
+}
+
+/* Atualizado para garantir 2 colunas e margem inferior reduzida */
+.tela-equipe .slots-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: .5rem;
+}
+
+.tela-equipe .slot-card {
+  padding: .6rem;
+}
+
+.tela-equipe .slot-label {
+  font-size: 9px;
+  margin-bottom: 3px;
+}
+
+.tela-equipe .slot-icon {
+  font-size: 18px;
+  min-height: 22px;
+  margin-bottom: 2px;
+}
+
+.tela-equipe .slot-name {
+  font-size: 12px;
+  min-height: 16px;
+}
+
+.tela-equipe .slot-sub {
+  font-size: 10px;
+  min-height: 12px;
+}
+
+.tela-equipe .slot-stars {
+  font-size: 9px;
+  margin-top: 1px;
+  min-height: 10px;
+}
+
+.tela-equipe .attr-row {
+  margin-top: 2px;
+  font-size: 9px;
+  gap: 4px;
+}
+
+.tela-equipe .attr-lbl {
+  width: 48px;
+}
+
+.tela-equipe .attr-num {
+  width: 18px;
+}
+
+.tela-equipe .lock-btn {
+  margin-top: 5px;
+  padding: 3px 0;
+  font-size: 10px;
+}
+
+.tela-equipe .boost-row {
+  margin-bottom: .5rem;
+}
+
+.tela-equipe .btn-boost {
+  padding: 6px 10px;
+  font-size: 11px;
+}
+
+.tela-equipe .boost-hint {
+  font-size: 10px;
+}
+
+.tela-equipe .nome-equipe-row {
+  margin-bottom: .5rem;
+}
+
+.tela-equipe .input-nome-equipe {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.tela-equipe .rerolar-row {
+  margin-bottom: .5rem;
+}
+
+.tela-equipe .btn-rerolar {
+  padding: 8px;
+  font-size: 12px;
+}
+
+.tela-equipe .action-row {
+  margin-bottom: 0;
+}
+
+.tela-equipe .btn {
+  padding: 10px 16px;
+  font-size: 13px;
+}
+
+/* reduz header em telas pequenas para sobrar espaço */
+@media (max-height: 750px) {
+  .site-header {
+    padding: .75rem 1.5rem;
+    margin-bottom: .75rem;
+  }
+
+  .progresso-row {
+    margin-bottom: .75rem;
+  }
+
+  .page {
+    padding: 0 .75rem 1rem;
+  }
+  .page {
+  overflow: hidden;
+}
+
+.tela {
+  overflow-y: auto;
+  max-height: calc(100vh - 140px);
+}
+
+.tela-equipe {
+  overflow: visible;
+  max-height: none;
+}
+}

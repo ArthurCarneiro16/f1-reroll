@@ -75,7 +75,7 @@ function toggleBoost() {
 
   if (boostAtivo) {
     btn.classList.add('ativo')
-    btn.textContent = '⚡ Boost Ativado!'
+    btn.textContent = '⚡ Boost Ativated!'
     hint.textContent = 'próxima rolagem garante itens raros ou lendários'
     hint.style.color = '#FBBF24'
   } else {
@@ -96,15 +96,6 @@ function consumirBoost() {
     if (btn)  { btn.classList.remove('ativo'); btn.classList.add('usado'); btn.textContent = '⚡ Boost Usado' }
     if (hint) { hint.textContent = 'boost disponível na próxima equipe'; hint.style.color = '' }
   }
-}
-
-function resetarBoost() {
-  boostAtivo = false
-  boostUsado = false
-  const btn  = document.getElementById('btn-boost')
-  const hint = document.getElementById('boost-hint')
-  if (btn)  { btn.classList.remove('ativo', 'usado'); btn.textContent = '⚡ Ativar Boost' }
-  if (hint) { hint.textContent = 'aumenta chance de itens raros por 1 rolagem'; hint.style.color = '' }
 }
 
 // ── ATUALIZA VISUAL DO CARD ──────────────
@@ -221,7 +212,7 @@ function rolarLivres(onDone) {
   spinningCount = livres.length
 
   // sorteia os itens finais ANTES de desativar o boost
-  // assim o boost influencia o sorteio dessa rodada
+  // assim o boost influences o sorteio dessa rodada
   const finais = {}
   livres.forEach(key => {
     const pool = poolOf(key)
@@ -342,6 +333,38 @@ function resetar() {
   if (inputNome) inputNome.value = ''
 
   setHint('Clique em "Rolar tudo" para começar')
+}
+
+function resetarBoost() {
+  boostAtivo = false
+  boostUsado = false
+  const btn  = document.getElementById('btn-boost')
+  const hint = document.getElementById('boost-hint')
+  if (btn)  { btn.classList.remove('ativo', 'usado'); btn.textContent = '⚡ Ativar Boost' }
+  if (hint) { hint.textContent = 'aumenta chance de itens raros por 1 rolagem'; hint.style.color = '' }
+}
+
+// ── NAVEGAÇÃO ENTRE TELAS ────────────────
+function irParaTela(nomeTela) {
+  document.querySelectorAll('.tela').forEach(t => t.classList.remove('active'))
+  document.getElementById('tela-' + nomeTela).classList.add('active')
+
+  document.querySelectorAll('.progresso-step').forEach(s => s.classList.remove('ativo'))
+  document.getElementById('step-' + nomeTela).classList.add('ativo')
+
+  // rola o documento e o elemento para o topo
+  window.scrollTo(0, 0)
+  document.documentElement.scrollTop = 0
+  document.body.scrollTop = 0
+
+  // garante que a tela ativa também começa do topo
+  const tela = document.getElementById('tela-' + nomeTela)
+  if (tela) tela.scrollTop = 0
+}
+
+function voltarParaEquipe() {
+  irParaTela('equipe')
+  resetar()
 }
 
 // ── ATUALIZA O HINT ──────────────────────

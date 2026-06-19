@@ -94,12 +94,17 @@ function renderCorrida(resultado, indice) {
 function simularTemporada() {
   if (!chosen.p1 || !chosen.p2 || !chosen.chassi || !chosen.motor) return
 
+  // Item 2 adicionado aqui
+  irParaTela('temporada')
+
   // pega nome da equipe — usa o que o jogador digitou ou "Nossa Equipe"
   const inputNome = document.getElementById('input-nome-equipe')
   const nomeNossaEquipe = inputNome?.value.trim() || 'Nossa Equipe'
 
+  // Item 1 adicionado aqui
   document.getElementById('btn-simular').disabled = true
   document.getElementById('btn-rolar').disabled = true
+  
   document.getElementById('seed-txt').textContent =
     'seed #' + Math.random().toString(36).substr(2, 5).toUpperCase()
   document.getElementById('corridas-list').innerHTML = ''
@@ -215,7 +220,11 @@ function simularTemporada() {
   ), delay)
 }
 
+// Item 3 modificado diretamente na assinatura da função original
 function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equipes, nomeP1, nomeP2, nomeNossaEquipe, gridAdversarios) {
+  // Item 4 adicionado aqui
+  irParaTela('resultado')
+
   document.getElementById('card-final').classList.add('show')
 
   // posição real no campeonato de pilotos

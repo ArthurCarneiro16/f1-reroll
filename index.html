@@ -20,85 +20,105 @@
 
   <main class="page">
 
-    <p class="phase-hint" id="phase-hint">Clique em "Rolar tudo" para começar</p>
-
-    <div class="slots-grid">
-
-      <div class="slot-card" id="card-p1">
-        <span class="slot-label">Piloto 1</span>
-        <span class="slot-icon">🧑‍✈️</span>
-        <p class="slot-name" id="p1-nome">—</p>
-        <p class="slot-sub" id="p1-sub">role para sortear</p>
-        <p class="slot-stars" id="p1-stars"></p>
-        <div class="slot-attrs" id="p1-attrs"></div>
-        <button class="lock-btn" id="lock-p1">travar</button>
+    <div class="progresso-row" id="progresso-row">
+      <div class="progresso-step ativo" id="step-equipe">
+        <span class="progresso-dot"></span>
+        <span>Equipe</span>
       </div>
-
-      <div class="slot-card" id="card-p2">
-        <span class="slot-label">Piloto 2</span>
-        <span class="slot-icon">🧑‍✈️</span>
-        <p class="slot-name" id="p2-nome">—</p>
-        <p class="slot-sub" id="p2-sub">role para sortear</p>
-        <p class="slot-stars" id="p2-stars"></p>
-        <div class="slot-attrs" id="p2-attrs"></div>
-        <button class="lock-btn" id="lock-p2">travar</button>
+      <span class="progresso-line"></span>
+      <div class="progresso-step" id="step-temporada">
+        <span class="progresso-dot"></span>
+        <span>Temporada</span>
       </div>
-
-      <div class="slot-card" id="card-chassi">
-        <span class="slot-label">Chassi</span>
-        <span class="slot-icon">🏎️</span>
-        <p class="slot-name" id="chassi-nome">—</p>
-        <p class="slot-sub" id="chassi-sub">role para sortear</p>
-        <p class="slot-stars" id="chassi-stars"></p>
-        <div class="slot-attrs" id="chassi-attrs"></div>
-        <button class="lock-btn" id="lock-chassi">travar</button>
+      <span class="progresso-line"></span>
+      <div class="progresso-step" id="step-resultado">
+        <span class="progresso-dot"></span>
+        <span>Resultado</span>
       </div>
-
-      <div class="slot-card" id="card-motor">
-        <span class="slot-label">Motor</span>
-        <span class="slot-icon">⚙️</span>
-        <p class="slot-name" id="motor-nome">—</p>
-        <p class="slot-sub" id="motor-sub">role para sortear</p>
-        <p class="slot-stars" id="motor-stars"></p>
-        <div class="slot-attrs" id="motor-attrs"></div>
-        <button class="lock-btn" id="lock-motor">travar</button>
-      </div>
-
-    </div>
-    <div class="boost-row">
-      <button class="btn-boost" id="btn-boost" onclick="toggleBoost()">
-        ⚡ Ativar Boost de Raridade
-      </button>
-      <span class="boost-hint" id="boost-hint">aumenta chance de itens raros por 1 rolagem</span>
     </div>
 
-    <div class="nome-equipe-row">
-      <input 
-        type="text" 
-        id="input-nome-equipe" 
-        class="input-nome-equipe" 
-        placeholder="Nome da sua equipe (opcional)"
-        maxlength="30"
-      >
-    </div>
+    <section class="tela tela-equipe active" id="tela-equipe">
 
-    <div class="action-row">
-      <button class="btn btn-primary" id="btn-rolar">🎲 Rolar tudo</button>
-      <button class="btn btn-secondary" id="btn-simular" disabled>▶ Simular</button>
-    </div>
+      <p class="phase-hint" id="phase-hint">Clique em "Rolar tudo" para começar</p>
 
-    <div class="rerolar-row" id="rerolar-row">
-      <button class="btn-rerolar" onclick="resetar()">↺ Montar nova equipe</button>
-    </div>
+      <div class="slots-grid">
 
-    <div class="campanha" id="campanha">
-      <div class="campanha-header">
-        <p class="campanha-meta">a temporada · <span id="seed-txt"></span></p>
-        <h2 class="campanha-title">a campanha</h2>
+        <div class="slot-card" id="card-p1">
+          <span class="slot-label">Piloto 1</span>
+          <span class="slot-icon">🧑‍✈️</span>
+          <p class="slot-name" id="p1-nome">—</p>
+          <p class="slot-sub" id="p1-sub">role para sortear</p>
+          <p class="slot-stars" id="p1-stars"></p>
+          <div class="slot-attrs" id="p1-attrs"></div>
+          <button class="lock-btn" id="lock-p1">travar</button>
+        </div>
+
+        <div class="slot-card" id="card-p2">
+          <span class="slot-label">Piloto 2</span>
+          <span class="slot-icon">🧑‍✈️</span>
+          <p class="slot-name" id="p2-nome">—</p>
+          <p class="slot-sub" id="p2-sub">role para sortear</p>
+          <p class="slot-stars" id="p2-stars"></p>
+          <div class="slot-attrs" id="p2-attrs"></div>
+          <button class="lock-btn" id="lock-p2">travar</button>
+        </div>
+
+        <div class="slot-card" id="card-chassi">
+          <span class="slot-label">Chassi</span>
+          <span class="slot-icon">🏎️</span>
+          <p class="slot-name" id="chassi-nome">—</p>
+          <p class="slot-sub" id="chassi-sub">role para sortear</p>
+          <p class="slot-stars" id="chassi-stars"></p>
+          <div class="slot-attrs" id="chassi-attrs"></div>
+          <button class="lock-btn" id="lock-chassi">travar</button>
+        </div>
+
+        <div class="slot-card" id="card-motor">
+          <span class="slot-label">Motor</span>
+          <span class="slot-icon">⚙️</span>
+          <p class="slot-name" id="motor-nome">—</p>
+          <p class="slot-sub" id="motor-sub">role para sortear</p>
+          <p class="slot-stars" id="motor-stars"></p>
+          <div class="slot-attrs" id="motor-attrs"></div>
+          <button class="lock-btn" id="lock-motor">travar</button>
+        </div>
+
       </div>
-      <div id="corridas-list"></div>
 
-      <div class="card-final" id="card-final">
+      <div class="boost-row">
+        <button class="btn-boost" id="btn-boost" onclick="toggleBoost()">
+          ⚡ Ativar Boost
+        </button>
+        <span class="boost-hint" id="boost-hint">aumenta chance de itens raros por 1 rolagem</span>
+      </div>
+
+      <div class="nome-equipe-row">
+        <input type="text" id="input-nome-equipe" class="input-nome-equipe" placeholder="Nome da sua equipe (opcional)" maxlength="30">
+      </div>
+
+      <div class="rerolar-row" id="rerolar-row">
+        <button class="btn-rerolar" onclick="resetar()">↺ Montar nova equipe</button>
+      </div>
+
+      <div class="action-row">
+        <button class="btn btn-primary" id="btn-rolar">🎲 Rolar tudo</button>
+        <button class="btn btn-secondary" id="btn-simular" disabled>▶ Simular</button>
+      </div>
+
+    </section>
+
+    <section class="tela tela-temporada" id="tela-temporada">
+      <div class="campanha show" id="campanha">
+        <div class="campanha-header">
+          <p class="campanha-meta">a temporada · <span id="seed-txt"></span></p>
+          <h2 class="campanha-title">a campanha</h2>
+        </div>
+        <div id="corridas-list"></div>
+      </div>
+    </section>
+
+    <section class="tela tela-resultado" id="tela-resultado">
+      <div class="card-final show" id="card-final">
 
         <div class="final-hero">
           <p class="final-label">resultado da temporada</p>
@@ -119,10 +139,11 @@
         </div>
 
       </div>
+
+      <div class="btn-nova show" id="btn-nova">
+        <button class="btn btn-primary" onclick="voltarParaEquipe()">↺ Nova temporada</button>
       </div>
-    <div class="btn-nova" id="btn-nova">
-      <button class="btn btn-primary" onclick="resetar()">↺ Nova temporada</button>
-    </div>
+    </section>
 
   </main>
 
