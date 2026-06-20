@@ -1,0 +1,17 @@
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+*.code-workspace
+
+# Node (caso adicione no futuro)
+node_modules/
+
+# Python (caso adicione no futuro)
+__pycache__/
+*.pyc
+venv/
+.env
