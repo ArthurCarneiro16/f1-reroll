@@ -5,6 +5,8 @@ Monte sua equipe sorteando pilotos, chassi e motor de **1994 a 2025** e simule u
 
 > Projeto desenvolvido como trabalho de faculdade, usando IA como ferramenta de aprendizado e desenvolvimento — não só para gerar código, mas para entender cada decisão técnica e de design ao longo do processo.
 
+🔗 **[Jogar agora](https://arthurcarneiro16.github.io/f1-manager/)**
+
 ---
 
 ## 🎮 Como jogar
@@ -38,7 +40,8 @@ Sortear **Senna + Red Bull RB19 + Honda RBPTH002** é quase impossível — e é
 - **Ayrton Senna** como lenda especial com status 99 em tudo — uma homenagem
 - **27 chassi** históricos das eras V10, V8, V6 híbrido e 2022+
 - **21 motores** históricos com potência e durabilidade reais
-- **21 GPs** com traçados SVG e probabilidade de chuva por circuito
+- **21 GPs** com traçados SVG, probabilidade de chuva e perfil de circuito
+- Bônus por perfil de circuito: técnico, potência, resistência e misto
 - Bônus de chuva para pilotos como Hamilton e Senna
 - Bônus de pressão nas últimas 5 corridas da temporada
 - DNF probabilístico baseado na durabilidade do motor
@@ -52,12 +55,21 @@ Sortear **Senna + Red Bull RB19 + Honda RBPTH002** é quase impossível — e é
 Cada corrida calcula individualmente o score dos dois pilotos:
 
 ```
-score_piloto = corrida + bônus_chuva + bônus_pressão
+score_piloto = corrida + bônus_chuva + bônus_pressão + bônus_circuito
 score_carro  = chassi × 0.55 + motor × 0.45
 score_final  = score_piloto × 0.40 + score_carro × 0.60 + variância (±12)
 ```
 
 O carro vale **60%** do resultado — fiel à realidade da F1, onde o carro é determinante. O piloto com maior score sempre termina à frente do companheiro de equipe.
+
+### Perfis de circuito
+
+| Perfil | Circuitos | Bônus |
+|---|---|---|
+| ⚙️ Técnico | Mônaco, Japão, Hungria, Holanda | quali + estabilidade do chassi |
+| 💨 Potência | Monza, Spa, Áustria, Azerbaijão, Las Vegas, Arábia Saudita | potência do motor |
+| 🏁 Resistência | Bahrein, Singapura, México, Abu Dhabi | durabilidade + pneus |
+| Misto | demais GPs | sem bônus extra |
 
 ---
 
@@ -65,15 +77,10 @@ O carro vale **60%** do resultado — fiel à realidade da F1, onde o carro é d
 
 ```
 f1-manager/
-├── assets/
-│   └── pilotos/        ← fotos dos pilotos (em construção)
 ├── css/
 │   ├── reset.css       ← zera estilos do browser
 │   ├── style.css       ← layout e componentes
 │   └── variables.css   ← cores, fontes e tokens de design
-├── files/
-│   ├── f1_manager_escopo.txt   ← escopo completo do projeto
-│   └── f1_manager_tabelas.txt  ← tabela de atributos de todos os itens
 ├── js/
 │   ├── data.js         ← pilotos, chassi, motores e corridas
 │   ├── roleta.js       ← lógica de sorteio e raridade
@@ -100,12 +107,12 @@ f1-manager/
 - [x] Mecânica de travar um → rolar os outros
 - [x] 70+ pilotos históricos com atributos calibrados
 - [x] Simulação de 21 GPs corrida por corrida
+- [x] Perfis de circuito com bônus e eventos por pista
 - [x] Bônus de chuva e pressão
 - [x] Campeonato de pilotos e construtores
-- [ ] Backend Python para salvar partidas
-- [ ] Arte individual dos pilotos
+- [x] Publicado via GitHub Pages
 - [ ] Card compartilhável da temporada
-- [ ] Eventos por circuito (Monaco, Monza, Spa)
+- [ ] Backend Python para salvar partidas
 - [ ] Rust/WebAssembly no motor de simulação
 
 ---
