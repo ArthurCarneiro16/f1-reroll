@@ -86,6 +86,8 @@ const pilotos = [
   { nome:"Franco Colapinto",   nac:"🇦🇷", ano:2025, score:74, corrida:73, quali:76, pneus:70, chuva:72, pressao:70 },
   { nome:"Oliver Bearman",     nac:"🇬🇧", ano:2025, score:72, corrida:71, quali:74, pneus:68, chuva:66, pressao:68 },
   { nome:"Kimi Antonelli",     nac:"🇮🇹", ano:2025, score:78, corrida:76, quali:82, pneus:70, chuva:72, pressao:72 },
+  { nome:"Isack Hadjar",       nac:"🇫🇷", ano:2025, score:73, corrida:72, quali:75, pneus:68, chuva:66, pressao:68 },
+  { nome:"Arvid Lindblad",     nac:"🇸🇪", ano:2025, score:70, corrida:69, quali:72, pneus:66, chuva:64, pressao:65 },
 ];
 
 const chassis = [
@@ -147,27 +149,27 @@ const motores = [
 ];
 
 const corridas = [
-  { gp:"Bahrein",        pais:"🇧🇭", track:"bahrain",   chuva:0.10 },
-  { gp:"Arábia Saudita", pais:"🇸🇦", track:"arabia",    chuva:0.05 },
-  { gp:"Austrália",      pais:"🇦🇺", track:"australia",  chuva:0.35 },
-  { gp:"Japão",          pais:"🇯🇵", track:"japao",      chuva:0.30 },
-  { gp:"China",          pais:"🇨🇳", track:"china",      chuva:0.15 },
-  { gp:"Mônaco",         pais:"🇲🇨", track:"monaco",     chuva:0.30 },
-  { gp:"Canadá",         pais:"🇨🇦", track:"canada",     chuva:0.35 },
-  { gp:"Espanha",        pais:"🇪🇸", track:"espanha",    chuva:0.10 },
-  { gp:"Áustria",        pais:"🇦🇹", track:"austria",    chuva:0.30 },
-  { gp:"Grã-Bretanha",   pais:"🇬🇧", track:"gb",         chuva:0.40 },
-  { gp:"Bélgica",        pais:"🇧🇪", track:"belgica",    chuva:0.45 },
-  { gp:"Hungria",        pais:"🇭🇺", track:"hungria",    chuva:0.15 },
-  { gp:"Holanda",        pais:"🇳🇱", track:"holanda",    chuva:0.35 },
-  { gp:"Itália",         pais:"🇮🇹", track:"italia",     chuva:0.10 },
-  { gp:"Azerbaijão",     pais:"🇦🇿", track:"azerbaijao", chuva:0.05 },
-  { gp:"Singapura",      pais:"🇸🇬", track:"singapore",  chuva:0.50 },
-  { gp:"Estados Unidos", pais:"🇺🇸", track:"eua",        chuva:0.15 },
-  { gp:"México",         pais:"🇲🇽", track:"mexico",     chuva:0.10 },
-  { gp:"Brasil",         pais:"🇧🇷", track:"brasil",     chuva:0.45 },
-  { gp:"Las Vegas",      pais:"🇺🇸", track:"lasvegas",   chuva:0.05 },
-  { gp:"Abu Dhabi",      pais:"🇦🇪", track:"abudhabi",   chuva:0.00 },
+  { gp:"Bahrein",        pais:"🇧🇭", track:"bahrain",   chuva:0.10, perfil:"resistencia" },
+  { gp:"Arábia Saudita", pais:"🇸🇦", track:"arabia",    chuva:0.05, perfil:"potencia"    },
+  { gp:"Austrália",      pais:"🇦🇺", track:"australia",  chuva:0.35, perfil:"misto"       },
+  { gp:"Japão",          pais:"🇯🇵", track:"japao",      chuva:0.30, perfil:"tecnico"     },
+  { gp:"China",          pais:"🇨🇳", track:"china",      chuva:0.15, perfil:"misto"       },
+  { gp:"Mônaco",         pais:"🇲🇨", track:"monaco",     chuva:0.30, perfil:"tecnico"     },
+  { gp:"Canadá",         pais:"🇨🇦", track:"canada",     chuva:0.35, perfil:"misto"       },
+  { gp:"Espanha",        pais:"🇪🇸", track:"espanha",    chuva:0.10, perfil:"misto"       },
+  { gp:"Áustria",        pais:"🇦🇹", track:"austria",    chuva:0.30, perfil:"potencia"    },
+  { gp:"Grã-Bretanha",   pais:"🇬🇧", track:"gb",         chuva:0.40, perfil:"misto"       },
+  { gp:"Bélgica",        pais:"🇧🇪", track:"belgica",    chuva:0.45, perfil:"potencia"    },
+  { gp:"Hungria",        pais:"🇭🇺", track:"hungria",    chuva:0.15, perfil:"tecnico"     },
+  { gp:"Holanda",        pais:"🇳🇱", track:"holanda",    chuva:0.35, perfil:"tecnico"     },
+  { gp:"Itália",         pais:"🇮🇹", track:"italia",     chuva:0.10, perfil:"potencia"    },
+  { gp:"Azerbaijão",     pais:"🇦🇿", track:"azerbaijao", chuva:0.05, perfil:"potencia"    },
+  { gp:"Singapura",      pais:"🇸🇬", track:"singapore",  chuva:0.50, perfil:"resistencia" },
+  { gp:"Estados Unidos", pais:"🇺🇸", track:"eua",        chuva:0.15, perfil:"misto"       },
+  { gp:"México",         pais:"🇲🇽", track:"mexico",     chuva:0.10, perfil:"resistencia" },
+  { gp:"Brasil",         pais:"🇧🇷", track:"brasil",     chuva:0.45, perfil:"misto"       },
+  { gp:"Las Vegas",      pais:"🇺🇸", track:"lasvegas",   chuva:0.05, perfil:"potencia"    },
+  { gp:"Abu Dhabi",      pais:"🇦🇪", track:"abudhabi",   chuva:0.00, perfil:"resistencia" },
 ];
 
 const evW = [
@@ -196,6 +198,26 @@ const evD = [
   "Pneu furado na reta principal",
   "Superaquecimento forçou abandono",
 ];
+
+// Eventos específicos por perfil de circuito
+const evCircuito = {
+  tecnico: [
+    "Trajetória perfeita nas curvas lentas 🎯",
+    "Setup técnico se destacou no setor 2",
+    "Downforce extra fez diferença nas chicanes",
+  ],
+  potencia: [
+    "Motor respondeu bem nas retas longas 💨",
+    "DRS explorado ao máximo na reta principal",
+    "Vantagem de potência decisiva na frenagem",
+  ],
+  resistencia: [
+    "Gerenciamento impecável dos pneus 🏁",
+    "Degradação controlada ao longo da corrida",
+    "Estratégia de 1 parada funcionou perfeitamente",
+  ],
+  misto: [],
+};
 
 const tracks = {
   bahrain:    `<svg viewBox="0 0 80 56" fill="none"><path d="M10 44 L10 30 Q10 24 16 24 L30 24 Q36 24 36 18 L36 10 Q36 6 40 6 L60 6 Q66 6 66 12 L66 20 Q66 26 60 26 L54 26 Q50 26 50 30 L50 38 Q50 44 44 44 L16 44 Q10 44 10 38" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,

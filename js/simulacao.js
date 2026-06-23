@@ -3,14 +3,29 @@
 // Motor de corrida e campeonato
 // ═══════════════════════════════════════
 
-function scoreIndividual(piloto, chassi, motor, chuvaProbabilidade, isDecisiva) {
-  const choveu = Math.random() < chuvaProbabilidade
-  const bonusChuva = choveu ? (piloto.chuva - 75) * 0.18 : 0
-  const bonusPressao = isDecisiva ? (piloto.pressao - 80) * 0.12 : 0
-  const scorePiloto = piloto.corrida + bonusChuva + bonusPressao
-  const scoreCarro = chassi.score * 0.55 + motor.score * 0.45
-  const variancia = (Math.random() * 24) - 12
-  const scoreFinal = scorePiloto * 0.40 + scoreCarro * 0.60 + variancia
+function scoreIndividual(piloto, chassi, motor, corrida, isDecisiva) {
+  const choveu = Math.random() < corrida.chuva
+  const bonusChuva    = choveu ? (piloto.chuva - 75) * 0.18 : 0
+  const bonusPressao  = isDecisiva ? (piloto.pressao - 80) * 0.12 : 0
+
+  // Bônus por perfil de circuito (pequenos, ±3 a 6 pts)
+  let bonusCircuito = 0
+  if (corrida.perfil === 'tecnico') {
+    // Favorece quali e estabilidade do chassi
+    bonusCircuito = (piloto.quali - 80) * 0.08 + (chassi.estab - 80) * 0.06
+  } else if (corrida.perfil === 'potencia') {
+    // Favorece score do motor
+    bonusCircuito = (motor.potencia - 80) * 0.10
+  } else if (corrida.perfil === 'resistencia') {
+    // Favorece durabilidade do motor e pneus do piloto
+    bonusCircuito = (motor.durabi - 80) * 0.08 + (piloto.pneus - 80) * 0.05
+  }
+  // perfil 'misto' não aplica bônus
+
+  const scorePiloto = piloto.corrida + bonusChuva + bonusPressao + bonusCircuito
+  const scoreCarro  = chassi.score * 0.55 + motor.score * 0.45
+  const variancia   = (Math.random() * 24) - 12
+  const scoreFinal  = scorePiloto * 0.40 + scoreCarro * 0.60 + variancia
   return { score: scoreFinal, choveu }
 }
 
@@ -26,8 +41,8 @@ function simularCorrida(corrida, indice, totalCorridas, gridAdversarios) {
     a.score + (Math.random() * 20 - 10)
   )
 
-  const resultA = scoreIndividual(chosen.p1, chosen.chassi, chosen.motor, corrida.chuva, isDecisiva)
-  const resultB = scoreIndividual(chosen.p2, chosen.chassi, chosen.motor, corrida.chuva, isDecisiva)
+  const resultA = scoreIndividual(chosen.p1, chosen.chassi, chosen.motor, corrida, isDecisiva)
+  const resultB = scoreIndividual(chosen.p2, chosen.chassi, chosen.motor, corrida, isDecisiva)
 
   const [pFrente, pAtras, sFrente, sAtras] = resultA.score >= resultB.score
     ? [chosen.p1, chosen.p2, resultA.score, resultB.score]
@@ -45,10 +60,18 @@ function simularCorrida(corrida, indice, totalCorridas, gridAdversarios) {
   if (dnf) posAtras = Math.floor(Math.random() * 7) + 14
 
   const win = posFrente === 1 && !dnf
-  const evPool = dnf ? evD : win ? evW : evO
-  const evento = Math.random() < 0.65
-    ? evPool[Math.floor(Math.random() * evPool.length)]
-    : ''
+
+  // Escolhe pool de eventos: prioriza evento de circuito se disponível
+  let evento = ''
+  const poolCircuito = evCircuito[corrida.perfil] || []
+  const temEventoCircuito = poolCircuito.length > 0 && Math.random() < 0.40
+
+  if (temEventoCircuito) {
+    evento = poolCircuito[Math.floor(Math.random() * poolCircuito.length)]
+  } else if (Math.random() < 0.65) {
+    const evPool = dnf ? evD : win ? evW : evO
+    evento = evPool[Math.floor(Math.random() * evPool.length)]
+  }
 
   return { corrida, pFrente, pAtras, posFrente, posAtras, win, dnf, choveu: resultA.choveu, evento }
 }
@@ -65,6 +88,17 @@ function renderCorrida(resultado, indice) {
       ? `P${posFrente}/P${posAtras} ✓`
       : `P${posFrente}/P${posAtras}`
 
+  // Badge de perfil do circuito
+  const perfilLabels = {
+    tecnico:    '⚙️ Técnico',
+    potencia:   '💨 Potência',
+    resistencia:'🏁 Resistência',
+    misto:      '',
+  }
+  const perfilBadge = perfilLabels[corrida.perfil]
+    ? `<span class="corrida-perfil">${perfilLabels[corrida.perfil]}</span>`
+    : ''
+
   row.innerHTML = `
     <div class="corrida-top">
       <div class="corrida-track" style="color: var(--text-muted)">
@@ -74,6 +108,7 @@ function renderCorrida(resultado, indice) {
         <div class="corrida-nome-row">
           <span class="corrida-flag">${corrida.pais}</span>
           <span class="corrida-nome">${corrida.gp}</span>
+          ${perfilBadge}
           ${choveu ? ' 🌧️' : ''}
         </div>
         <div class="corrida-pilotos">
@@ -105,7 +140,7 @@ function simularTemporada() {
 
   document.getElementById('btn-simular').disabled = true
   document.getElementById('btn-rolar').disabled = true
-  
+
   document.getElementById('seed-txt').textContent =
     'seed #' + Math.random().toString(36).substr(2, 5).toUpperCase()
   document.getElementById('corridas-list').innerHTML = ''
