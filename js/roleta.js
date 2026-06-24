@@ -331,7 +331,6 @@ function resetar() {
 
   setHint('Clique em "Rolar tudo" para começar')
 
-  // SEMPRE volta para a tela de equipe e corrige a bolinha de progresso
   irParaTela('equipe')
 }
 
@@ -346,21 +345,21 @@ function setHint(texto) {
 
 // ── NAVEGAÇÃO ENTRE TELAS ────────────────
 function irParaTela(nomeTela) {
-  // remove .active de TODAS as telas, sem exceção
-  document.querySelectorAll('.tela').forEach(t => {
-    t.classList.remove('active')
-  })
+  document.querySelectorAll('.tela').forEach(t => t.classList.remove('active'))
 
-  // adiciona .active SÓ na tela escolhida
   const telaAlvo = document.getElementById('tela-' + nomeTela)
   if (telaAlvo) telaAlvo.classList.add('active')
 
-  // atualiza a bolinha de progresso
-  document.querySelectorAll('.progresso-step').forEach(s => {
-    s.classList.remove('ativo')
-  })
-  const stepAlvo = document.getElementById('step-' + nomeTela)
-  if (stepAlvo) stepAlvo.classList.add('ativo')
+  // Progresso: só aparece fora da landing
+  const progressoRow = document.getElementById('progresso-row')
+  if (nomeTela === 'inicio') {
+    progressoRow.style.display = 'none'
+  } else {
+    progressoRow.style.display = 'flex'
+    document.querySelectorAll('.progresso-step').forEach(s => s.classList.remove('ativo'))
+    const stepAlvo = document.getElementById('step-' + nomeTela)
+    if (stepAlvo) stepAlvo.classList.add('ativo')
+  }
 
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }

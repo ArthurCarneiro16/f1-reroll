@@ -20,7 +20,74 @@
 
   <main class="page">
 
-    <div class="progresso-row" id="progresso-row">
+    <!-- ═══════════════════════════════════
+         TELA 0 — LANDING PAGE
+    ═══════════════════════════════════ -->
+    <section class="tela tela-inicio active" id="tela-inicio">
+
+      <div class="inicio-hero">
+        <p class="inicio-eyebrow">temporada 1994 — 2025</p>
+        <h2 class="inicio-titulo">Monte sua equipe.<br>Dispute o campeonato.</h2>
+        <p class="inicio-desc">
+          Sorteie pilotos, chassi e motor de qualquer era da F1.
+          Trave o que quiser, reole o resto — e simule 21 GPs corrida por corrida.
+        </p>
+        <button class="btn btn-primary inicio-cta" onclick="irParaTela('equipe')">
+          🎲 Jogar agora
+        </button>
+      </div>
+
+      <div class="inicio-steps">
+        <div class="inicio-step">
+          <span class="inicio-step-num">01</span>
+          <div class="inicio-step-info">
+            <p class="inicio-step-titulo">Role</p>
+            <p class="inicio-step-desc">Sorteie 2 pilotos, 1 chassi e 1 motor com sistema de raridade gacha</p>
+          </div>
+        </div>
+        <div class="inicio-step">
+          <span class="inicio-step-num">02</span>
+          <div class="inicio-step-info">
+            <p class="inicio-step-titulo">Trave</p>
+            <p class="inicio-step-desc">Escolha um item para guardar — os outros rolam novamente</p>
+          </div>
+        </div>
+        <div class="inicio-step">
+          <span class="inicio-step-num">03</span>
+          <div class="inicio-step-info">
+            <p class="inicio-step-titulo">Simule</p>
+            <p class="inicio-step-desc">Acompanhe os 21 GPs e veja onde você termina no campeonato</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="inicio-stats">
+        <div class="inicio-stat">
+          <span class="inicio-stat-val">70+</span>
+          <span class="inicio-stat-lbl">pilotos</span>
+        </div>
+        <div class="inicio-stat">
+          <span class="inicio-stat-val">27</span>
+          <span class="inicio-stat-lbl">chassi</span>
+        </div>
+        <div class="inicio-stat">
+          <span class="inicio-stat-val">21</span>
+          <span class="inicio-stat-lbl">motores</span>
+        </div>
+        <div class="inicio-stat">
+          <span class="inicio-stat-val">21</span>
+          <span class="inicio-stat-lbl">GPs</span>
+        </div>
+      </div>
+
+      <p class="inicio-senna">✦ Ayrton Senna incluído como lenda especial — 99 em tudo</p>
+
+    </section>
+
+    <!-- ═══════════════════════════════════
+         PROGRESSO (só aparece depois da landing)
+    ═══════════════════════════════════ -->
+    <div class="progresso-row" id="progresso-row" style="display:none">
       <div class="progresso-step ativo" id="step-equipe">
         <span class="progresso-dot"></span>
         <span>Equipe</span>
@@ -37,7 +104,10 @@
       </div>
     </div>
 
-    <section class="tela tela-equipe active" id="tela-equipe">
+    <!-- ═══════════════════════════════════
+         TELA 1 — DRAFT / EQUIPE
+    ═══════════════════════════════════ -->
+    <section class="tela tela-equipe" id="tela-equipe">
 
       <p class="phase-hint" id="phase-hint">Clique em "Rolar tudo" para começar</p>
 
@@ -107,6 +177,9 @@
 
     </section>
 
+    <!-- ═══════════════════════════════════
+         TELA 2 — TEMPORADA
+    ═══════════════════════════════════ -->
     <section class="tela tela-temporada" id="tela-temporada">
       <div class="campanha show" id="campanha">
         <div class="campanha-header">
@@ -117,6 +190,9 @@
       </div>
     </section>
 
+    <!-- ═══════════════════════════════════
+         TELA 3 — RESULTADO
+    ═══════════════════════════════════ -->
     <section class="tela tela-resultado" id="tela-resultado">
       <div class="card-final show" id="card-final">
 

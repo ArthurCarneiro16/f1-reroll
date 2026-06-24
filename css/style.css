@@ -40,7 +40,6 @@
 
 /* ══════════════════════════════
    SISTEMA DE ABAS / TELAS
-   (única fonte de verdade para mostrar/esconder telas)
 ══════════════════════════════ */
 .tela {
   display: none;
@@ -303,7 +302,6 @@
 
 /* ══════════════════════════════
    CAMPANHA
-   (sem display:none aqui — quem controla é .tela)
 ══════════════════════════════ */
 .campanha {
   background: var(--bg-card);
@@ -372,6 +370,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
 }
 
 .corrida-flag { font-size: 13px; }
@@ -380,6 +379,15 @@
   font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
+}
+
+.corrida-perfil {
+  font-size: 9px;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.05);
+  border-radius: 3px;
+  padding: 1px 5px;
+  letter-spacing: 0.5px;
 }
 
 .corrida-pilotos {
@@ -409,7 +417,6 @@
 
 /* ══════════════════════════════
    CARD FINAL
-   (sem display:none aqui — quem controla é .tela)
 ══════════════════════════════ */
 .card-final {
   background: #0d0d10;
@@ -623,7 +630,6 @@
 
 /* ══════════════════════════════
    BOTÃO NOVA TEMPORADA
-   (dentro da tela-resultado, sempre visível ali)
 ══════════════════════════════ */
 .btn-nova {
   display: flex;
@@ -707,7 +713,6 @@
 
 /* ══════════════════════════════
    REROLAR
-   (dentro da tela-equipe, controlado por .show)
 ══════════════════════════════ */
 .rerolar-row {
   display: none;
@@ -758,269 +763,199 @@
   padding: .6rem;
 }
 
-.tela-equipe .slot-label {
-  font-size: 9px;
-  margin-bottom: 3px;
+.tela-equipe .slot-label { font-size: 9px; margin-bottom: 3px; }
+.tela-equipe .slot-icon  { font-size: 18px; min-height: 22px; margin-bottom: 2px; }
+.tela-equipe .slot-name  { font-size: 12px; min-height: 16px; }
+.tela-equipe .slot-sub   { font-size: 10px; min-height: 12px; }
+.tela-equipe .slot-stars { font-size: 9px; margin-top: 1px; min-height: 10px; }
+
+.tela-equipe .attr-row { margin-top: 2px; font-size: 9px; gap: 4px; }
+.tela-equipe .attr-lbl { width: 48px; }
+.tela-equipe .attr-num { width: 18px; }
+.tela-equipe .lock-btn { margin-top: 5px; padding: 3px 0; font-size: 10px; }
+
+.tela-equipe .boost-row      { margin-bottom: .5rem; }
+.tela-equipe .btn-boost      { padding: 6px 10px; font-size: 11px; }
+.tela-equipe .boost-hint     { font-size: 10px; }
+.tela-equipe .nome-equipe-row { margin-bottom: .5rem; }
+.tela-equipe .input-nome-equipe { padding: 8px 12px; font-size: 12px; }
+.tela-equipe .rerolar-row    { margin-bottom: .5rem; }
+.tela-equipe .btn-rerolar    { padding: 8px; font-size: 12px; }
+.tela-equipe .action-row     { margin-bottom: 0; }
+.tela-equipe .btn            { padding: 10px 16px; font-size: 13px; }
+
+/* ══════════════════════════════
+   LANDING PAGE — TELA INÍCIO
+══════════════════════════════ */
+.inicio-hero {
+  padding: 2rem 0 1.5rem;
+  text-align: center;
 }
 
-.tela-equipe .slot-icon {
-  font-size: 18px;
-  min-height: 22px;
+.inicio-eyebrow {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 0.75rem;
+}
+
+.inicio-titulo {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-bottom: 0.875rem;
+  letter-spacing: -0.5px;
+}
+
+.inicio-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 360px;
+  margin: 0 auto 1.5rem;
+}
+
+.inicio-cta {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
+.inicio-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.inicio-step {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1.25rem;
+  background: var(--bg-card);
+}
+
+.inicio-step-num {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--red);
+  opacity: 0.7;
+  flex-shrink: 0;
+  width: 36px;
+  line-height: 1;
+}
+
+.inicio-step-titulo {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
   margin-bottom: 2px;
 }
 
-.tela-equipe .slot-name {
-  font-size: 12px;
-  min-height: 16px;
-}
-
-.tela-equipe .slot-sub {
-  font-size: 10px;
-  min-height: 12px;
-}
-
-.tela-equipe .slot-stars {
-  font-size: 9px;
-  margin-top: 1px;
-  min-height: 10px;
-}
-
-.tela-equipe .attr-row {
-  margin-top: 2px;
-  font-size: 9px;
-  gap: 4px;
-}
-
-.tela-equipe .attr-lbl {
-  width: 48px;
-}
-
-.tela-equipe .attr-num {
-  width: 18px;
-}
-
-.tela-equipe .lock-btn {
-  margin-top: 5px;
-  padding: 3px 0;
-  font-size: 10px;
-}
-
-.tela-equipe .boost-row {
-  margin-bottom: .5rem;
-}
-
-.tela-equipe .btn-boost {
-  padding: 6px 10px;
+.inicio-step-desc {
   font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.5;
 }
 
-.tela-equipe .boost-hint {
+.inicio-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.inicio-stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+}
+
+.inicio-stat-val {
+  display: block;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.inicio-stat-lbl {
+  display: block;
   font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.tela-equipe .nome-equipe-row {
-  margin-bottom: .5rem;
-}
-
-.tela-equipe .input-nome-equipe {
-  padding: 8px 12px;
-  font-size: 12px;
-}
-
-.tela-equipe .rerolar-row {
-  margin-bottom: .5rem;
-}
-
-.tela-equipe .btn-rerolar {
-  padding: 8px;
-  font-size: 12px;
-}
-
-.tela-equipe .action-row {
-  margin-bottom: 0;
-}
-
-.tela-equipe .btn {
-  padding: 10px 16px;
-  font-size: 13px;
-}
-
-/* reduz header em telas pequenas para sobrar espaço */
-@media (max-height: 750px) {
-  .header {
-    padding: .75rem 1.5rem;
-    margin-bottom: .75rem;
-  }
-
-  .progresso-row {
-    margin-bottom: .75rem;
-  }
-
-  .page {
-    padding: 0 .75rem 1rem;
-  }
+.inicio-senna {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  padding-bottom: 1rem;
+  font-style: italic;
 }
 
 /* ══════════════════════════════
    RESPONSIVO — MOBILE
 ══════════════════════════════ */
-@media (max-width: 480px) {
-
-  .header {
-    padding: 1rem 1.25rem;
-  }
-
-  .page {
-    padding: 0 0.75rem 3rem;
-  }
-
-  .slots-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-  }
-
-  .slot-card {
-    padding: 0.875rem;
-  }
-
-  .header-title {
-    font-size: 18px;
-  }
-
-  .action-row {
-    flex-direction: column;
-  }
-
-  .boost-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
-
-  .corrida-top {
-    gap: 6px;
-  }
-
-  .corrida-track {
-    width: 36px;
-    height: 26px;
-  }
-
-  .corrida-track svg {
-    width: 36px;
-    height: 26px;
-  }
-
-  .corrida-resultado {
-    min-width: 60px;
-    font-size: 12px;
-  }
-
-  .final-titulo {
-    font-size: 18px;
-  }
-
-  .final-stats {
-    gap: 1rem;
-  }
-
-  .stat-val {
-    font-size: 18px;
-  }
-
-  .grid-nome {
-    font-size: 11px;
-  }
-
-  .grid-pts {
-    font-size: 11px;
-    min-width: 36px;
-  }
-
-  .grid-tag {
-    display: block;
-    margin-left: 0;
-    margin-top: 2px;
-    width: fit-content;
-  }
+@media (max-height: 750px) {
+  .header { padding: .75rem 1.5rem; margin-bottom: .75rem; }
+  .progresso-row { margin-bottom: .75rem; }
+  .page { padding: 0 .75rem 1rem; }
 }
-/* ══════════════════════════════
-   RESPONSIVO — CELULAR DEITADO (LANDSCAPE)
-══════════════════════════════ */
+
+@media (max-width: 480px) {
+  .header { padding: 1rem 1.25rem; }
+  .page { padding: 0 0.75rem 3rem; }
+  .slots-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .slot-card { padding: 0.875rem; }
+  .header-title { font-size: 18px; }
+  .action-row { flex-direction: column; }
+  .boost-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .corrida-top { gap: 6px; }
+  .corrida-track { width: 36px; height: 26px; }
+  .corrida-track svg { width: 36px; height: 26px; }
+  .corrida-resultado { min-width: 60px; font-size: 12px; }
+  .final-titulo { font-size: 18px; }
+  .final-stats { gap: 1rem; }
+  .stat-val { font-size: 18px; }
+  .grid-nome { font-size: 11px; }
+  .grid-pts { font-size: 11px; min-width: 36px; }
+  .grid-tag { display: block; margin-left: 0; margin-top: 2px; width: fit-content; }
+  .inicio-titulo { font-size: 22px; }
+  .inicio-stats { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .inicio-stat-val { font-size: 16px; }
+}
+
 @media (max-height: 500px) and (orientation: landscape) {
-
-  .header {
-    padding: .5rem 1.5rem;
-    margin-bottom: .5rem;
-  }
-
-  .header-title {
-    font-size: 16px;
-  }
-
-  .header-sub {
-    display: none;
-  }
-
-  .progresso-row {
-    margin-bottom: .5rem;
-  }
-
-  .page {
-    padding: 0 1rem 1rem;
-  }
-
-  /* equipe em 4 colunas já que tem largura sobrando */
-  .tela-equipe .slots-grid {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 6px;
-  }
-
-  .tela-equipe .slot-card {
-    padding: .5rem;
-  }
-
-  .tela-equipe .slot-icon {
-    font-size: 16px;
-    min-height: 18px;
-  }
-
-  .tela-equipe .slot-name {
-    font-size: 11px;
-    min-height: 14px;
-  }
-
-  .tela-equipe .slot-sub {
-    font-size: 9px;
-  }
-
-  .tela-equipe .attr-row {
-    font-size: 8px;
-  }
-
+  .header { padding: .5rem 1.5rem; margin-bottom: .5rem; }
+  .header-title { font-size: 16px; }
+  .header-sub { display: none; }
+  .progresso-row { margin-bottom: .5rem; }
+  .page { padding: 0 1rem 1rem; }
+  .tela-equipe .slots-grid { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; }
+  .tela-equipe .slot-card { padding: .5rem; }
+  .tela-equipe .slot-icon { font-size: 16px; min-height: 18px; }
+  .tela-equipe .slot-name { font-size: 11px; min-height: 14px; }
+  .tela-equipe .slot-sub { font-size: 9px; }
+  .tela-equipe .attr-row { font-size: 8px; }
   .tela-equipe .boost-row,
   .tela-equipe .nome-equipe-row,
-  .tela-equipe .rerolar-row {
-    margin-bottom: .35rem;
-  }
-
-  /* temporada e resultado ganham scroll interno
-     pra não esticar a página toda */
-  .tela-temporada,
-  .tela-resultado {
-    max-height: calc(100vh - 100px);
-    overflow-y: auto;
-  }
-
-  .corrida-row {
-    padding: .5rem 1rem;
-  }
-
-  .final-hero {
-    padding: 1rem;
-  }
-
-  .final-titulo {
-    font-size: 18px;
-  }
+  .tela-equipe .rerolar-row { margin-bottom: .35rem; }
+  .tela-temporada, .tela-resultado { max-height: calc(100vh - 100px); overflow-y: auto; }
+  .corrida-row { padding: .5rem 1rem; }
+  .final-hero { padding: 1rem; }
+  .final-titulo { font-size: 18px; }
 }
