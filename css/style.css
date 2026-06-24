@@ -785,11 +785,25 @@
 .tela-equipe .btn            { padding: 10px 16px; font-size: 13px; }
 
 /* ══════════════════════════════
+
+/* ══════════════════════════════
    LANDING PAGE — TELA INÍCIO
 ══════════════════════════════ */
+.tela-inicio {
+  display: none;
+}
+
+.tela-inicio.active {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - 100px);
+}
+
 .inicio-hero {
-  padding: 2rem 0 1.5rem;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .inicio-eyebrow {
@@ -797,31 +811,26 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--red);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
+  text-align: center;
 }
 
 .inicio-titulo {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 800;
   line-height: 1.2;
   color: var(--text-primary);
-  margin-bottom: 0.875rem;
+  margin-bottom: 0.6rem;
   letter-spacing: -0.5px;
+  text-align: center;
 }
 
 .inicio-desc {
   font-size: 13px;
   color: var(--text-secondary);
-  line-height: 1.7;
-  max-width: 360px;
-  margin: 0 auto 1.5rem;
-}
-
-.inicio-cta {
-  width: 100%;
-  padding: 14px;
-  font-size: 15px;
-  letter-spacing: 0.5px;
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: 1.25rem;
 }
 
 .inicio-steps {
@@ -833,24 +842,23 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   margin-bottom: 1.25rem;
-  margin-top: 1.5rem;
 }
 
 .inicio-step {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.875rem 1.25rem;
+  padding: 0.75rem 1.25rem;
   background: var(--bg-card);
 }
 
 .inicio-step-num {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--red);
   opacity: 0.7;
   flex-shrink: 0;
-  width: 36px;
+  width: 32px;
   line-height: 1;
 }
 
@@ -858,104 +866,24 @@
   font-size: 13px;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 
 .inicio-step-desc {
   font-size: 11px;
   color: var(--text-muted);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
-.inicio-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-bottom: 1.25rem;
+.inicio-cta {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  letter-spacing: 0.5px;
 }
 
-.inicio-stat {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 0.75rem 0.5rem;
-  text-align: center;
-}
-
-.inicio-stat-val {
-  display: block;
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--text-primary);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.inicio-stat-lbl {
-  display: block;
-  font-size: 10px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.inicio-senna {
-  text-align: center;
-  font-size: 11px;
-  color: var(--text-muted);
-  padding-bottom: 1rem;
-  font-style: italic;
-}
-
-/* ══════════════════════════════
-   RESPONSIVO — MOBILE
-══════════════════════════════ */
-@media (max-height: 750px) {
-  .header { padding: .75rem 1.5rem; margin-bottom: .75rem; }
-  .progresso-row { margin-bottom: .75rem; }
-  .page { padding: 0 .75rem 1rem; }
-}
-
+/* mobile */
 @media (max-width: 480px) {
-  .header { padding: 1rem 1.25rem; }
-  .page { padding: 0 0.75rem 3rem; }
-  .slots-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
-  .slot-card { padding: 0.875rem; }
-  .header-title { font-size: 18px; }
-  .action-row { flex-direction: column; }
-  .boost-row { flex-direction: column; align-items: flex-start; gap: 6px; }
-  .corrida-top { gap: 6px; }
-  .corrida-track { width: 36px; height: 26px; }
-  .corrida-track svg { width: 36px; height: 26px; }
-  .corrida-resultado { min-width: 60px; font-size: 12px; }
-  .final-titulo { font-size: 18px; }
-  .final-stats { gap: 1rem; }
-  .stat-val { font-size: 18px; }
-  .grid-nome { font-size: 11px; }
-  .grid-pts { font-size: 11px; min-width: 36px; }
-  .grid-tag { display: block; margin-left: 0; margin-top: 2px; width: fit-content; }
   .inicio-titulo { font-size: 22px; }
-  .inicio-stats { grid-template-columns: repeat(4, 1fr); gap: 6px; }
-  .inicio-stat-val { font-size: 16px; }
-}
-
-@media (max-height: 500px) and (orientation: landscape) {
-  .header { padding: .5rem 1.5rem; margin-bottom: .5rem; }
-  .header-title { font-size: 16px; }
-  .header-sub { display: none; }
-  .progresso-row { margin-bottom: .5rem; }
-  .page { padding: 0 1rem 1rem; }
-  .tela-equipe .slots-grid { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; }
-  .tela-equipe .slot-card { padding: .5rem; }
-  .tela-equipe .slot-icon { font-size: 16px; min-height: 18px; }
-  .tela-equipe .slot-name { font-size: 11px; min-height: 14px; }
-  .tela-equipe .slot-sub { font-size: 9px; }
-  .tela-equipe .attr-row { font-size: 8px; }
-  .tela-equipe .boost-row,
-  .tela-equipe .nome-equipe-row,
-  .tela-equipe .rerolar-row { margin-bottom: .35rem; }
-  .tela-temporada, .tela-resultado { max-height: calc(100vh - 100px); overflow-y: auto; }
-  .corrida-row { padding: .5rem 1rem; }
-  .final-hero { padding: 1rem; }
-  .final-titulo { font-size: 18px; }
+  .tela-inicio.active { min-height: calc(100vh - 80px); }
 }

@@ -20,73 +20,47 @@
 
   <main class="page">
 
-    <!-- ═══════════════════════════════════
-         TELA 0 — LANDING PAGE
-    ═══════════════════════════════════ -->
+    <!-- TELA 0 — LANDING -->
     <section class="tela tela-inicio active" id="tela-inicio">
-
       <div class="inicio-hero">
         <p class="inicio-eyebrow">temporada 1994 — 2025</p>
         <h2 class="inicio-titulo">Monte sua equipe.<br>Dispute o campeonato.</h2>
         <p class="inicio-desc">
           Sorteie pilotos, chassi e motor de qualquer era da F1.
-          Trave o que quiser, reole o resto — e simule 21 GPs corrida por corrida.
+          Trave o que quiser, reole o resto — e simule 21 GPs.
         </p>
+
+        <div class="inicio-steps">
+          <div class="inicio-step">
+            <span class="inicio-step-num">01</span>
+            <div>
+              <p class="inicio-step-titulo">Role</p>
+              <p class="inicio-step-desc">Sorteie sua equipe com raridade gacha</p>
+            </div>
+          </div>
+          <div class="inicio-step">
+            <span class="inicio-step-num">02</span>
+            <div>
+              <p class="inicio-step-titulo">Trave</p>
+              <p class="inicio-step-desc">Guarde um item e reole os outros</p>
+            </div>
+          </div>
+          <div class="inicio-step">
+            <span class="inicio-step-num">03</span>
+            <div>
+              <p class="inicio-step-titulo">Simule</p>
+              <p class="inicio-step-desc">Dispute os 21 GPs corrida por corrida</p>
+            </div>
+          </div>
+        </div>
+
         <button class="btn btn-primary inicio-cta" onclick="irParaTela('equipe')">
           🎲 Jogar agora
         </button>
       </div>
-
-      <div class="inicio-steps">
-        <div class="inicio-step">
-          <span class="inicio-step-num">01</span>
-          <div class="inicio-step-info">
-            <p class="inicio-step-titulo">Role</p>
-            <p class="inicio-step-desc">Sorteie 2 pilotos, 1 chassi e 1 motor com sistema de raridade gacha</p>
-          </div>
-        </div>
-        <div class="inicio-step">
-          <span class="inicio-step-num">02</span>
-          <div class="inicio-step-info">
-            <p class="inicio-step-titulo">Trave</p>
-            <p class="inicio-step-desc">Escolha um item para guardar — os outros rolam novamente</p>
-          </div>
-        </div>
-        <div class="inicio-step">
-          <span class="inicio-step-num">03</span>
-          <div class="inicio-step-info">
-            <p class="inicio-step-titulo">Simule</p>
-            <p class="inicio-step-desc">Acompanhe os 21 GPs e veja onde você termina no campeonato</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="inicio-stats">
-        <div class="inicio-stat">
-          <span class="inicio-stat-val">70+</span>
-          <span class="inicio-stat-lbl">pilotos</span>
-        </div>
-        <div class="inicio-stat">
-          <span class="inicio-stat-val">27</span>
-          <span class="inicio-stat-lbl">chassi</span>
-        </div>
-        <div class="inicio-stat">
-          <span class="inicio-stat-val">21</span>
-          <span class="inicio-stat-lbl">motores</span>
-        </div>
-        <div class="inicio-stat">
-          <span class="inicio-stat-val">21</span>
-          <span class="inicio-stat-lbl">GPs</span>
-        </div>
-      </div>
-
-      <p class="inicio-senna">✦ Ayrton Senna incluído como lenda especial — 99 em tudo</p>
-
     </section>
 
-    <!-- ═══════════════════════════════════
-         PROGRESSO (só aparece depois da landing)
-    ═══════════════════════════════════ -->
+    <!-- PROGRESSO -->
     <div class="progresso-row" id="progresso-row" style="display:none">
       <div class="progresso-step ativo" id="step-equipe">
         <span class="progresso-dot"></span>
@@ -104,15 +78,10 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════
-         TELA 1 — DRAFT / EQUIPE
-    ═══════════════════════════════════ -->
+    <!-- TELA 1 — DRAFT -->
     <section class="tela tela-equipe" id="tela-equipe">
-
       <p class="phase-hint" id="phase-hint">Clique em "Rolar tudo" para começar</p>
-
       <div class="slots-grid">
-
         <div class="slot-card" id="card-p1">
           <span class="slot-label">Piloto 1</span>
           <span class="slot-icon">🧑‍✈️</span>
@@ -122,7 +91,6 @@
           <div class="slot-attrs" id="p1-attrs"></div>
           <button class="lock-btn" id="lock-p1">travar</button>
         </div>
-
         <div class="slot-card" id="card-p2">
           <span class="slot-label">Piloto 2</span>
           <span class="slot-icon">🧑‍✈️</span>
@@ -132,7 +100,6 @@
           <div class="slot-attrs" id="p2-attrs"></div>
           <button class="lock-btn" id="lock-p2">travar</button>
         </div>
-
         <div class="slot-card" id="card-chassi">
           <span class="slot-label">Chassi</span>
           <span class="slot-icon">🏎️</span>
@@ -142,7 +109,6 @@
           <div class="slot-attrs" id="chassi-attrs"></div>
           <button class="lock-btn" id="lock-chassi">travar</button>
         </div>
-
         <div class="slot-card" id="card-motor">
           <span class="slot-label">Motor</span>
           <span class="slot-icon">⚙️</span>
@@ -152,34 +118,24 @@
           <div class="slot-attrs" id="motor-attrs"></div>
           <button class="lock-btn" id="lock-motor">travar</button>
         </div>
-
       </div>
-
       <div class="boost-row">
-        <button class="btn-boost" id="btn-boost" onclick="toggleBoost()">
-          ⚡ Ativar Boost
-        </button>
+        <button class="btn-boost" id="btn-boost" onclick="toggleBoost()">⚡ Ativar Boost</button>
         <span class="boost-hint" id="boost-hint">aumenta chance de itens raros por 1 rolagem</span>
       </div>
-
       <div class="nome-equipe-row">
         <input type="text" id="input-nome-equipe" class="input-nome-equipe" placeholder="Nome da sua equipe (opcional)" maxlength="30">
       </div>
-
       <div class="rerolar-row" id="rerolar-row">
         <button class="btn-rerolar" onclick="resetar()">↺ Montar nova equipe</button>
       </div>
-
       <div class="action-row">
         <button class="btn btn-primary" id="btn-rolar">🎲 Rolar tudo</button>
         <button class="btn btn-secondary" id="btn-simular" disabled>▶ Simular</button>
       </div>
-
     </section>
 
-    <!-- ═══════════════════════════════════
-         TELA 2 — TEMPORADA
-    ═══════════════════════════════════ -->
+    <!-- TELA 2 — TEMPORADA -->
     <section class="tela tela-temporada" id="tela-temporada">
       <div class="campanha show" id="campanha">
         <div class="campanha-header">
@@ -190,12 +146,9 @@
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════
-         TELA 3 — RESULTADO
-    ═══════════════════════════════════ -->
+    <!-- TELA 3 — RESULTADO -->
     <section class="tela tela-resultado" id="tela-resultado">
       <div class="card-final show" id="card-final">
-
         <div class="final-hero">
           <p class="final-label">resultado da temporada</p>
           <h2 class="final-titulo" id="final-titulo"></h2>
@@ -203,19 +156,15 @@
           <div class="final-stats" id="final-stats"></div>
           <div class="final-bars" id="final-bars"></div>
         </div>
-
         <div class="final-grid">
           <p class="section-title">🏁 Campeonato de pilotos</p>
           <div id="grid-list"></div>
         </div>
-
         <div class="final-construtores">
           <p class="section-title">🏗️ Top 3 construtores</p>
           <div id="const-list"></div>
         </div>
-
       </div>
-
       <div class="btn-nova show" id="btn-nova">
         <button class="btn btn-primary" onclick="voltarParaEquipe()">↺ Nova temporada</button>
       </div>
