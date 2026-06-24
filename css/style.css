@@ -887,3 +887,32 @@
   .inicio-titulo { font-size: 22px; }
   .tela-inicio.active { min-height: calc(100vh - 80px); }
 }
+
+/* ══════════════════════════════
+   BOTÃO COMPARTILHAR
+══════════════════════════════ */
+.btn-nova {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 1.25rem;
+}
+
+.btn-share {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.btn-share:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
