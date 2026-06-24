@@ -916,3 +916,16 @@
   border-color: var(--red);
   color: var(--red);
 }
+
+/* ── Bolinhas de progresso clicáveis ── */
+.progresso-step {
+  transition: opacity 0.2s;
+}
+
+.progresso-step[style*="pointer"] {
+  opacity: 1;
+}
+
+.progresso-step:hover {
+  opacity: 0.75;
+}

@@ -10,6 +10,8 @@ let phase = 'idle'
 let spinningCount = 0
 let boostAtivo = false
 let boostUsado = false
+let telaSimulada = false
+let telaResultado = false
 
 // ── FUNÇÕES AUXILIARES ───────────────────
 
@@ -316,6 +318,8 @@ function resetar() {
   })
 
   phase = 'idle'
+  telaSimulada = false
+  telaResultado = false
   spinningCount = 0
   resetarBoost()
 
@@ -350,7 +354,6 @@ function irParaTela(nomeTela) {
   const telaAlvo = document.getElementById('tela-' + nomeTela)
   if (telaAlvo) telaAlvo.classList.add('active')
 
-  // Progresso: só aparece fora da landing
   const progressoRow = document.getElementById('progresso-row')
   if (nomeTela === 'inicio') {
     progressoRow.style.display = 'none'
@@ -363,6 +366,26 @@ function irParaTela(nomeTela) {
 
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+// ── NAVEGAÇÃO PELAS BOLINHAS ─────────────
+function ativarNavBolinhas() {
+  const stepEquipe    = document.getElementById('step-equipe')
+  const stepTemporada = document.getElementById('step-temporada')
+  const stepResultado = document.getElementById('step-resultado')
+
+  stepEquipe.style.cursor = 'pointer'
+  stepEquipe.onclick = () => voltarParaEquipe()
+
+  stepTemporada.onclick = () => {
+    if (telaSimulada) irParaTela('temporada')
+  }
+
+  stepResultado.onclick = () => {
+    if (telaResultado) irParaTela('resultado')
+  }
+}
+
+ativarNavBolinhas()
 
 // ── CONECTA OS BOTÕES ────────────────────
 document.getElementById('btn-rolar').addEventListener('click', iniciarRolagem)

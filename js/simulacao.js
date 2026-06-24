@@ -134,6 +134,7 @@ function simularTemporada() {
   if (!chosen.p1 || !chosen.p2 || !chosen.chassi || !chosen.motor) return
 
   irParaTela('temporada')
+  telaSimulada = true
 
   const inputNome = document.getElementById('input-nome-equipe')
   const nomeNossaEquipe = inputNome?.value.trim() || 'Nossa Equipe'
@@ -250,6 +251,7 @@ function simularTemporada() {
 
 function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equipes, nomeP1, nomeP2, nomeNossaEquipe, gridAdversarios) {
   irParaTela('resultado')
+  telaResultado = true
 
   document.getElementById('card-final').classList.add('show')
 
