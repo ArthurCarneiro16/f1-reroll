@@ -397,4 +397,4 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
   document.getElementById('btn-rolar').disabled = false
 }
 
-document.getElementById('btn-simular').addEventListener('click', simularTemporada)
+document.getElementById('btn-simular').addEventListener('click', simularTemporada)  
