@@ -10,7 +10,7 @@
 </head>
 <body>
 
-  <header class="header">
+  <header class="header" onclick="irParaTela('inicio')" style="cursor:pointer" title="Voltar ao início">
     <div class="header-logo">
       <div class="header-stripe"></div>
       <h1 class="header-title">F1 MANAGER</h1>
@@ -23,41 +23,34 @@
     <!-- TELA 0 — LANDING -->
     <section class="tela tela-inicio active" id="tela-inicio">
       <div class="inicio-hero">
-        <p class="inicio-eyebrow">temporada 1994 — 2025</p>
-        <h2 class="inicio-titulo">Monte sua equipe.<br>Dispute o campeonato.</h2>
+        <p class="inicio-eyebrow">1994 — 2025</p>
+        <h2 class="inicio-titulo">Role o dado.<br>Monte sua equipe<br><span>de F1.</span></h2>
         <p class="inicio-desc">
-          Sorteie pilotos, chassi e motor de qualquer era da F1.
-          Trave o que quiser, reole o resto — e simule 21 GPs.
+          Sorteie pilotos, chassi e motor de qualquer era.
+          Trave o que quiser, reole o resto — e dispute 21 GPs.
         </p>
-
-        <div class="inicio-steps">
-          <div class="inicio-step">
-            <span class="inicio-step-num">01</span>
-            <div>
-              <p class="inicio-step-titulo">Role</p>
-              <p class="inicio-step-desc">Sorteie sua equipe com raridade gacha</p>
-            </div>
-          </div>
-          <div class="inicio-step">
-            <span class="inicio-step-num">02</span>
-            <div>
-              <p class="inicio-step-titulo">Trave</p>
-              <p class="inicio-step-desc">Guarde um item e reole os outros</p>
-            </div>
-          </div>
-          <div class="inicio-step">
-            <span class="inicio-step-num">03</span>
-            <div>
-              <p class="inicio-step-titulo">Simule</p>
-              <p class="inicio-step-desc">Dispute os 21 GPs corrida por corrida</p>
-            </div>
-          </div>
-        </div>
-
         <button class="btn btn-primary inicio-cta" onclick="irParaTela('equipe')">
-          🎲 Jogar agora
+          🎲 Jogar agora →
         </button>
       </div>
+      <div class="inicio-steps">
+        <div class="inicio-step">
+          <span class="inicio-step-num">01</span>
+          <p class="inicio-step-titulo">Role</p>
+          <p class="inicio-step-desc">Sorteie sua equipe com raridade gacha</p>
+        </div>
+        <div class="inicio-step">
+          <span class="inicio-step-num">02</span>
+          <p class="inicio-step-titulo">Trave</p>
+          <p class="inicio-step-desc">Guarde um item e reole os outros</p>
+        </div>
+        <div class="inicio-step">
+          <span class="inicio-step-num">03</span>
+          <p class="inicio-step-titulo">Simule</p>
+          <p class="inicio-step-desc">Dispute os 21 GPs corrida por corrida</p>
+        </div>
+      </div>
+      <p class="inicio-senna">✦ Ayrton Senna incluído como lenda especial · 99 em tudo</p>
     </section>
 
     <!-- PROGRESSO -->

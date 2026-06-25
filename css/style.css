@@ -789,6 +789,10 @@
 /* ══════════════════════════════
    LANDING PAGE — TELA INÍCIO
 ══════════════════════════════ */
+
+/* ══════════════════════════════
+   LANDING PAGE — TELA INÍCIO
+══════════════════════════════ */
 .tela-inicio {
   display: none;
 }
@@ -798,75 +802,85 @@
   flex-direction: column;
   justify-content: center;
   min-height: calc(100vh - 100px);
-}
-
-.inicio-hero {
-  display: flex;
-  flex-direction: column;
   gap: 0;
 }
 
+.inicio-hero {
+  padding: 1.5rem 0 1.25rem;
+}
+
 .inicio-eyebrow {
+  display: inline-block;
   font-size: 10px;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--red);
-  margin-bottom: 0.6rem;
-  text-align: center;
+  margin-bottom: 0.75rem;
 }
 
 .inicio-titulo {
-  font-size: 26px;
-  font-weight: 800;
-  line-height: 1.2;
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1.1;
   color: var(--text-primary);
-  margin-bottom: 0.6rem;
-  letter-spacing: -0.5px;
-  text-align: center;
+  margin-bottom: 1rem;
+  letter-spacing: -2px;
+}
+
+.inicio-titulo span {
+  color: var(--red);
 }
 
 .inicio-desc {
   font-size: 13px;
   color: var(--text-secondary);
-  line-height: 1.6;
-  text-align: center;
-  margin-bottom: 1.25rem;
+  line-height: 1.7;
+  max-width: 320px;
+  margin-bottom: 1.5rem;
 }
 
+.inicio-cta {
+  width: 100%;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  margin-bottom: 0;
+}
+
+/* Steps horizontais */
 .inicio-steps {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1px;
   background: var(--border);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  margin-bottom: 1.25rem;
+  margin: 1.25rem 0;
 }
 
 .inicio-step {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1.25rem;
   background: var(--bg-card);
+  padding: 1rem 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .inicio-step-num {
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 22px;
+  font-weight: 900;
   color: var(--red);
-  opacity: 0.7;
-  flex-shrink: 0;
-  width: 32px;
+  opacity: 0.5;
   line-height: 1;
+  margin-bottom: 2px;
 }
 
 .inicio-step-titulo {
   font-size: 13px;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 1px;
 }
 
 .inicio-step-desc {
@@ -875,57 +889,16 @@
   line-height: 1.4;
 }
 
-.inicio-cta {
-  width: 100%;
-  padding: 14px;
-  font-size: 15px;
-  letter-spacing: 0.5px;
+.inicio-senna {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  opacity: 0.6;
 }
 
-/* mobile */
 @media (max-width: 480px) {
-  .inicio-titulo { font-size: 22px; }
+  .inicio-titulo { font-size: 34px; letter-spacing: -1px; }
   .tela-inicio.active { min-height: calc(100vh - 80px); }
-}
-
-/* ══════════════════════════════
-   BOTÃO COMPARTILHAR
-══════════════════════════════ */
-.btn-nova {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 1.25rem;
-}
-
-.btn-share {
-  flex: 1;
-  padding: 12px 20px;
-  border-radius: var(--radius-md);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
-  transition: all 0.2s;
-  width: 100%;
-}
-
-.btn-share:hover {
-  border-color: var(--red);
-  color: var(--red);
-}
-
-/* ── Bolinhas de progresso clicáveis ── */
-.progresso-step {
-  transition: opacity 0.2s;
-}
-
-.progresso-step[style*="pointer"] {
-  opacity: 1;
-}
-
-.progresso-step:hover {
-  opacity: 0.75;
+  .inicio-step-desc { font-size: 10px; }
 }
