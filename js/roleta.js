@@ -194,11 +194,18 @@ function updateCardStates() {
       btn.style.display = 'block'
       btn.textContent = 'travado ✓'
       btn.classList.add('locked-state')
+      card.style.cursor = 'default'
+      card.onclick = null
     } else if (phase === 'choosing') {
       card.classList.add('active-choice')
       btn.style.display = 'block'
       btn.textContent = 'travar'
       btn.disabled = false
+      card.style.cursor = 'pointer'
+      card.onclick = () => travar(key)
+    } else {
+      card.style.cursor = 'default'
+      card.onclick = null
     }
   })
 }
@@ -236,11 +243,13 @@ function rolarLivres(onDone) {
 function iniciarRolagem() {
   if (spinningCount > 0) return
 
+  // Se já terminou o draft, reseta tudo e rola de novo
+  if (phase === 'done') {
+    resetarCards()
+  }
+
   document.getElementById('btn-rolar').disabled = true
   document.getElementById('btn-simular').disabled = true
-  document.getElementById('campanha').classList.remove('show')
-  document.getElementById('btn-nova').classList.remove('show')
-  document.getElementById('rerolar-row').classList.remove('show')
 
   phase = 'idle'
   const keys = ['p1', 'p2', 'chassi', 'motor']
@@ -290,11 +299,10 @@ function terminar() {
   setHint('Equipe montada! Simule ou monte uma nova.')
   document.getElementById('btn-rolar').disabled = false
   document.getElementById('btn-simular').disabled = false
-  document.getElementById('rerolar-row').classList.add('show')
 }
 
-// ── RESET COMPLETO ───────────────────────
-function resetar() {
+// ── RESETA SÓ OS CARDS (sem trocar de tela) ──
+function resetarCards() {
   const keys = ['p1', 'p2', 'chassi', 'motor']
 
   keys.forEach(key => {
@@ -307,6 +315,8 @@ function resetar() {
 
     const card = document.getElementById('card-' + key)
     card.classList.remove('locked', 'active-choice', 'spinning')
+    card.style.cursor = 'default'
+    card.onclick = null
 
     const badge = card.querySelector('.rarity-badge')
     if (badge) badge.remove()
@@ -317,16 +327,21 @@ function resetar() {
     document.getElementById(key + '-attrs').innerHTML = ''
   })
 
+  resetarBoost()
+}
+
+// ── RESET COMPLETO (volta pra equipe) ────
+function resetar() {
+  resetarCards()
+
   phase = 'idle'
   telaSimulada = false
   telaResultado = false
   spinningCount = 0
-  resetarBoost()
 
   document.getElementById('campanha').classList.remove('show')
   document.getElementById('btn-nova').classList.remove('show')
   document.getElementById('card-final').classList.remove('show')
-  document.getElementById('rerolar-row').classList.remove('show')
   document.getElementById('btn-simular').disabled = true
   document.getElementById('btn-rolar').disabled = false
 
