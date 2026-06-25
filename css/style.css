@@ -234,6 +234,7 @@
 .rarity-rare      { background: var(--rare-bg);      color: var(--rare-text); }
 .rarity-uncommon  { background: var(--uncommon-bg);  color: var(--uncommon-text); }
 .rarity-common    { background: var(--common-bg);    color: var(--common-text); }
+.rarity-eternal   { background: #3a2800; color: #FFD700; border: 1px solid rgba(255,215,0,0.4); letter-spacing: 1.5px; }
 
 /* ── Botão travar ── */
 .lock-btn {
@@ -898,7 +899,46 @@
 }
 
 @media (max-width: 480px) {
-  .inicio-titulo { font-size: 34px; letter-spacing: -1px; }
-  .tela-inicio.active { min-height: calc(100vh - 80px); }
+  .inicio-titulo { font-size: 26px; letter-spacing: -0.5px; }
+  .tela-inicio.active { min-height: calc(100vh - 80px); justify-content: flex-start; padding-top: 0.5rem; }
+  .inicio-hero { padding: 0.75rem 0 0.75rem; }
+  .inicio-desc { font-size: 12px; margin-bottom: 1rem; }
+  .inicio-cta { padding: 12px; font-size: 14px; }
+  .inicio-steps { margin: 0.875rem 0; }
+  .inicio-step { padding: 0.75rem 0.625rem; }
+  .inicio-step-num { font-size: 18px; }
+  .inicio-step-titulo { font-size: 12px; }
   .inicio-step-desc { font-size: 10px; }
+}
+
+/* ── Posições no card final ── */
+.final-posicoes {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.final-pos-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.final-pos-num {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--red);
+  line-height: 1;
+}
+
+.final-pos-lbl {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.final-pos-equipe .final-pos-num {
+  color: var(--gold);
 }

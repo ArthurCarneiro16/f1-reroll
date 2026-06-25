@@ -271,8 +271,27 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
   else if (melhorPos <= 10) { titulo = `${melhorPos}º no campeonato`; desc = `Meio do grid. Pontuou em algumas corridas mas ficou longe da briga.` }
   else                      { titulo = `${melhorPos}º no campeonato`; desc = `Temporada difícil. Combinação desequilibrada para brigar na frente.` }
 
+  // Posição da equipe nos construtores
+  const constOrdenadosTemp = Object.entries(equipes).sort((a, b) => b[1].pts - a[1].pts)
+  const posEquipe = constOrdenadosTemp.findIndex(([n, e]) => e.nossa) + 1
+
   document.getElementById('final-titulo').textContent = titulo
-  document.getElementById('final-desc').textContent   = desc
+  document.getElementById('final-desc').innerHTML = `
+    <div class="final-posicoes">
+      <div class="final-pos-item">
+        <span class="final-pos-num">${posP1}º</span>
+        <span class="final-pos-lbl">${nomeP1.replace(/ '\d+$/, '')}</span>
+      </div>
+      <div class="final-pos-item">
+        <span class="final-pos-num">${posP2}º</span>
+        <span class="final-pos-lbl">${nomeP2.replace(/ '\d+$/, '')}</span>
+      </div>
+      <div class="final-pos-item final-pos-equipe">
+        <span class="final-pos-num">${posEquipe}º</span>
+        <span class="final-pos-lbl">equipe</span>
+      </div>
+    </div>
+  `
 
   document.getElementById('final-stats').innerHTML = `
     <div class="stat-item">

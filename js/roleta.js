@@ -60,7 +60,8 @@ function randExcluding(arr, exclude) {
   return weightedRand(disponiveis)
 }
 
-function getRarity(score) {
+function getRarity(score, nome) {
+  if (nome === 'Ayrton Senna') return { label: 'ETERNO', cls: 'rarity-eternal' }
   if (score >= 95) return { label: 'LENDÁRIO', cls: 'rarity-legendary' }
   if (score >= 85) return { label: 'RARO',     cls: 'rarity-rare' }
   if (score >= 72) return { label: 'INCOMUM',  cls: 'rarity-uncommon' }
@@ -115,7 +116,7 @@ function setCard(key, item) {
   document.getElementById(key + '-sub').textContent =
     isDriver ? `${item.nac} · Score ${item.score}` : item.sub
 
-  document.getElementById(key + '-stars').textContent = toStars(item.score)
+  document.getElementById(key + '-stars').textContent = ''
 
   const card = document.getElementById('card-' + key)
   let badge = card.querySelector('.rarity-badge')
@@ -123,7 +124,7 @@ function setCard(key, item) {
     badge = document.createElement('span')
     card.appendChild(badge)
   }
-  const rarity = getRarity(item.score)
+  const rarity = getRarity(item.score, item.nome)
   badge.className = 'rarity-badge ' + rarity.cls
   badge.textContent = rarity.label
 
