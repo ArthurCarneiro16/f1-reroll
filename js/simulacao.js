@@ -83,7 +83,7 @@ function renderCorrida(resultado, indice) {
 
   const cls = dnf ? 'r-loss' : win ? 'r-win' : posFrente <= 5 ? 'r-ok' : ''
   const resTexto = dnf
-    ? `P${posFrente}/ABN ✗`
+    ? `P${posFrente}/DNF ✗`
     : win
       ? `P${posFrente}/P${posAtras} ✓`
       : `P${posFrente}/P${posAtras}`
@@ -114,7 +114,7 @@ function renderCorrida(resultado, indice) {
         <div class="corrida-pilotos">
           ${pFrente.nome}: P${posFrente}
           · ${pAtras.nome}: P${posAtras}
-          ${dnf ? ' (ABN)' : ''}
+          ${dnf ? ' (DNF)' : ''}
         </div>
         ${evento ? `<div class="corrida-evento">${evento}</div>` : ''}
       </div>
@@ -255,105 +255,100 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
 
   document.getElementById('card-final').classList.add('show')
 
-  const gridOrdenadoTemp = Object.entries(campPilotos)
-    .sort((a, b) => b[1] - a[1])
-
+  const gridOrdenadoTemp = Object.entries(campPilotos).sort((a, b) => b[1] - a[1])
   const posP1 = gridOrdenadoTemp.findIndex(([nome]) => nome === nomeP1) + 1
   const posP2 = gridOrdenadoTemp.findIndex(([nome]) => nome === nomeP2) + 1
-  const melhorPos = Math.min(posP1, posP2)
-  const melhorPiloto = posP1 <= posP2 ? nomeP1 : nomeP2
 
-  let titulo, desc
-  if (melhorPos === 1)      { titulo = 'Campeão mundial 🏆';       desc = `${melhorPiloto} dominou a temporada com ${pontos} pts e ${vitorias} vitórias.` }
-  else if (melhorPos === 2) { titulo = 'Vice-campeão 🥈';           desc = `${vitorias} vitórias e ${podeio} pódios. Ficou a um passo do título.` }
-  else if (melhorPos === 3) { titulo = 'Pódio no campeonato 🥉';   desc = `${vitorias} vitórias e ${podeio} pódios. Temporada sólida.` }
-  else if (melhorPos <= 6)  { titulo = `${melhorPos}º no campeonato`; desc = `${pontos} pts no total. Competitivo mas sem brilho suficiente.` }
-  else if (melhorPos <= 10) { titulo = `${melhorPos}º no campeonato`; desc = `Meio do grid. Pontuou em algumas corridas mas ficou longe da briga.` }
-  else                      { titulo = `${melhorPos}º no campeonato`; desc = `Temporada difícil. Combinação desequilibrada para brigar na frente.` }
+  // Construtores ordenados
+  const constOrdenadosFull = Object.entries(equipes).sort((a, b) => b[1].pts - a[1].pts)
+  const posEquipe = constOrdenadosFull.findIndex(([n, e]) => e.nossa) + 1
+  const noTop3 = posEquipe <= 3
 
-  // Posição da equipe nos construtores
-  const constOrdenadosTemp = Object.entries(equipes).sort((a, b) => b[1].pts - a[1].pts)
-  const posEquipe = constOrdenadosTemp.findIndex(([n, e]) => e.nossa) + 1
+  const medals = ['🥇', '🥈', '🥉']
 
-  document.getElementById('final-titulo').textContent = titulo
+  // ── Top 3 construtores (sempre visível) ──
+  const top3 = constOrdenadosFull.slice(0, 3)
+  document.getElementById('const-list').innerHTML = top3.map(([nome, info], i) => {
+    const nomes = info.pilotos.filter(Boolean).map(p => p.nome).join(' · ')
+    const isNossa = info.nossa === true
+    return `
+      <div class="const-row ${isNossa ? 'nossa-equipe' : ''}">
+        <span class="const-medal">${medals[i]}</span>
+        <div class="const-info">
+          <div class="const-nome">${nome}</div>
+          <div class="const-pilotos">${nomes}</div>
+        </div>
+        <span class="const-pts">${info.pts} pts</span>
+      </div>
+    `
+  }).join('')
+
+  // ── Minha equipe em destaque (só se não estiver no top 3) ──
+  const nossaEquipeInfo = constOrdenadosFull.find(([n, e]) => e.nossa)
+  document.getElementById('final-titulo').innerHTML = noTop3 ? '' : `
+    <div class="nossa-equipe-destaque">
+      <span class="nossa-equipe-pos">${posEquipe}º</span>
+      <div class="nossa-equipe-info">
+        <div class="nossa-equipe-nome">${nomeNossaEquipe}</div>
+        <div class="nossa-equipe-pts">${nossaEquipeInfo ? nossaEquipeInfo[1].pts : pontos} pts</div>
+      </div>
+    </div>
+  `
+
+  // ── Pilotos ──
   document.getElementById('final-desc').innerHTML = `
-    <div class="final-posicoes">
-      <div class="final-pos-item">
-        <span class="final-pos-num">${posP1}º</span>
-        <span class="final-pos-lbl">${nomeP1.replace(/ '\d+$/, '')}</span>
+    <div class="final-pilotos-pos">
+      <div class="final-piloto-pos">
+        <span class="final-piloto-num">${posP1}º</span>
+        <span class="final-piloto-nome">${nomeP1.split(" '")[0]}</span>
       </div>
-      <div class="final-pos-item">
-        <span class="final-pos-num">${posP2}º</span>
-        <span class="final-pos-lbl">${nomeP2.replace(/ '\d+$/, '')}</span>
+      <span class="final-piloto-sep">·</span>
+      <div class="final-piloto-pos">
+        <span class="final-piloto-num">${posP2}º</span>
+        <span class="final-piloto-nome">${nomeP2.split(" '")[0]}</span>
       </div>
-      <div class="final-pos-item final-pos-equipe">
-        <span class="final-pos-num">${posEquipe}º</span>
-        <span class="final-pos-lbl">equipe</span>
-      </div>
+
     </div>
   `
 
-  document.getElementById('final-stats').innerHTML = `
-    <div class="stat-item">
-      <div class="stat-val">${pontos}</div>
-      <div class="stat-lbl">pontos</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-val">${vitorias}</div>
-      <div class="stat-lbl">vitórias</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-val">${podeio}</div>
-      <div class="stat-lbl">pódios</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-val">${abandonos}</div>
-      <div class="stat-lbl">dnf</div>
-    </div>
-  `
-
+  // ── Stats dentro do ver análise ──
   const ritmo = Math.min(99, Math.round((chosen.p1.corrida + chosen.p2.corrida) / 2 * 0.88 + Math.random() * 8))
   const pit   = Math.min(99, Math.round(55 + (chosen.p1.score - 70) * 0.45 + Math.random() * 12))
   const conf  = Math.min(99, Math.round(chosen.motor.durabi * 0.88 + Math.random() * 10))
   const dev   = Math.min(99, Math.round(chosen.chassi.downforce * 0.78 + Math.random() * 14))
+
+  document.getElementById('final-stats').innerHTML = `
+    <div class="stat-item"><div class="stat-val">${vitorias}</div><div class="stat-lbl">vitórias</div></div>
+    <div class="stat-item"><div class="stat-val">${podeio}</div><div class="stat-lbl">pódios</div></div>
+    <div class="stat-item"><div class="stat-val">${pontos}</div><div class="stat-lbl">pontos</div></div>
+    <div class="stat-item"><div class="stat-val">${abandonos}</div><div class="stat-lbl">dnf</div></div>
+  `
 
   document.getElementById('final-bars').innerHTML = [
     ['Ritmo de corrida', ritmo],
     ['Pit strategy',     pit],
     ['Confiabilidade',   conf],
     ['Desenvolvimento',  dev],
-  ].map(([label, val], i) => `
+  ].map(([label, val]) => `
     <div class="perf-row">
       <span class="perf-label">${label}</span>
-      <div class="perf-track">
-        <div class="perf-fill" id="perf-${i}"></div>
-      </div>
+      <div class="perf-track"><div class="perf-fill" data-val="${val}"></div></div>
       <span class="perf-val">${val}</span>
     </div>
   `).join('')
 
-  setTimeout(() => {
-    [ritmo, pit, conf, dev].forEach((val, i) => {
-      document.getElementById('perf-' + i).style.width = val + '%'
-    })
-  }, 100)
-
-  const gridOrdenado = Object.entries(campPilotos)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 20)
-
+  // ── Campeonato de pilotos ──
+  const gridOrdenado = gridOrdenadoTemp.slice(0, 20)
   document.getElementById('grid-list').innerHTML = gridOrdenado.map(([nome, pts], i) => {
     const pos = i + 1
     const isNosso = nome === nomeP1 || nome === nomeP2
     const posLabel = pos === 1 ? '🥇' : pos === 2 ? '🥈' : pos === 3 ? '🥉' : pos
     const medalCls = pos === 1 ? 'pos-1' : pos === 2 ? 'pos-2' : pos === 3 ? 'pos-3' : ''
-
     const nomeBase = nome.replace(/ '\d+$/, '')
     const adv = gridAdversarios.find(a => a.nome === nomeBase)
     const nac = nome === nomeP1 ? chosen.p1.nac
               : nome === nomeP2 ? chosen.p2.nac
               : adv ? adv.nac : '🏁'
-
     return `
       <div class="grid-row ${medalCls} ${isNosso ? 'nossa-equipe' : ''}">
         <span class="grid-pos">${posLabel}</span>
@@ -367,34 +362,25 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
     `
   }).join('')
 
-  const constOrdenados = Object.entries(equipes)
-    .sort((a, b) => b[1].pts - a[1].pts)
-    .slice(0, 3)
-
-  const medals = ['🥇', '🥈', '🥉']
-
-  document.getElementById('const-list').innerHTML = constOrdenados.map(([nome, info], i) => {
-    const nomes = info.pilotos
-      .filter(Boolean)
-      .map(p => p.nome)
-      .join(' · ')
-
-    const isNossa = info.nossa === true
-
-    return `
-      <div class="const-row ${isNossa ? 'nossa-equipe' : ''}">
-        <span class="const-medal">${medals[i]}</span>
-        <div class="const-info">
-          <div class="const-nome">${nome}</div>
-          <div class="const-pilotos">${nomes}</div>
-        </div>
-        <span class="const-pts">${info.pts} pts</span>
-      </div>
-    `
-  }).join('')
-
   document.getElementById('btn-nova').classList.add('show')
   document.getElementById('btn-rolar').disabled = false
 }
 
 document.getElementById('btn-simular').addEventListener('click', simularTemporada)
+
+function toggleVerMais() {
+  const wrap = document.getElementById('final-bars-wrap')
+  const btn  = document.getElementById('final-ver-mais')
+  const aberto = wrap.classList.toggle('aberto')
+  btn.classList.toggle('aberto', aberto)
+  btn.textContent = aberto ? '▴ fechar análise' : '▾ ver análise da equipe'
+
+  if (aberto) {
+    // anima as barras quando abre
+    setTimeout(() => {
+      document.querySelectorAll('.perf-fill').forEach(el => {
+        el.style.width = el.dataset.val + '%'
+      })
+    }, 50)
+  }
+}

@@ -119,7 +119,6 @@
       <div class="nome-equipe-row">
         <input type="text" id="input-nome-equipe" class="input-nome-equipe" placeholder="Nome da sua equipe (opcional)" maxlength="30">
       </div>
-      </div>
       <div class="action-row">
         <button class="btn btn-primary" id="btn-rolar">🎲 Rolar tudo</button>
         <button class="btn btn-secondary" id="btn-simular" disabled>▶ Simular</button>
@@ -140,21 +139,32 @@
     <!-- TELA 3 — RESULTADO -->
     <section class="tela tela-resultado" id="tela-resultado">
       <div class="card-final show" id="card-final">
-        <div class="final-hero">
-          <p class="final-label">resultado da temporada</p>
-          <h2 class="final-titulo" id="final-titulo"></h2>
-          <p class="final-desc" id="final-desc"></p>
-          <div class="final-stats" id="final-stats"></div>
-          <div class="final-bars" id="final-bars"></div>
-        </div>
-        <div class="final-grid">
-          <p class="section-title">🏁 Campeonato de pilotos</p>
-          <div id="grid-list"></div>
-        </div>
+
+        <!-- 1. Top 3 construtores -->
         <div class="final-construtores">
           <p class="section-title">🏗️ Top 3 construtores</p>
           <div id="const-list"></div>
         </div>
+
+        <!-- 2. Minha equipe em destaque (só se fora do top 3) -->
+        <div class="final-hero">
+          <h2 class="final-titulo" id="final-titulo"></h2>
+          <p class="final-desc" id="final-desc"></p>
+
+          <!-- 3. Ver análise (stats + barras) -->
+          <button class="final-ver-mais" id="final-ver-mais" onclick="toggleVerMais()">▾ ver análise da equipe</button>
+          <div class="final-bars-wrap" id="final-bars-wrap">
+            <div class="final-stats" id="final-stats"></div>
+            <div class="final-bars" id="final-bars"></div>
+          </div>
+        </div>
+
+        <!-- 4. Campeonato de pilotos -->
+        <div class="final-grid">
+          <p class="section-title">🏁 Campeonato de pilotos</p>
+          <div id="grid-list"></div>
+        </div>
+
       </div>
       <div class="btn-nova show" id="btn-nova">
         <button class="btn btn-primary" onclick="voltarParaEquipe()">↺ Nova temporada</button>

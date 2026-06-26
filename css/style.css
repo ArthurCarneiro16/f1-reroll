@@ -911,34 +911,118 @@
   .inicio-step-desc { font-size: 10px; }
 }
 
-/* ── Posições no card final ── */
-.final-posicoes {
+/* ── Posições dos pilotos no card final ── */
+.final-pilotos-pos {
   display: flex;
-  gap: 1.5rem;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 1.25rem;
   flex-wrap: wrap;
 }
 
-.final-pos-item {
+.final-piloto-pos {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: baseline;
+  gap: 5px;
 }
 
-.final-pos-num {
-  font-size: 28px;
+.final-piloto-num {
+  font-size: 22px;
   font-weight: 800;
   color: var(--red);
   line-height: 1;
 }
 
-.final-pos-lbl {
-  font-size: 10px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.final-piloto-nome {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
-.final-pos-equipe .final-pos-num {
+.final-piloto-sep {
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+.final-piloto-lbl {
+  font-size: 11px;
+  color: var(--text-muted);
+  width: 100%;
+  margin-top: -6px;
+}
+
+/* ── Ver mais / análise ── */
+.final-ver-mais {
+  width: 100%;
+  padding: 8px;
+  margin-top: 0.75rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.final-ver-mais:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.final-ver-mais.aberto {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.final-bars-wrap {
+  display: none;
+  margin-top: 1rem;
+}
+
+.final-bars-wrap.aberto {
+  display: block;
+}
+
+/* ── Nossa equipe em destaque (fora do top 3) ── */
+.nossa-equipe-destaque {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,215,0,0.05);
+  border: 1px solid rgba(255,215,0,0.2);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 1rem;
+}
+
+.nossa-equipe-pos {
+  font-size: 32px;
+  font-weight: 900;
   color: var(--gold);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.nossa-equipe-nome {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.nossa-equipe-pts {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* stats dentro do ver análise */
+.final-bars-wrap .final-stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
