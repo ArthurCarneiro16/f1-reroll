@@ -3,16 +3,12 @@
 // Gera card via Canvas API puro
 // ═══════════════════════════════════════
 
-function getRaridadeCard(score) {
+function getRaridadeCard(score, nome) {
+  if (nome === 'Ayrton Senna') return { label: 'ETERNO',   cor: '#FFD700', bg: '#3a2800' }
   if (score >= 95) return { label: 'LENDÁRIO', cor: '#c4b5fd', bg: '#3b1f7a' }
   if (score >= 85) return { label: 'RARO',     cor: '#93c5fd', bg: '#1e3a6e' }
   if (score >= 72) return { label: 'INCOMUM',  cor: '#6ee7b7', bg: '#14462e' }
   return                  { label: 'COMUM',    cor: '#9ca3af', bg: '#2a2a35' }
-}
-
-function estrelas(score) {
-  const n = score >= 95 ? 5 : score >= 85 ? 4 : score >= 72 ? 3 : score >= 60 ? 2 : 1
-  return '★'.repeat(n) + '☆'.repeat(5 - n)
 }
 
 function roundRect(ctx, x, y, w, h, r) {
@@ -30,182 +26,262 @@ function roundRect(ctx, x, y, w, h, r) {
 }
 
 function gerarCardCanvas(dadosCard) {
-  const { titulo, pontos, vitorias, podeio, abandonos, p1, p2, chassi, motor, nomeEquipe } = dadosCard
+  const { pontos, vitorias, podeio, abandonos, p1, p2, chassi, motor, nomeEquipe, posP1, posP2, top3, posEquipe, ptsEquipe } = dadosCard
 
   const W = 680
-  const ITEM_H = 90
-  const HEADER_H = 80
-  const RESULT_H = 160
-  const LABEL_H = 36
-  const FOOTER_H = 48
   const PAD = 32
-  const ITEMS_H = ITEM_H * 4 + 12 * 3 + 28 + 24
-  const H = HEADER_H + RESULT_H + ITEMS_H + FOOTER_H + 16
+  const HEADER_H = 76
+  const CONST_H = 52 * 3 + 8 * 2
+  const NOSSA_H = posEquipe > 3 ? 68 : 0
+  const PILOTOS_H = 48
+  const STATS_H = 60
+  const ITEM_H = 80
+  const ITEMS_H = ITEM_H * 4 + 8 * 3
+  const FOOTER_H = 80
+  const SL = 32 // section label height
+  const DIV = 16
+
+  const H = HEADER_H
+    + DIV + SL + CONST_H
+    + (posEquipe > 3 ? DIV + NOSSA_H : 0)
+    + DIV + PILOTOS_H
+    + DIV + SL + STATS_H
+    + DIV + SL + ITEMS_H
+    + DIV + FOOTER_H
 
   const canvas = document.createElement('canvas')
   canvas.width  = W
   canvas.height = H
   const ctx = canvas.getContext('2d')
 
-  // Fundo geral
   ctx.fillStyle = '#0f0f13'
   ctx.fillRect(0, 0, W, H)
 
-  // ── Header vermelho ──────────────────
+  // ── Header ──
   ctx.fillStyle = '#E24B4A'
   ctx.fillRect(0, 0, W, HEADER_H)
 
   ctx.fillStyle = '#fff'
-  ctx.font = 'bold 22px Arial'
-  ctx.letterSpacing = '4px'
-  ctx.fillText('F1 MANAGER', PAD, 34)
-  ctx.letterSpacing = '0px'
-
-  ctx.fillStyle = 'rgba(255,255,255,0.7)'
-  ctx.font = '18px Arial'
-  ctx.fillText('1994–2025', PAD, 58)
-
+  ctx.font = 'bold 20px Arial'
+  ctx.fillText('F1 MANAGER', PAD, 30)
+  ctx.fillStyle = 'rgba(255,255,255,0.65)'
+  ctx.font = '14px Arial'
+  ctx.fillText('1994–2025', PAD, 52)
   ctx.fillStyle = '#fff'
-  ctx.font = 'bold 22px Arial'
+  ctx.font = 'bold 18px Arial'
   ctx.textAlign = 'right'
-  ctx.fillText(nomeEquipe, W - PAD, 46)
+  ctx.fillText(nomeEquipe, W - PAD, 42)
   ctx.textAlign = 'left'
 
-  // ── Resultado ────────────────────────
-  let y = HEADER_H + 24
+  let y = HEADER_H + DIV
 
+  // ── Top 3 construtores ──
   ctx.fillStyle = '#55556a'
-  ctx.font = '14px Arial'
-  ctx.fillText('RESULTADO DA TEMPORADA', PAD, y)
-  y += 28
+  ctx.font = 'bold 11px Arial'
+  ctx.fillText('TOP 3 CONSTRUTORES', PAD, y + 14)
+  y += SL
 
-  ctx.fillStyle = '#f0f0f0'
-  ctx.font = 'bold 34px Arial'
-  ctx.fillText(titulo, PAD, y)
-  y += 44
+  const medals = ['🥇', '🥈', '🥉']
+  const medalColors = ['#FFD700', '#C0C0C0', '#CD7F32']
 
-  // Stats
-  const stats = [
-    { val: pontos,   lbl: 'PONTOS',   cor: '#E24B4A' },
-    { val: vitorias, lbl: 'VITÓRIAS', cor: '#E24B4A' },
-    { val: podeio,   lbl: 'PÓDIOS',   cor: '#E24B4A' },
-    { val: abandonos,lbl: 'DNF',      cor: '#55556a' },
-  ]
+  top3.forEach((eq, i) => {
+    const ey = y + i * (52 + 8)
+    ctx.fillStyle = '#1a1a20'
+    roundRect(ctx, PAD, ey, W - PAD * 2, 52, 8)
+    ctx.fill()
 
-  let sx = PAD
-  stats.forEach(s => {
-    ctx.fillStyle = s.cor
-    ctx.font = 'bold 38px Arial'
-    ctx.fillText(s.val, sx, y)
+    ctx.fillStyle = medalColors[i]
+    ctx.font = 'bold 18px Arial'
+    ctx.fillText(medals[i], PAD + 14, ey + 32)
 
-    ctx.fillStyle = '#55556a'
-    ctx.font = '13px Arial'
-    ctx.fillText(s.lbl, sx, y + 20)
+    ctx.fillStyle = eq.nossa ? '#FFD700' : '#f0f0f0'
+    ctx.font = eq.nossa ? 'bold 15px Arial' : '15px Arial'
+    ctx.fillText(eq.nome, PAD + 48, ey + 22)
 
-    sx += 140
+    ctx.fillStyle = '#888899'
+    ctx.font = '12px Arial'
+    ctx.fillText(eq.pilotos, PAD + 48, ey + 40)
+
+    ctx.fillStyle = eq.nossa ? '#FFD700' : '#E24B4A'
+    ctx.font = 'bold 15px Arial'
+    ctx.textAlign = 'right'
+    ctx.fillText(eq.pts + ' pts', W - PAD - 14, ey + 32)
+    ctx.textAlign = 'left'
   })
 
-  y += 44
+  y += CONST_H
+
+  // ── Minha equipe (fora do top 3) ──
+  if (posEquipe > 3) {
+    y += DIV
+    ctx.fillStyle = 'rgba(255,215,0,0.06)'
+    roundRect(ctx, PAD, y, W - PAD * 2, 52, 8)
+    ctx.fill()
+    ctx.strokeStyle = 'rgba(255,215,0,0.25)'
+    ctx.lineWidth = 1
+    roundRect(ctx, PAD, y, W - PAD * 2, 52, 8)
+    ctx.stroke()
+
+    ctx.fillStyle = '#FFD700'
+    ctx.font = 'bold 22px Arial'
+    ctx.fillText(posEquipe + 'º', PAD + 14, y + 33)
+
+    ctx.fillStyle = '#FFD700'
+    ctx.font = 'bold 15px Arial'
+    ctx.fillText(nomeEquipe, PAD + 58, y + 22)
+
+    ctx.fillStyle = '#888899'
+    ctx.font = '12px Arial'
+    ctx.fillText(ptsEquipe + ' pts', PAD + 58, y + 40)
+
+    y += NOSSA_H
+  }
+
+  y += DIV
+
+  // ── Posições dos pilotos ──
+  ctx.fillStyle = '#FFD700'
+  ctx.font = 'bold 26px Arial'
+  ctx.fillText(posP1 + 'º', PAD, y + 28)
+
+  const p1w = ctx.measureText(posP1 + 'º').width + 10
+  ctx.fillStyle = '#f0f0f0'
+  ctx.font = '15px Arial'
+  ctx.fillText(p1.nome, PAD + p1w, y + 28)
+
+  const p1nw = ctx.measureText(p1.nome).width + 24
+  ctx.fillStyle = '#55556a'
+  ctx.font = '15px Arial'
+  ctx.fillText('·', PAD + p1w + p1nw, y + 28)
+
+  ctx.fillStyle = '#FFD700'
+  ctx.font = 'bold 26px Arial'
+  ctx.fillText(posP2 + 'º', PAD + p1w + p1nw + 20, y + 28)
+
+  const p2x = PAD + p1w + p1nw + 20 + ctx.measureText(posP2 + 'º').width + 10
+  ctx.fillStyle = '#f0f0f0'
+  ctx.font = '15px Arial'
+  ctx.fillText(p2.nome, p2x, y + 28)
+
+  y += PILOTOS_H + DIV
 
   // Divisor
   ctx.strokeStyle = 'rgba(255,255,255,0.06)'
   ctx.lineWidth = 1
   ctx.beginPath()
-  ctx.moveTo(PAD, y)
-  ctx.lineTo(W - PAD, y)
-  ctx.stroke()
-  y += 20
+  ctx.moveTo(PAD, y); ctx.lineTo(W - PAD, y); ctx.stroke()
+  y += DIV
 
-  // ── Label equipe ─────────────────────
+  // ── Stats ──
   ctx.fillStyle = '#55556a'
-  ctx.font = '14px Arial'
-  ctx.fillText('EQUIPE SORTEADA', PAD, y + 16)
-  y += LABEL_H
+  ctx.font = 'bold 11px Arial'
+  ctx.fillText('TEMPORADA', PAD, y + 14)
+  y += SL
 
-  // ── Itens ────────────────────────────
-  const itens = [
-    { sigla: 'P1', label: 'PILOTO 1', nome: p1.nome + " '" + p1.ano,    sub: p1.nac + ' · Score ' + p1.score,   score: p1.score },
-    { sigla: 'P2', label: 'PILOTO 2', nome: p2.nome + " '" + p2.ano,    sub: p2.nac + ' · Score ' + p2.score,   score: p2.score },
-    { sigla: 'CH', label: 'CHASSI',   nome: chassi.nome,                 sub: chassi.sub,                        score: chassi.score },
-    { sigla: 'MT', label: 'MOTOR',    nome: motor.nome,                  sub: motor.sub,                         score: motor.score },
+  const stats = [
+    { val: vitorias,  lbl: 'VITÓRIAS' },
+    { val: podeio,    lbl: 'PÓDIOS'   },
+    { val: abandonos, lbl: 'DNF'      },
   ]
 
-  itens.forEach((item, i) => {
-    const iy = y + i * (ITEM_H + 12)
-    const r = getRaridadeCard(item.score)
-
-    // Card de fundo
-    ctx.fillStyle = '#1a1a20'
-    roundRect(ctx, PAD, iy, W - PAD * 2, ITEM_H, 10)
-    ctx.fill()
-
-    // Quadrado sigla
-    ctx.fillStyle = '#22222a'
-    roundRect(ctx, PAD + 14, iy + 18, 54, 54, 8)
-    ctx.fill()
-
-    ctx.fillStyle = '#888899'
-    ctx.font = 'bold 18px Arial'
-    ctx.textAlign = 'center'
-    ctx.fillText(item.sigla, PAD + 41, iy + 52)
-    ctx.textAlign = 'left'
-
-    // Textos
-    const tx = PAD + 84
-    ctx.fillStyle = '#55556a'
-    ctx.font = '12px Arial'
-    ctx.fillText(item.label, tx, iy + 28)
-
-    ctx.fillStyle = '#f0f0f0'
-    ctx.font = 'bold 18px Arial'
-    ctx.fillText(item.nome, tx, iy + 50)
-
-    ctx.fillStyle = '#888899'
-    ctx.font = '14px Arial'
-    ctx.fillText(item.sub, tx, iy + 70)
-
-    // Badge raridade
-    const bw = item.score >= 95 ? 100 : item.score >= 85 ? 70 : item.score >= 72 ? 94 : 76
-    const bx = W - PAD - 14 - bw
-    const by = iy + 16
-
-    ctx.fillStyle = r.bg
-    roundRect(ctx, bx, by, bw, 26, 5)
-    ctx.fill()
-
-    ctx.fillStyle = r.cor
-    ctx.font = 'bold 13px Arial'
-    ctx.textAlign = 'center'
-    ctx.fillText(r.label, bx + bw / 2, by + 17)
-    ctx.textAlign = 'left'
-
-    // Estrelas
+  let sx = PAD
+  stats.forEach(s => {
     ctx.fillStyle = '#E24B4A'
-    ctx.font = '16px Arial'
-    ctx.textAlign = 'right'
-    ctx.fillText(estrelas(item.score), W - PAD - 14, iy + 68)
-    ctx.textAlign = 'left'
+    ctx.font = 'bold 28px Arial'
+    ctx.fillText(s.val, sx, y + 28)
+    ctx.fillStyle = '#55556a'
+    ctx.font = '11px Arial'
+    ctx.fillText(s.lbl, sx, y + 46)
+    sx += 180
   })
 
-  y += itens.length * (ITEM_H + 12) - 12 + 20
+  y += STATS_H + DIV
 
-  // ── Footer ───────────────────────────
+  // Divisor
   ctx.strokeStyle = 'rgba(255,255,255,0.06)'
   ctx.lineWidth = 1
   ctx.beginPath()
-  ctx.moveTo(PAD, y)
-  ctx.lineTo(W - PAD, y)
-  ctx.stroke()
-  y += 20
+  ctx.moveTo(PAD, y); ctx.lineTo(W - PAD, y); ctx.stroke()
+  y += DIV
 
+  // ── Equipe sorteada ──
   ctx.fillStyle = '#55556a'
-  ctx.font = '14px Arial'
-  ctx.fillText('monte o seu em', PAD, y + 16)
+  ctx.font = 'bold 11px Arial'
+  ctx.fillText('EQUIPE SORTEADA', PAD, y + 14)
+  y += SL
+
+  const itens = [
+    { sigla: 'P1', label: 'PILOTO 1', nome: p1.nome + " '" + p1.ano, sub: p1.nac + ' · Score ' + p1.score, score: p1.score, nomePiloto: p1.nome },
+    { sigla: 'P2', label: 'PILOTO 2', nome: p2.nome + " '" + p2.ano, sub: p2.nac + ' · Score ' + p2.score, score: p2.score, nomePiloto: p2.nome },
+    { sigla: 'CH', label: 'CHASSI',   nome: chassi.nome,              sub: chassi.sub,                      score: chassi.score, nomePiloto: '' },
+    { sigla: 'MT', label: 'MOTOR',    nome: motor.nome,               sub: motor.sub,                       score: motor.score,  nomePiloto: '' },
+  ]
+
+  itens.forEach((item, i) => {
+    const iy = y + i * (ITEM_H + 8)
+    const r = getRaridadeCard(item.score, item.nomePiloto)
+
+    ctx.fillStyle = '#1a1a20'
+    roundRect(ctx, PAD, iy, W - PAD * 2, ITEM_H, 8)
+    ctx.fill()
+
+    ctx.fillStyle = '#22222a'
+    roundRect(ctx, PAD + 12, iy + 14, 48, 48, 6)
+    ctx.fill()
+
+    ctx.fillStyle = '#888899'
+    ctx.font = 'bold 13px Arial'
+    ctx.textAlign = 'center'
+    ctx.fillText(item.sigla, PAD + 36, iy + 43)
+    ctx.textAlign = 'left'
+
+    const tx = PAD + 74
+    ctx.fillStyle = '#55556a'
+    ctx.font = '10px Arial'
+    ctx.fillText(item.label, tx, iy + 22)
+
+    ctx.fillStyle = '#f0f0f0'
+    ctx.font = 'bold 16px Arial'
+    ctx.fillText(item.nome, tx, iy + 42)
+
+    ctx.fillStyle = '#888899'
+    ctx.font = '12px Arial'
+    ctx.fillText(item.sub, tx, iy + 62)
+
+    ctx.font = 'bold 10px Arial'
+    const bw = ctx.measureText(r.label).width + 18
+    const bx = W - PAD - 14 - bw
+    const bh = 22
+    const by = iy + (ITEM_H - bh) / 2
+
+    ctx.fillStyle = r.bg
+    roundRect(ctx, bx, by, bw, bh, 4)
+    ctx.fill()
+
+    ctx.fillStyle = r.cor
+    ctx.textAlign = 'center'
+    ctx.fillText(r.label, bx + bw / 2, by + 15)
+    ctx.textAlign = 'left'
+  })
+
+  y += ITEMS_H + DIV
+
+  // Divisor
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)'
+  ctx.lineWidth = 1
+  ctx.beginPath()
+  ctx.moveTo(PAD, y); ctx.lineTo(W - PAD, y); ctx.stroke()
+  y += 14
+
+  // ── Footer ──
+  ctx.fillStyle = '#55556a'
+  ctx.font = '13px Arial'
+  ctx.fillText('Monte o seu em', PAD, y + 18)
 
   ctx.fillStyle = '#E24B4A'
-  ctx.font = 'bold 14px Arial'
+  ctx.font = 'bold 13px Arial'
   ctx.textAlign = 'right'
-  ctx.fillText('arthurcarneiro16.github.io/f1-manager', W - PAD, y + 16)
+  ctx.fillText('arthurcarneiro16.github.io/f1-manager', W - PAD, y + 18)
   ctx.textAlign = 'left'
 
   return canvas
@@ -217,30 +293,43 @@ async function compartilhar() {
   const inputNome = document.getElementById('input-nome-equipe')
   const nomeEquipe = inputNome?.value.trim() || 'Minha Equipe'
 
-  const titulo    = document.getElementById('final-titulo')?.textContent || ''
   const statsEls  = document.querySelectorAll('.stat-val')
-  const pontos    = statsEls[0]?.textContent || '0'
-  const vitorias  = statsEls[1]?.textContent || '0'
-  const podeio    = statsEls[2]?.textContent || '0'
+  const vitorias  = statsEls[0]?.textContent || '0'
+  const podeio    = statsEls[1]?.textContent || '0'
+  const pontos    = statsEls[2]?.textContent || '0'
   const abandonos = statsEls[3]?.textContent || '0'
 
+  const posEls = document.querySelectorAll('.final-piloto-num')
+  const posP1 = posEls[0]?.textContent?.replace('º','') || ''
+  const posP2 = posEls[1]?.textContent?.replace('º','') || ''
+
+  const constRows = document.querySelectorAll('.const-row')
+  const top3 = Array.from(constRows).slice(0, 3).map(row => ({
+    nome:    row.querySelector('.const-nome')?.textContent || '',
+    pilotos: row.querySelector('.const-pilotos')?.textContent || '',
+    pts:     row.querySelector('.const-pts')?.textContent?.replace(' pts','') || '',
+    nossa:   row.classList.contains('nossa-equipe'),
+  }))
+
+  const nossaDestaque = document.querySelector('.nossa-equipe-destaque')
+  const posEquipe = nossaDestaque ? parseInt(nossaDestaque.querySelector('.nossa-equipe-pos')?.textContent) : 0
+  const ptsEquipe = nossaDestaque ? nossaDestaque.querySelector('.nossa-equipe-pts')?.textContent?.replace(' pts','') : pontos
+
   const canvas = gerarCardCanvas({
-    titulo, pontos, vitorias, podeio, abandonos,
-    nomeEquipe,
-    p1:     chosen.p1,
-    p2:     chosen.p2,
-    chassi: chosen.chassi,
-    motor:  chosen.motor,
+    pontos, vitorias, podeio, abandonos,
+    nomeEquipe, posP1, posP2,
+    top3, posEquipe, ptsEquipe,
+    p1: chosen.p1, p2: chosen.p2,
+    chassi: chosen.chassi, motor: chosen.motor,
   })
 
   canvas.toBlob(async (blob) => {
     const file = new File([blob], 'f1-manager-resultado.png', { type: 'image/png' })
-
     try {
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           title: 'F1 Manager',
-          text: titulo + ' — ' + pontos + ' pts · ' + vitorias + ' vitórias\narthurcarneiro16.github.io/f1-manager',
+          text: vitorias + ' vitórias · ' + podeio + ' pódios · ' + pontos + ' pts\narthurcarneiro16.github.io/f1-manager',
           files: [file],
         })
       } else {
