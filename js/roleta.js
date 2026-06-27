@@ -223,11 +223,16 @@ function rolarLivres(onDone) {
   spinningCount = livres.length
 
   const finais = {}
-  livres.forEach(key => {
+  // Sorteia P1 primeiro se estiver livre, para garantir exclusão no P2
+  const ordemSorteiro = ['p1', 'chassi', 'motor', 'p2'].filter(k => livres.includes(k))
+  ordemSorteiro.forEach(key => {
     const pool = poolOf(key)
-    finais[key] = key === 'p2'
-      ? randExcluding(pool, chosen.p1)
-      : weightedRand(pool)
+    if (key === 'p2') {
+      const excludir = finais['p1'] || chosen.p1
+      finais[key] = randExcluding(pool, excludir)
+    } else {
+      finais[key] = weightedRand(pool)
+    }
   })
 
   consumirBoost()
