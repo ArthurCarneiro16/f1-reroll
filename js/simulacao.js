@@ -81,7 +81,7 @@ function renderCorrida(resultado, indice) {
   const row = document.createElement('div')
   row.className = 'corrida-row'
 
-  const cls = dnf ? 'r-loss' : win ? 'r-win' : posFrente <= 5 ? 'r-ok' : ''
+  const cls = dnf ? 'r-loss' : win ? 'r-win' : posFrente <= 3 ? 'r-ok' : ''
   const resTexto = dnf
     ? `P${posFrente}/DNF ✗`
     : win
