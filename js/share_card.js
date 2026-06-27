@@ -128,11 +128,13 @@ function gerarCardCanvas(dadosCard) {
 
     ctx.fillStyle = '#FFD700'
     ctx.font = 'bold 15px Arial'
-    ctx.fillText(nomeEquipe, PAD + 58, y + 22)
+    ctx.fillText(nomeEquipe, PAD + 58, y + 33)
 
-    ctx.fillStyle = '#888899'
-    ctx.font = '12px Arial'
-    ctx.fillText(ptsEquipe + ' pts', PAD + 58, y + 40)
+    ctx.fillStyle = '#FFD700'
+    ctx.font = 'bold 15px Arial'
+    ctx.textAlign = 'right'
+    ctx.fillText(ptsEquipe + ' pts', W - PAD - 14, y + 33)
+    ctx.textAlign = 'left'
 
     y += NOSSA_H
   }
