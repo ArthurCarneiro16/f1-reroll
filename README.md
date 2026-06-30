@@ -14,8 +14,9 @@ Monte sua equipe sorteando pilotos, chassi e motor de **1994 a 2025** e simule u
 1. Clique em **🎲 Rolar tudo** para sortear sua equipe
 2. Escolha **um item** para travar — os outros rolam automaticamente
 3. Repita até montar os 4 slots: Piloto 1, Piloto 2, Chassi e Motor
-4. Clique em **▶ Simular** e acompanhe os 21 GPs corrida por corrida
-5. Veja o campeonato final de pilotos e construtores
+4. Você tem **3 tentativas** de rolagem — use com sabedoria
+5. Clique em **▶ Simular** e acompanhe os 21 GPs corrida por corrida
+6. Veja o campeonato final de pilotos e construtores
 
 ---
 
@@ -25,6 +26,7 @@ Itens melhores aparecem com menos frequência — quanto mais raro, mais difíci
 
 | Raridade | Score | Chance |
 |---|---|---|
+| ✨ ETERNO | 99 | Exclusivo do Senna |
 | 🟣 LENDÁRIO | 95+ | 5% |
 | 🔵 RARO | 85–94 | 15% |
 | 🟢 INCOMUM | 72–84 | 30% |
@@ -37,16 +39,19 @@ Sortear **Senna + Red Bull RB19 + Honda RBPTH002** é quase impossível — e é
 ## 🏁 O que tem no jogo
 
 - **70+ pilotos** de 1994 a 2025 com atributos individuais calibrados
-- **Ayrton Senna** como lenda especial com status 99 em tudo — uma homenagem
+- **Ayrton Senna** como lenda especial com status 99 em tudo e raridade **ETERNO** — uma homenagem
 - **27 chassi** históricos das eras V10, V8, V6 híbrido e 2022+
 - **21 motores** históricos com potência e durabilidade reais
-- **21 GPs** com traçados SVG, probabilidade de chuva e perfil de circuito
-- Bônus por perfil de circuito: técnico, potência, resistência e misto
+- **21 GPs** com traçados SVG gerados a partir de coordenadas GPS reais
+- Perfis de circuito: técnico, potência, resistência e misto
 - Bônus de chuva para pilotos como Hamilton e Senna
 - Bônus de pressão nas últimas 5 corridas da temporada
 - DNF probabilístico baseado na durabilidade do motor
+- Limite de 3 tentativas de rolagem por rodada
+- Card compartilhável com resultado e draft da equipe
 - Campeonato de pilotos com os 20 classificados
 - Top 3 construtores com pontuação acumulada
+- Navegação entre telas pelas bolinhas de progresso
 
 ---
 
@@ -60,7 +65,7 @@ score_carro  = chassi × 0.55 + motor × 0.45
 score_final  = score_piloto × 0.40 + score_carro × 0.60 + variância (±12)
 ```
 
-O carro vale **60%** do resultado — fiel à realidade da F1, onde o carro é determinante. O piloto com maior score sempre termina à frente do companheiro de equipe.
+O carro vale **60%** do resultado — fiel à realidade da F1, onde o carro é determinante.
 
 ### Perfis de circuito
 
@@ -82,9 +87,10 @@ f1-manager/
 │   ├── style.css       ← layout e componentes
 │   └── variables.css   ← cores, fontes e tokens de design
 ├── js/
-│   ├── data.js         ← pilotos, chassi, motores e corridas
+│   ├── data.js         ← pilotos, chassi, motores, corridas e SVGs dos circuitos
 │   ├── roleta.js       ← lógica de sorteio e raridade
-│   └── simulacao.js    ← motor de corrida e campeonato
+│   ├── simulacao.js    ← motor de corrida e campeonato
+│   └── share_card.js   ← geração do card compartilhável via Canvas API
 └── index.html          ← página principal
 ```
 
@@ -105,11 +111,17 @@ f1-manager/
 
 - [x] Sistema de roleta com raridade (gacha)
 - [x] Mecânica de travar um → rolar os outros
+- [x] Limite de 3 tentativas de rolagem
 - [x] 70+ pilotos históricos com atributos calibrados
+- [x] Raridade ETERNO exclusiva para Ayrton Senna
 - [x] Simulação de 21 GPs corrida por corrida
 - [x] Perfis de circuito com bônus e eventos por pista
+- [x] Traçados SVG gerados de coordenadas GPS reais
 - [x] Bônus de chuva e pressão
 - [x] Campeonato de pilotos e construtores
+- [x] Card compartilhável via Canvas API
+- [x] Navegação pelas bolinhas de progresso
+- [x] Landing page de introdução
 - [x] Publicado via GitHub Pages
 - [ ] Card compartilhável da temporada
 - [ ] Backend Python para salvar partidas
@@ -125,6 +137,7 @@ A IA ajudou a:
 - Definir a arquitetura do projeto
 - Explicar conceitos de HTML, CSS, JavaScript e Git ao longo do desenvolvimento
 - Calibrar os atributos dos pilotos e a matemática da simulação
+- Converter coordenadas GPS reais dos circuitos em SVGs precisos
 - Sugerir melhorias de UX e mecânicas de jogo
 
 O objetivo foi usar a IA como um professor e parceiro técnico, não como substituto do aprendizado.
