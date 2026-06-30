@@ -12,6 +12,8 @@ let boostAtivo = false
 let boostUsado = false
 let telaSimulada = false
 let telaResultado = false
+let rolagemCount = 0
+const MAX_ROLAGENS = 3
 
 // ── FUNÇÕES AUXILIARES ───────────────────
 
@@ -257,6 +259,12 @@ function iniciarRolagem() {
   document.getElementById('btn-rolar').disabled = true
   document.getElementById('btn-simular').disabled = true
 
+  rolagemCount++
+  if (rolagemCount >= MAX_ROLAGENS) {
+    document.getElementById('btn-rolar').disabled = true
+  }
+  atualizarHintRolagens()
+
   phase = 'idle'
   const keys = ['p1', 'p2', 'chassi', 'motor']
   keys.forEach(k => locked[k] = false)
@@ -302,8 +310,14 @@ function travar(key) {
 function terminar() {
   phase = 'done'
   updateCardStates()
-  setHint('Equipe montada! Simule ou monte uma nova.')
-  document.getElementById('btn-rolar').disabled = false
+  const restantes = MAX_ROLAGENS - rolagemCount
+  const msgRolagens = rolagemCount >= MAX_ROLAGENS
+    ? 'Limite de rolagens atingido. Simule!'
+    : `Equipe montada! ${restantes} rolagem(ns) restante(s).`
+  setHint(msgRolagens)
+  if (rolagemCount < MAX_ROLAGENS) {
+    document.getElementById('btn-rolar').disabled = false
+  }
   document.getElementById('btn-simular').disabled = false
 }
 
@@ -344,6 +358,7 @@ function resetar() {
   telaSimulada = false
   telaResultado = false
   spinningCount = 0
+  rolagemCount = 0
 
   document.getElementById('campanha').classList.remove('show')
   document.getElementById('btn-nova').classList.remove('show')
@@ -355,6 +370,7 @@ function resetar() {
   if (inputNome) inputNome.value = ''
 
   setHint('Clique em "Rolar tudo" para começar')
+  document.getElementById('btn-rolar').innerHTML = '🎲 Rolar tudo <span style="opacity:0.6;font-size:11px;font-weight:400">· 3 tentativas</span>'
 
   irParaTela('equipe')
 }
@@ -366,6 +382,17 @@ function voltarParaEquipe() {
 // ── ATUALIZA O HINT ──────────────────────
 function setHint(texto) {
   document.getElementById('phase-hint').textContent = texto
+}
+
+// ── HINT DE ROLAGENS RESTANTES ──────────
+function atualizarHintRolagens() {
+  const restantes = MAX_ROLAGENS - rolagemCount
+  const btn = document.getElementById('btn-rolar')
+  if (rolagemCount >= MAX_ROLAGENS) {
+    btn.textContent = '🎲 Rolar tudo · 0 tentativas'
+  } else {
+    btn.innerHTML = `🎲 Rolar tudo <span style="opacity:0.6;font-size:11px;font-weight:400">· ${restantes} tentativa${restantes !== 1 ? 's' : ''}</span>`
+  }
 }
 
 // ── NAVEGAÇÃO ENTRE TELAS ────────────────
@@ -414,3 +441,6 @@ document.getElementById('lock-p1').addEventListener('click',     () => travar('p
 document.getElementById('lock-p2').addEventListener('click',     () => travar('p2'))
 document.getElementById('lock-chassi').addEventListener('click', () => travar('chassi'))
 document.getElementById('lock-motor').addEventListener('click',  () => travar('motor'))
+
+// Inicializa texto do botão com tentativas
+document.getElementById('btn-rolar').innerHTML = '🎲 Rolar tudo <span style="opacity:0.6;font-size:11px;font-weight:400">· 3 tentativas</span>'
