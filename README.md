@@ -123,7 +123,7 @@ f1-manager/
 - [x] Navegação pelas bolinhas de progresso
 - [x] Landing page de introdução
 - [x] Publicado via GitHub Pages
-- [ ] Card compartilhável da temporada
+- [x] Card compartilhável da temporada
 - [ ] Backend Python para salvar partidas
 - [ ] Rust/WebAssembly no motor de simulação
 
