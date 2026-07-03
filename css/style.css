@@ -16,10 +16,14 @@
 }
 
 .header-title {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 3px;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 6px;
   color: var(--text-primary);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  -webkit-text-stroke: 2px var(--text-primary);
+  paint-order: stroke fill;
 }
 
 .header-sub {
@@ -47,11 +51,17 @@
 
 .tela.active {
   display: block;
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tela.active.tela-equipe {
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -230,11 +240,21 @@
   text-transform: uppercase;
 }
 
-.rarity-legendary { background: var(--legendary-bg); color: var(--legendary-text); }
+.rarity-legendary { background: var(--legendary-bg); color: var(--legendary-text); animation: glow-legendary 2s ease-in-out infinite alternate; }
+.rarity-eternal   { background: #3a2800; color: #FFD700; border: 1px solid rgba(255,215,0,0.4); letter-spacing: 1.5px; animation: glow-eternal 1.5s ease-in-out infinite alternate; }
+
+@keyframes glow-legendary {
+  from { box-shadow: 0 0 4px rgba(196,181,253,0.3); }
+  to   { box-shadow: 0 0 12px rgba(196,181,253,0.7), 0 0 20px rgba(139,92,246,0.4); }
+}
+
+@keyframes glow-eternal {
+  from { box-shadow: 0 0 6px rgba(255,215,0,0.4); }
+  to   { box-shadow: 0 0 16px rgba(255,215,0,0.9), 0 0 30px rgba(255,165,0,0.5); }
+}
 .rarity-rare      { background: var(--rare-bg);      color: var(--rare-text); }
 .rarity-uncommon  { background: var(--uncommon-bg);  color: var(--uncommon-text); }
 .rarity-common    { background: var(--common-bg);    color: var(--common-text); }
-.rarity-eternal   { background: #3a2800; color: #FFD700; border: 1px solid rgba(255,215,0,0.4); letter-spacing: 1.5px; }
 
 /* ── Botão travar ── */
 .lock-btn {
@@ -324,10 +344,13 @@
 }
 
 .campanha-title {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 400;
   color: var(--text-primary);
   margin-top: 3px;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 /* ── Linha de cada corrida ── */
@@ -438,10 +461,13 @@
 }
 
 .final-titulo {
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 400;
   color: var(--text-primary);
   margin-bottom: 6px;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .final-desc {

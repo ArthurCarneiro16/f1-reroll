@@ -249,6 +249,17 @@ function simularTemporada() {
   ), delay)
 }
 
+function animarContador(elemento, valorFinal, duracao = 1200) {
+  const inicio = performance.now()
+  const update = (agora) => {
+    const progresso = Math.min((agora - inicio) / duracao, 1)
+    const ease = 1 - Math.pow(1 - progresso, 3) // ease out cubic
+    elemento.textContent = Math.round(ease * valorFinal)
+    if (progresso < 1) requestAnimationFrame(update)
+  }
+  requestAnimationFrame(update)
+}
+
 function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equipes, nomeP1, nomeP2, nomeNossaEquipe, gridAdversarios) {
   irParaTela('resultado')
   telaResultado = true
@@ -318,11 +329,17 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
   const dev   = Math.min(99, Math.round(chosen.chassi.downforce * 0.78 + Math.random() * 14))
 
   document.getElementById('final-stats').innerHTML = `
-    <div class="stat-item"><div class="stat-val">${vitorias}</div><div class="stat-lbl">vitórias</div></div>
-    <div class="stat-item"><div class="stat-val">${podeio}</div><div class="stat-lbl">pódios</div></div>
-    <div class="stat-item"><div class="stat-val">${pontos}</div><div class="stat-lbl">pontos</div></div>
-    <div class="stat-item"><div class="stat-val">${abandonos}</div><div class="stat-lbl">dnf</div></div>
+    <div class="stat-item"><div class="stat-val" id="cnt-vitorias">0</div><div class="stat-lbl">vitórias</div></div>
+    <div class="stat-item"><div class="stat-val" id="cnt-podeio">0</div><div class="stat-lbl">pódios</div></div>
+    <div class="stat-item"><div class="stat-val" id="cnt-pontos">0</div><div class="stat-lbl">pontos</div></div>
+    <div class="stat-item"><div class="stat-val" id="cnt-abandonos">0</div><div class="stat-lbl">dnf</div></div>
   `
+  setTimeout(() => {
+    animarContador(document.getElementById('cnt-vitorias'),  parseInt(vitorias),  1000)
+    animarContador(document.getElementById('cnt-podeio'),    parseInt(podeio),    1200)
+    animarContador(document.getElementById('cnt-pontos'),    parseInt(pontos),    1500)
+    animarContador(document.getElementById('cnt-abandonos'), parseInt(abandonos), 800)
+  }, 300)
 
   document.getElementById('final-bars').innerHTML = [
     ['Ritmo de corrida', ritmo],
