@@ -240,13 +240,17 @@ function simularTemporada() {
   })
 
   const delay = resultados.length * 260 + 500
-  setTimeout(() => mostrarCardFinal(
-    vitorias, podeio, abandonos, pontos,
-    campPilotos, equipes,
-    nomeP1, nomeP2,
-    nomeNossaEquipe,
-    gridAdversarios
-  ), delay)
+  setTimeout(() => {
+    mostrarCardFinal(
+      vitorias, podeio, abandonos, pontos,
+      campPilotos, equipes,
+      nomeP1, nomeP2,
+      nomeNossaEquipe,
+      gridAdversarios
+    )
+    // Botão habilitado manualmente
+    document.getElementById('btn-ver-resultado-final').style.display = 'block'
+  }, delay)
 }
 
 function animarContador(elemento, valorFinal, duracao = 1200) {
@@ -260,8 +264,13 @@ function animarContador(elemento, valorFinal, duracao = 1200) {
   requestAnimationFrame(update)
 }
 
+// Guarda os valores finais dos contadores até a seção "ver análise" ser aberta
+// (ela começa com display:none — animar antes disso deixaria a animação invisível)
+let contadoresPendentes = null
+let contadoresJaAnimados = false
+
 function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equipes, nomeP1, nomeP2, nomeNossaEquipe, gridAdversarios) {
-  irParaTela('resultado')
+  // irParaTela('resultado') // Comentado para não mudar de tela automaticamente
   telaResultado = true
 
   document.getElementById('card-final').classList.add('show')
@@ -334,12 +343,15 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
     <div class="stat-item"><div class="stat-val" id="cnt-pontos">0</div><div class="stat-lbl">pontos</div></div>
     <div class="stat-item"><div class="stat-val" id="cnt-abandonos">0</div><div class="stat-lbl">dnf</div></div>
   `
-  setTimeout(() => {
-    animarContador(document.getElementById('cnt-vitorias'),  parseInt(vitorias),  1000)
-    animarContador(document.getElementById('cnt-podeio'),    parseInt(podeio),    1200)
-    animarContador(document.getElementById('cnt-pontos'),    parseInt(pontos),    1500)
-    animarContador(document.getElementById('cnt-abandonos'), parseInt(abandonos), 800)
-  }, 300)
+
+  // Guarda os valores para animar quando o usuário abrir "ver análise"
+  contadoresPendentes = {
+    vitorias: parseInt(vitorias),
+    podeio: parseInt(podeio),
+    pontos: parseInt(pontos),
+    abandonos: parseInt(abandonos)
+  }
+  contadoresJaAnimados = false
 
   document.getElementById('final-bars').innerHTML = [
     ['Ritmo de corrida', ritmo],
@@ -399,5 +411,14 @@ function toggleVerMais() {
         el.style.width = el.dataset.val + '%'
       })
     }, 50)
+
+    // anima os contadores só na primeira vez que a seção é aberta
+    if (!contadoresJaAnimados && contadoresPendentes) {
+      contadoresJaAnimados = true
+      animarContador(document.getElementById('cnt-vitorias'),  contadoresPendentes.vitorias,  1000)
+      animarContador(document.getElementById('cnt-podeio'),    contadoresPendentes.podeio,    1200)
+      animarContador(document.getElementById('cnt-pontos'),    contadoresPendentes.pontos,    1500)
+      animarContador(document.getElementById('cnt-abandonos'), contadoresPendentes.abandonos, 800)
+    }
   }
 }
