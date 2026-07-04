@@ -295,11 +295,14 @@ async function compartilhar() {
   const inputNome = document.getElementById('input-nome-equipe')
   const nomeEquipe = inputNome?.value.trim() || 'Minha Equipe'
 
-  const statsEls  = document.querySelectorAll('.stat-val')
-  const vitorias  = statsEls[0]?.textContent || '0'
-  const podeio    = statsEls[1]?.textContent || '0'
-  const pontos    = statsEls[2]?.textContent || '0'
-  const abandonos = statsEls[3]?.textContent || '0'
+  // Lê os valores direto da variável salva em simulacao.js, não do DOM.
+  // Os contadores só são escritos no DOM quando o usuário abre "ver análise
+  // da equipe" (animarContador) — se ele nunca abriu essa seção antes de
+  // compartilhar, o texto no DOM ainda estaria "0" para todos.
+  const vitorias  = contadoresPendentes?.vitorias  ?? 0
+  const podeio    = contadoresPendentes?.podeio    ?? 0
+  const pontos    = contadoresPendentes?.pontos    ?? 0
+  const abandonos = contadoresPendentes?.abandonos ?? 0
 
   const posEls = document.querySelectorAll('.final-piloto-num')
   const posP1 = posEls[0]?.textContent?.replace('º','') || ''
