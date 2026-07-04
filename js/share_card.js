@@ -44,7 +44,7 @@ function gerarCardCanvas(dadosCard) {
   const H = HEADER_H
     + DIV + SL + CONST_H
     + (posEquipe > 3 ? DIV + NOSSA_H : 0)
-    + DIV + PILOTOS_H
+    + DIV + SL + PILOTOS_H
     + DIV + SL + STATS_H
     + DIV + SL + ITEMS_H
     + DIV + FOOTER_H
@@ -142,6 +142,11 @@ function gerarCardCanvas(dadosCard) {
   y += DIV
 
   // ── Posições dos pilotos ──
+  ctx.fillStyle = '#55556a'
+  ctx.font = 'bold 11px Arial'
+  ctx.fillText('PILOTOS DA EQUIPE', PAD, y + 14)
+  y += SL
+
   ctx.fillStyle = '#FFD700'
   ctx.font = 'bold 26px Arial'
   ctx.fillText(posP1 + 'º', PAD, y + 28)
