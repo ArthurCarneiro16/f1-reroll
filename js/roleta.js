@@ -403,22 +403,34 @@ function atualizarHintRolagens() {
 
 // ── NAVEGAÇÃO ENTRE TELAS ────────────────
 function irParaTela(nomeTela) {
-  document.querySelectorAll('.tela').forEach(t => t.classList.remove('active'))
+  const telaAtual = document.querySelector('.tela.active')
+  const telaAlvo  = document.getElementById('tela-' + nomeTela)
+  if (!telaAlvo || telaAtual === telaAlvo) return
 
-  const telaAlvo = document.getElementById('tela-' + nomeTela)
-  if (telaAlvo) telaAlvo.classList.add('active')
+  function mostrarAlvo() {
+    document.querySelectorAll('.tela').forEach(t => t.classList.remove('active', 'saindo'))
+    telaAlvo.classList.add('active')
 
-  const progressoRow = document.getElementById('progresso-row')
-  if (nomeTela === 'inicio') {
-    progressoRow.style.display = 'none'
-  } else {
-    progressoRow.style.display = 'flex'
-    document.querySelectorAll('.progresso-step').forEach(s => s.classList.remove('ativo'))
-    const stepAlvo = document.getElementById('step-' + nomeTela)
-    if (stepAlvo) stepAlvo.classList.add('ativo')
+    const progressoRow = document.getElementById('progresso-row')
+    if (nomeTela === 'inicio') {
+      progressoRow.style.display = 'none'
+    } else {
+      progressoRow.style.display = 'flex'
+      document.querySelectorAll('.progresso-step').forEach(s => s.classList.remove('ativo'))
+      const stepAlvo = document.getElementById('step-' + nomeTela)
+      if (stepAlvo) stepAlvo.classList.add('ativo')
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  if (telaAtual) {
+    // Deixa a tela atual sumir suavemente antes de mostrar a próxima
+    telaAtual.classList.add('saindo')
+    setTimeout(mostrarAlvo, 200)
+  } else {
+    mostrarAlvo()
+  }
 }
 
 // ── NAVEGAÇÃO PELAS BOLINHAS ─────────────
