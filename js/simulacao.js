@@ -299,7 +299,8 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
       <span class="nossa-equipe-pos">${posEquipe}º</span>
       <div class="nossa-equipe-info">
         <div class="nossa-equipe-nome">${nomeNossaEquipe}</div>
-        <div class="nossa-equipe-pts">${nossaEquipeInfo ? nossaEquipeInfo[1].pts : pontos} pts</div>
+      </div>
+      <span class="nossa-equipe-pts">${nossaEquipeInfo ? nossaEquipeInfo[1].pts : pontos} pts</span>
       </div>
     </div>
   `
