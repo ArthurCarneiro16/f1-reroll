@@ -672,7 +672,18 @@
 ══════════════════════════════ */
 .btn-nova {
   display: flex;
+  gap: 10px;
   margin-top: 1.25rem;
+}
+
+.btn-share {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-share:hover {
+  background: var(--bg-hover);
 }
 
 /* ══════════════════════════════
@@ -1065,18 +1076,25 @@
   border-top: 1px solid rgba(255,255,255,0.05);
 }
 
+/* ── Ação separada da campanha (fica fora do card, como no draft) ── */
+.action-row-temporada {
+  display: none;
+  margin-top: 1rem;
+}
+
+.action-row-temporada.show {
+  display: flex;
+}
+
 /* ── Botão ver resultado final (padrão dos outros botões) ── */
 #btn-ver-resultado-final {
-  display: none;
-  width: calc(100% - 2.5rem);
-  margin: 1.25rem 1.25rem 1.25rem;
+  width: 100%;
   opacity: 0;
   transform: translateY(8px);
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 #btn-ver-resultado-final.show {
-  display: block;
   opacity: 1;
   transform: translateY(0);
 }

@@ -202,6 +202,8 @@ function renderCorrida(resultado, indice) {
   return row
 }
 
+let timeoutFinalId = null // guarda o timeout do resultado final, pra poder cancelar se uma nova simulação começar antes
+
 function simularTemporada() {
   if (!chosen.p1 || !chosen.p2 || !chosen.chassi || !chosen.motor) return
 
@@ -217,8 +219,16 @@ function simularTemporada() {
   document.getElementById('seed-txt').textContent =
     'seed #' + Math.random().toString(36).substr(2, 5).toUpperCase()
   document.getElementById('corridas-list').innerHTML = ''
-  dotsAtivos = []
+  pararTodosPontos()
+  if (timeoutFinalId) {
+    clearTimeout(timeoutFinalId) // cancela o resultado final de uma simulação anterior, se ainda estiver pendente
+    timeoutFinalId = null
+  }
   document.getElementById('card-final').classList.remove('show')
+  document.getElementById('action-row-temporada').classList.remove('show')
+  document.getElementById('final-bars-wrap').classList.remove('aberto')
+  document.getElementById('final-ver-mais').classList.remove('aberto')
+  document.getElementById('final-ver-mais').textContent = '▾ ver análise da equipe'
   document.getElementById('campanha').classList.add('show')
   document.getElementById('btn-nova').classList.remove('show')
 
@@ -314,7 +324,8 @@ function simularTemporada() {
   })
 
   const delay = resultados.length * 450 + 500
-  setTimeout(() => {
+  timeoutFinalId = setTimeout(() => {
+    timeoutFinalId = null
     pararTodosPontos()
     mostrarCardFinal(
       vitorias, podeio, abandonos, pontos,
@@ -323,7 +334,8 @@ function simularTemporada() {
       nomeNossaEquipe,
       gridAdversarios
     )
-    // Botão exibido com transição suave (ver estilo #btn-ver-resultado-final.show no CSS)
+    // Wrapper exibido com transição suave (ver estilo .action-row-temporada.show no CSS)
+    document.getElementById('action-row-temporada').classList.add('show')
     document.getElementById('btn-ver-resultado-final').classList.add('show')
   }, delay)
 }
