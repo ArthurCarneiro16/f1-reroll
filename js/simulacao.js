@@ -70,6 +70,78 @@ function simularCorrida(corrida, indice, totalCorridas, gridAdversarios) {
   return { corrida, pFrente, pAtras, posFrente, posAtras, win, dnf, choveu: resultA.choveu, evento }
 }
 
+// ── PONTO ANIMADO PERCORRENDO O CIRCUITO ──
+// Usa getTotalLength/getPointAtLength do próprio path — funciona com
+// qualquer traçado automaticamente, sem precisar editar os SVGs.
+// Fica rodando até a corrida "sair da fila" (quando 2 corridas mais novas
+// já começaram) — assim os pontos vão sumindo aos poucos ao longo da
+// simulação, em vez de todos pararem juntos no final.
+// Se o mouse estiver em cima do circuito, continua rodando enquanto o
+// hover durar, mesmo que já tenha saído da fila.
+let dotsAtivos = [] // fila dos pontos ainda "correndo" (mais antigo primeiro)
+const MAX_DOTS_ATIVOS = 6 // corrida atual + até 5 anteriores rodando ao mesmo tempo
+
+function pararTodosPontos() {
+  dotsAtivos.forEach(entrada => entrada.parar())
+  dotsAtivos = []
+}
+
+function animarPontoCircuito(svgEl, duracaoVoltaMs = 2500) {
+  const path = svgEl.querySelector('path')
+  if (!path) return
+  const totalLength = path.getTotalLength()
+  const track = svgEl.closest('.corrida-track')
+
+  const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+  dot.setAttribute('r', '1.6')
+  dot.setAttribute('class', 'track-dot')
+  svgEl.appendChild(dot)
+
+  let inicio = null
+  let hovering = false
+  let ativo = true    // false quando essa corrida sai da fila (substituída por corridas mais novas)
+  let rodando = true   // controla se o loop de animação está de fato girando
+
+  function frame(agora) {
+    if (!ativo && !hovering) {
+      dot.style.opacity = '0'
+      rodando = false
+      return
+    }
+
+    if (!inicio) inicio = agora
+    const t = ((agora - inicio) % duracaoVoltaMs) / duracaoVoltaMs
+    const ponto = path.getPointAtLength(t * totalLength)
+    dot.setAttribute('cx', ponto.x)
+    dot.setAttribute('cy', ponto.y)
+    requestAnimationFrame(frame)
+  }
+  requestAnimationFrame(frame)
+
+  if (track) {
+    track.addEventListener('mouseenter', () => {
+      hovering = true
+      dot.style.opacity = '1'
+      if (!rodando) {
+        rodando = true
+        inicio = null
+        requestAnimationFrame(frame)
+      }
+    })
+    track.addEventListener('mouseleave', () => {
+      hovering = false
+    })
+  }
+
+  // Entra na fila de pontos ativos; se passar do limite, o mais antigo sai (para e some)
+  const entrada = { parar: () => { ativo = false } }
+  dotsAtivos.push(entrada)
+  while (dotsAtivos.length > MAX_DOTS_ATIVOS) {
+    dotsAtivos.shift().parar()
+  }
+}
+
+
 function renderCorrida(resultado, indice) {
   const { corrida, pFrente, pAtras, posFrente, posAtras, win, dnf, choveu, evento } = resultado
   const row = document.createElement('div')
@@ -94,7 +166,7 @@ function renderCorrida(resultado, indice) {
 
   row.innerHTML = `
     <div class="corrida-top">
-      <div class="corrida-track" style="color: var(--text-muted)">
+      <div class="corrida-track" data-circuito="${corrida.gp}">
         ${tracks[corrida.track] || ''}
       </div>
       <div class="corrida-info">
@@ -115,10 +187,17 @@ function renderCorrida(resultado, indice) {
     </div>
   `
 
+  const svgEl = row.querySelector('.corrida-track svg')
+  if (svgEl) {
+    // Começa a rodar só quando a linha aparece — assim cada circuito
+    // termina as voltas em um momento diferente, em vez de todos juntos.
+    setTimeout(() => animarPontoCircuito(svgEl), indice * 450)
+  }
+
   setTimeout(() => {
     row.classList.add('visible')
     row.scrollIntoView({ behavior: 'smooth', block: 'center' })
-  }, indice * 260)
+  }, indice * 450)
 
   return row
 }
@@ -138,6 +217,7 @@ function simularTemporada() {
   document.getElementById('seed-txt').textContent =
     'seed #' + Math.random().toString(36).substr(2, 5).toUpperCase()
   document.getElementById('corridas-list').innerHTML = ''
+  dotsAtivos = []
   document.getElementById('card-final').classList.remove('show')
   document.getElementById('campanha').classList.add('show')
   document.getElementById('btn-nova').classList.remove('show')
@@ -233,8 +313,9 @@ function simularTemporada() {
     }
   })
 
-  const delay = resultados.length * 260 + 500
+  const delay = resultados.length * 450 + 500
   setTimeout(() => {
+    pararTodosPontos()
     mostrarCardFinal(
       vitorias, podeio, abandonos, pontos,
       campPilotos, equipes,

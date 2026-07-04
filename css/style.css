@@ -383,6 +383,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  color: var(--text-muted);
 }
 
 .corrida-track svg {
@@ -1086,4 +1088,11 @@
     display: block;
     margin-top: 2px;
   }
+}
+
+/* ── Ponto animado percorrendo o circuito ── */
+.track-dot {
+  fill: var(--red);
+  filter: drop-shadow(0 0 2px var(--red)) drop-shadow(0 0 4px var(--red));
+  transition: opacity 0.3s ease;
 }
