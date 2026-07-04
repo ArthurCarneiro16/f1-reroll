@@ -145,9 +145,10 @@ function simularTemporada() {
   const nomeP1 = chosen.p1.nome + ` '${chosen.p1.ano}`
   const nomeP2 = chosen.p2.nome + ` '${chosen.p2.ano}`
 
+  // Exclui pelo NOME (não nome+ano): nenhum adversário pode compartilhar o
+  // nome de um piloto da nossa equipe, nem mesmo em outro ano/versão.
   const pilotosDisponiveis = pilotos.filter(p =>
-    !(p.nome === chosen.p1.nome && p.ano === chosen.p1.ano) &&
-    !(p.nome === chosen.p2.nome && p.ano === chosen.p2.ano)
+    p.nome !== chosen.p1.nome && p.nome !== chosen.p2.nome
   )
 
   const porNome = {}

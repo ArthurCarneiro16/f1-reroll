@@ -55,9 +55,11 @@ function weightedRand(arr) {
   return arr[arr.length - 1]
 }
 
-function randExcluding(arr, exclude) {
-  const disponiveis = exclude
-    ? arr.filter(p => !(p.nome === exclude.nome && p.ano === exclude.ano))
+// Exclui pelo NOME apenas (ignora o ano) — impede que P1 e P2
+// virem o mesmo piloto em anos diferentes, ou o piloto exato repetido.
+function randExcluindoNome(arr, excluir) {
+  const disponiveis = excluir
+    ? arr.filter(p => p.nome !== excluir.nome)
     : arr
   return weightedRand(disponiveis)
 }
@@ -225,13 +227,17 @@ function rolarLivres(onDone) {
   spinningCount = livres.length
 
   const finais = {}
-  // Sorteia P1 primeiro se estiver livre, para garantir exclusão no P2
+  // Sorteia P1 antes de P2 (quando ambos estão livres) só para ter uma ordem
+  // determinística — a exclusão de nome abaixo é simétrica nos dois sentidos.
   const ordemSorteiro = ['p1', 'chassi', 'motor', 'p2'].filter(k => livres.includes(k))
   ordemSorteiro.forEach(key => {
     const pool = poolOf(key)
-    if (key === 'p2') {
-      const excludir = finais['p1'] || chosen.p1
-      finais[key] = randExcluding(pool, excludir)
+    if (key === 'p1' || key === 'p2') {
+      const outroKey = key === 'p1' ? 'p2' : 'p1'
+      // Pega o piloto do outro slot, seja ele recém-sorteado nesta mesma
+      // rodada (finais) ou já travado/existente de antes (chosen).
+      const outroPiloto = finais[outroKey] || chosen[outroKey]
+      finais[key] = randExcluindoNome(pool, outroPiloto)
     } else {
       finais[key] = weightedRand(pool)
     }
