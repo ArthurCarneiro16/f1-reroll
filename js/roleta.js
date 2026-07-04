@@ -370,7 +370,7 @@ function resetar() {
   if (inputNome) inputNome.value = ''
 
   setHint('Clique em "Rolar tudo" para começar')
-  document.getElementById('btn-rolar').innerHTML = '🎲 Rolar tudo <span style="opacity:0.6;font-size:11px;font-weight:400">· 3 tentativas</span>'
+  document.getElementById('btn-rolar').innerHTML = '🎲 Rolar tudo <span class="tentativas-badge">· 3 tentativas</span>'
 
   irParaTela('equipe')
 }
@@ -389,9 +389,9 @@ function atualizarHintRolagens() {
   const restantes = MAX_ROLAGENS - rolagemCount
   const btn = document.getElementById('btn-rolar')
   if (rolagemCount >= MAX_ROLAGENS) {
-    btn.textContent = '🎲 Rolar tudo · 0 tentativas'
+    btn.innerHTML = '🎲 Rolar tudo <span class="tentativas-badge">· 0 tentativas</span>'
   } else {
-    btn.innerHTML = `🎲 Rolar tudo <span style="opacity:0.6;font-size:11px;font-weight:400">· ${restantes} tentativa${restantes !== 1 ? 's' : ''}</span>`
+    btn.innerHTML = `🎲 Rolar tudo <span class="tentativas-badge">· ${restantes} tentativa${restantes !== 1 ? 's' : ''}</span>`
   }
 }
 
@@ -443,4 +443,4 @@ document.getElementById('lock-chassi').addEventListener('click', () => travar('c
 document.getElementById('lock-motor').addEventListener('click',  () => travar('motor'))
 
 // Inicializa texto do botão com tentativas
-document.getElementById('btn-rolar').innerHTML = '🎲 Rolar tudo <span style="opacity:0.6;font-size:11px;font-weight:400">· 3 tentativas</span>'
+document.getElementById('btn-rolar').innerHTML = '🎲 Rolar tudo <span class="tentativas-badge">· 3 tentativas</span>'

@@ -8,19 +8,14 @@ function scoreIndividual(piloto, chassi, motor, corrida, isDecisiva) {
   const bonusChuva    = choveu ? (piloto.chuva - 75) * 0.18 : 0
   const bonusPressao  = isDecisiva ? (piloto.pressao - 80) * 0.12 : 0
 
-  // Bônus por perfil de circuito (pequenos, ±3 a 6 pts)
   let bonusCircuito = 0
   if (corrida.perfil === 'tecnico') {
-    // Favorece quali e estabilidade do chassi
     bonusCircuito = (piloto.quali - 80) * 0.08 + (chassi.estab - 80) * 0.06
   } else if (corrida.perfil === 'potencia') {
-    // Favorece score do motor
     bonusCircuito = (motor.potencia - 80) * 0.10
   } else if (corrida.perfil === 'resistencia') {
-    // Favorece durabilidade do motor e pneus do piloto
     bonusCircuito = (motor.durabi - 80) * 0.08 + (piloto.pneus - 80) * 0.05
   }
-  // perfil 'misto' não aplica bônus
 
   const scorePiloto = piloto.corrida + bonusChuva + bonusPressao + bonusCircuito
   const scoreCarro  = chassi.score * 0.55 + motor.score * 0.45
@@ -61,7 +56,6 @@ function simularCorrida(corrida, indice, totalCorridas, gridAdversarios) {
 
   const win = posFrente === 1 && !dnf
 
-  // Escolhe pool de eventos: prioriza evento de circuito se disponível
   let evento = ''
   const poolCircuito = evCircuito[corrida.perfil] || []
   const temEventoCircuito = poolCircuito.length > 0 && Math.random() < 0.40
@@ -88,7 +82,6 @@ function renderCorrida(resultado, indice) {
       ? `P${posFrente}/P${posAtras} ✓`
       : `P${posFrente}/P${posAtras}`
 
-  // Badge de perfil do circuito
   const perfilLabels = {
     tecnico:    '⚙️ Técnico',
     potencia:   '💨 Potência',
@@ -248,8 +241,8 @@ function simularTemporada() {
       nomeNossaEquipe,
       gridAdversarios
     )
-    // Botão habilitado manualmente
-    document.getElementById('btn-ver-resultado-final').style.display = 'block'
+    // Botão exibido com transição suave (ver estilo #btn-ver-resultado-final.show no CSS)
+    document.getElementById('btn-ver-resultado-final').classList.add('show')
   }, delay)
 }
 
@@ -257,15 +250,13 @@ function animarContador(elemento, valorFinal, duracao = 1200) {
   const inicio = performance.now()
   const update = (agora) => {
     const progresso = Math.min((agora - inicio) / duracao, 1)
-    const ease = 1 - Math.pow(1 - progresso, 3) // ease out cubic
+    const ease = 1 - Math.pow(1 - progresso, 3)
     elemento.textContent = Math.round(ease * valorFinal)
     if (progresso < 1) requestAnimationFrame(update)
   }
   requestAnimationFrame(update)
 }
 
-// Guarda os valores finais dos contadores até a seção "ver análise" ser aberta
-// (ela começa com display:none — animar antes disso deixaria a animação invisível)
 let contadoresPendentes = null
 let contadoresJaAnimados = false
 
@@ -279,14 +270,12 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
   const posP1 = gridOrdenadoTemp.findIndex(([nome]) => nome === nomeP1) + 1
   const posP2 = gridOrdenadoTemp.findIndex(([nome]) => nome === nomeP2) + 1
 
-  // Construtores ordenados
   const constOrdenadosFull = Object.entries(equipes).sort((a, b) => b[1].pts - a[1].pts)
   const posEquipe = constOrdenadosFull.findIndex(([n, e]) => e.nossa) + 1
   const noTop3 = posEquipe <= 3
 
   const medals = ['🥇', '🥈', '🥉']
 
-  // ── Top 3 construtores (sempre visível) ──
   const top3 = constOrdenadosFull.slice(0, 3)
   document.getElementById('const-list').innerHTML = top3.map(([nome, info], i) => {
     const nomes = info.pilotos.filter(Boolean).map(p => p.nome).join(' · ')
@@ -303,7 +292,6 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
     `
   }).join('')
 
-  // ── Minha equipe em destaque (só se não estiver no top 3) ──
   const nossaEquipeInfo = constOrdenadosFull.find(([n, e]) => e.nossa)
   document.getElementById('final-titulo').innerHTML = noTop3 ? '' : `
     <div class="nossa-equipe-destaque">
@@ -315,7 +303,6 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
     </div>
   `
 
-  // ── Pilotos ──
   document.getElementById('final-desc').innerHTML = `
     <div class="final-pilotos-pos">
       <div class="final-piloto-pos">
@@ -331,7 +318,6 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
     </div>
   `
 
-  // ── Stats dentro do ver análise ──
   const ritmo = Math.min(99, Math.round((chosen.p1.corrida + chosen.p2.corrida) / 2 * 0.88 + Math.random() * 8))
   const pit   = Math.min(99, Math.round(55 + (chosen.p1.score - 70) * 0.45 + Math.random() * 12))
   const conf  = Math.min(99, Math.round(chosen.motor.durabi * 0.88 + Math.random() * 10))
@@ -344,7 +330,6 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
     <div class="stat-item"><div class="stat-val" id="cnt-abandonos">0</div><div class="stat-lbl">dnf</div></div>
   `
 
-  // Guarda os valores para animar quando o usuário abrir "ver análise"
   contadoresPendentes = {
     vitorias: parseInt(vitorias),
     podeio: parseInt(podeio),
@@ -366,7 +351,6 @@ function mostrarCardFinal(vitorias, podeio, abandonos, pontos, campPilotos, equi
     </div>
   `).join('')
 
-  // ── Campeonato de pilotos ──
   const gridOrdenado = gridOrdenadoTemp.slice(0, 20)
   document.getElementById('grid-list').innerHTML = gridOrdenado.map(([nome, pts], i) => {
     const pos = i + 1
@@ -405,14 +389,12 @@ function toggleVerMais() {
   btn.textContent = aberto ? '▴ fechar análise' : '▾ ver análise da equipe'
 
   if (aberto) {
-    // anima as barras quando abre
     setTimeout(() => {
       document.querySelectorAll('.perf-fill').forEach(el => {
         el.style.width = el.dataset.val + '%'
       })
     }, 50)
 
-    // anima os contadores só na primeira vez que a seção é aberta
     if (!contadoresJaAnimados && contadoresPendentes) {
       contadoresJaAnimados = true
       animarContador(document.getElementById('cnt-vitorias'),  contadoresPendentes.vitorias,  1000)

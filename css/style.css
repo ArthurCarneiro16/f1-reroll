@@ -365,6 +365,11 @@
   opacity: 1;
 }
 
+/* fundo alternado nas linhas de corrida */
+.corrida-row:nth-child(even) {
+  background: rgba(255,255,255,0.02);
+}
+
 .corrida-top {
   display: flex;
   align-items: center;
@@ -812,12 +817,6 @@
 .tela-equipe .btn            { padding: 10px 16px; font-size: 13px; }
 
 /* ══════════════════════════════
-
-/* ══════════════════════════════
-   LANDING PAGE — TELA INÍCIO
-══════════════════════════════ */
-
-/* ══════════════════════════════
    LANDING PAGE — TELA INÍCIO
 ══════════════════════════════ */
 .tela-inicio {
@@ -1051,4 +1050,48 @@
   margin-bottom: 1rem;
   padding-top: 0.75rem;
   border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ── Botão ver resultado final ── */
+#btn-ver-resultado-final {
+  display: none;
+  width: 100%;
+  margin-top: 0;
+  padding: 16px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+#btn-ver-resultado-final.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  animation: pulseGlowSuave 2.4s ease-in-out infinite;
+}
+
+@keyframes pulseGlowSuave {
+  0%, 100% { box-shadow: inset 0 0 0 rgba(225, 6, 0, 0); }
+  50%      { box-shadow: inset 0 0 24px rgba(225, 6, 0, 0.25); }
+}
+
+/* ── Badge de tentativas no botão "Rolar tudo" ── */
+.tentativas-badge {
+  opacity: 0.6;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+@media (max-width: 480px) {
+  .tentativas-badge {
+    display: block;
+    margin-top: 2px;
+  }
 }
