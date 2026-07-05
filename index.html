@@ -12,10 +12,16 @@
   <link rel="stylesheet" href="css/style.css">
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MECE1WWKVM"></script>
   <script>
+    // Consentimento negado por padrão — só libera após o usuário aceitar no aviso de cookies
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'analytics_storage': 'denied'
+    });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MECE1WWKVM"></script>
+  <script>
     gtag('js', new Date());
 
     gtag('config', 'G-MECE1WWKVM');
@@ -197,6 +203,15 @@
   <script src="js/roleta.js"></script>
   <script src="js/simulacao.js"></script>
   <script src="js/share_card.js"></script>
+
+  <!-- Aviso de cookies (Google Analytics) -->
+  <div class="cookie-banner" id="cookie-banner">
+    <p class="cookie-texto">
+      Este site usa cookies do Google Analytics para entender como o jogo é usado. Nenhum dado pessoal é vendido ou compartilhado.
+    </p>
+    <button class="btn btn-secondary cookie-btn" id="cookie-aceitar">Entendi</button>
+  </div>
+  <script src="js/cookie-consent.js"></script>
 
 </body>
 </html>
