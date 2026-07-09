@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════
-// F1 MANAGER — SIMULACAO.JS
+// F1 REROLL — SIMULACAO.JS
 // Motor de corrida e campeonato
 // ═══════════════════════════════════════
 

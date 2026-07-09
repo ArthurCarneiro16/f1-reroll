@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════
-// F1 MANAGER — SHARE_CARD.JS
+// F1 REROLL — SHARE_CARD.JS
 // Gera card via Canvas API puro
 // ═══════════════════════════════════════
 
@@ -288,7 +288,7 @@ function gerarCardCanvas(dadosCard) {
   ctx.fillStyle = '#E24B4A'
   ctx.font = 'bold 13px Arial'
   ctx.textAlign = 'right'
-  ctx.fillText('arthurcarneiro16.github.io/f1-manager', W - PAD, y + 18)
+  ctx.fillText('arthurcarneiro16.github.io/f1-reroll', W - PAD, y + 18)
   ctx.textAlign = 'left'
 
   return canvas
@@ -338,7 +338,7 @@ async function compartilhar() {
     try {
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
-          title: 'F1 Manager',
+          title: 'F1 Reroll',
           text: vitorias + ' vitórias · ' + podeio + ' pódios · ' + pontos + ' pts\narthurcarneiro16.github.io/f1-manager',
           files: [file],
         })

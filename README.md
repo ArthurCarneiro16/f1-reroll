@@ -1,11 +1,11 @@
-# 🏎️ F1 Manager
+# 🏎️ F1 Reroll
 
 Jogo de gerenciamento de Fórmula 1 inspirado no [7a0](https://7a0.com.br/play).
 Monte sua equipe sorteando pilotos, chassi e motor de **1994 a 2025** e simule uma temporada completa corrida por corrida.
 
 > Projeto desenvolvido como trabalho de faculdade, usando IA como ferramenta de aprendizado e desenvolvimento — não só para gerar código, mas para entender cada decisão técnica e de design ao longo do processo.
 
-🔗 **[Jogar agora](https://arthurcarneiro16.github.io/f1-manager/)**
+🔗 **[Jogar agora](https://arthurcarneiro16.github.io/f1-reroll/)**
 
 ---
 
@@ -81,7 +81,7 @@ O carro vale **60%** do resultado — fiel à realidade da F1, onde o carro é d
 ## 🗂️ Estrutura do projeto
 
 ```
-f1-manager/
+f1-reroll/
 ├── css/
 │   ├── reset.css       ← zera estilos do browser
 │   ├── style.css       ← layout e componentes

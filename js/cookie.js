@@ -1,10 +1,10 @@
 // ═══════════════════════════════════════
-// F1 MANAGER — COOKIE-CONSENT.JS
+// F1 REROLL — COOKIE-CONSENT.JS
 // Aviso de cookies + liberação do consentimento do Google Analytics
 // ═══════════════════════════════════════
 
 (function () {
-  const CHAVE_CONSENTIMENTO = 'f1manager_cookie_consent'
+  const CHAVE_CONSENTIMENTO = 'f1reroll_cookie_consent'
   const banner = document.getElementById('cookie-banner')
   const btnAceitar = document.getElementById('cookie-aceitar')
 

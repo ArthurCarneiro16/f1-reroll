@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════
-// F1 MANAGER — ROLETA.JS
+// F1 REROLL — ROLETA.JS
 // Lógica de sorteio e raridade
 // ═══════════════════════════════════════
 

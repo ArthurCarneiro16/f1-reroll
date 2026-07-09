@@ -1,5 +1,5 @@
 ═══════════════════════════════════════════════════════════════════════
-F1 MANAGER — DOCUMENTO DE ESCOPO DO PROJETO
+F1 REROLL — DOCUMENTO DE ESCOPO DO PROJETO
 ═══════════════════════════════════════════════════════════════════════
 Faculdade · Projeto Semestral
 Disciplinas: Python · HTML · CSS · Rust · UX/UI
