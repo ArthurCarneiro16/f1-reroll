@@ -63,7 +63,7 @@ function gerarCardCanvas(dadosCard) {
 
   ctx.fillStyle = '#fff'
   ctx.font = 'bold 20px Arial'
-  ctx.fillText('F1 MANAGER', PAD, 30)
+  ctx.fillText('F1 REROLL', PAD, 30)
   ctx.fillStyle = 'rgba(255,255,255,0.65)'
   ctx.font = '14px Arial'
   ctx.fillText('1994–2025', PAD, 52)
@@ -334,19 +334,19 @@ async function compartilhar() {
   })
 
   canvas.toBlob(async (blob) => {
-    const file = new File([blob], 'f1-manager-resultado.png', { type: 'image/png' })
+    const file = new File([blob], 'f1-reroll-resultado.png', { type: 'image/png' })
     try {
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           title: 'F1 Reroll',
-          text: vitorias + ' vitórias · ' + podeio + ' pódios · ' + pontos + ' pts\narthurcarneiro16.github.io/f1-manager',
+          text: vitorias + ' vitórias · ' + podeio + ' pódios · ' + pontos + ' pts\narthurcarneiro16.github.io/f1-reroll',
           files: [file],
         })
       } else {
         const url = URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = url
-        a.download = 'f1-manager-resultado.png'
+        a.download = 'f1-reroll-resultado.png'
         a.click()
         URL.revokeObjectURL(url)
       }
