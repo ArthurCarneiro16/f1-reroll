@@ -103,7 +103,7 @@ f1-reroll/
 | Frontend | HTML · CSS · JavaScript |
 | Backend *(em breve)* | Python · FastAPI |
 | Simulação *(futuro)* | Rust → WebAssembly |
-| Design | Figma *(planejado)* |
+| Design | [Figma](https://www.figma.com/design/O1tubDSU1SM4csFYe1HzQ5) |
 
 ---
 
